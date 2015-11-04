@@ -13,12 +13,16 @@
 \usepackage{algpseudocode}
 \usepackage{tikz}
 \usepackage{enumitem}
-
+\usepackage[xindy]{glossaries}
+\makeglossaries
 \usepackage[labelformat=empty]{caption}
 \title{Zusammenfassung - Kryptographie}
 \author{
 	Marc Meier
 }
+
+
+
 
 \begin{document}
 \maketitle
@@ -32,11 +36,57 @@ Macht euch eigene Notizen oder ergänzt/korrigiert meine Ausführungen!
 
 % 010, 020
 \subsection{Grundprinzipien und Entwicklung des Internets}
+Das Internet entwickelte sich ab den 1960er Jahren.
+Es ging aus dem am Ende des Jahrzehnts entstandenen, vornehmlich militärisch und akademisch geprägten ARPA-Net hervor.
+Heutzutage wird es international kommerziell, industriell und auch akademisch (Katzenbilder) genutzt.
+Bei seiner Entstehung war vor allem eine dezentrale Struktur ohne zentrale Verwaltung von Interesse.
+Grund hierfür war die Angst des amerikanischen Department of Defense, dass eine atomarer Angriff zentrale Kommunikationspunkte außer Kraft setzen könnte.
+Die Kommunikation findet über hochgradig vernetzte Knoten mithilfe von Paketen statt.
+
+Literatur: \cite{abbate2000inventing, baran1964distributed}
+\subsection{Packet Switching}
+Paketvermittelte Übertragung bedeutet die Abkehr von der leitungsbasierten Vermittlung.
+Dabei werden längere Nachrichten in Datenpakete aufgeteilt und voneinander unabhängig versendet.
+Dies ermöglicht eine faire Verteilung der Leistungskapazität und redundante Wege bei einem Ausfall von Knoten oder Verbindungen.
+Im Gegenzug können konstante Bandbreiten nicht ohne Weiteres (Abschnitt \ref{sec:qos}) gewährleistet werden, ebenso ergeben sich unterschiedliche Laufzeiten von Paketen.
 
 \subsection{Dezentrale Verwaltung des Internets}
 
-\subsection{Standards}
+\subsubsection{Prinzipien}
 
+\begin{itemize}
+\item Keine zentrale Verwaltung oder Behörde (trotz Einflussnahme)
+\item Demokratisches Zusammenwirken der Beteiligten / Wahlen
+\item Selbstorganisation
+\item Standards dort, wo sie erforderlich sind
+\item Dynamisch, offen für Neuigkeiten	
+\end{itemize}
+
+\subsubsection{Organisationen}
+
+\begin{description}
+\item [ICANN:] Vergibt IP-Adressen und betreibt die DNS-Rootserver.
+\item[IETF:] Standardisierung von Protokollen in RFCs \cite{rfc3233}
+\item[RIPE:] Administration und technische Koordination
+\item[RIPE NCC:] Adressvergabe in Europa und Zentralasien, Verwaltung der WHOIS-Datenbank.
+\item[DENIC eG:] Domain-Verwaltung für die Zone .de
+\end{description}
+
+\subsection{Standards}
+Standards ermöglichen die Kooperation im Netzwerk, nur durch sie können Geräte verschiedener Hersteller miteinander kommunizieren.
+Sie können textuell, mithilfe einer Referenzimplementierung oder anhand von Automaten (meist für zustandsbehaftete Protokolle) festgelegt werden.
+
+\begin{description}
+\item[Protokoll] Standardisierte Regeln (Vorschriften) und Vereinbarungen zu
+Form, Ablauf, Steuerung und Sicherung (Fehler) der
+Datenübertragung in und zwischen Rechnernetzen, zwischen
+Einzel-Rechnern und zwischen Rechnern und
+Peripheriegeräten.
+\item[Standard] Ein Standard wird von den verschiedensten internationalen und
+nationalen Organisationen sowie von großen Firmen erstellt.
+Ein Standard wird als verbindliche oder unverbindliche
+(empfohlene) Festlegungen schriftlich niedergelegt.
+\end{description}
 \subsection{Netze, Autonome Systeme und Schichten}
 
 \section{Protokolle}
@@ -87,7 +137,7 @@ Macht euch eigene Notizen oder ergänzt/korrigiert meine Ausführungen!
 % 080, 090, 095, 100, 110, 120, 130
 
 \section{Quality of Service}
-
+\label{sec:qos}
 % 140
 
 \section{Multicasts}
@@ -160,9 +210,20 @@ Macht euch eigene Notizen oder ergänzt/korrigiert meine Ausführungen!
 
 
 \newpage
-\nocite{*}
 \addcontentsline{toc}{section}{Literatur}
 \bibliographystyle{plain}
-
 \bibliography{literatur}
+
+
+\newglossaryentry{arpa}{name=ARPA,description={Advanced Research Projects Agency}}
+\newglossaryentry{icann}{name=ICANN,description={Internet Corporation for Assigned Names and Numbers}}
+\newglossaryentry{ietf}{name=IETF,description={Internet Engineering Task Force}}
+\newglossaryentry{ripe}{name=RIPE,description={Réseaux IP Européens}}
+\newglossaryentry{ripencc}{name=RIPE NCC,description={Réseaux IP Européens Network Coordination Centre}}
+\newglossaryentry{denic}{name=DENIC,description={Deutsches Network Information Center}}
+\newpage
+\addcontentsline{toc}{section}{Glossar}
+
+\printglossary[title=List of Terms,toctitle=Terms and abbreviations]
+
 \end{document}
