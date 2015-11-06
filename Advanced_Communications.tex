@@ -247,7 +247,43 @@ Ermöglicht die Zusammenfassung mehrerer Ports zur Erhöhung des Datensatzes.
 
 \subsection{Internet Protocol}
 
+Beim Internet Protocol handelt es sich um ein Layer-3-Protkoll, weches auf die Layer-2-Protokolle Ethernet, ATM und FDDI aufsetzen kann.
+Es verwendet globale, logische Adressen.
+Aufgrund der Erschöpfung des IPv4-Adressraumes\footnote{Weitere Maßnahmen, dem entgegenzuwirken sind etwa: NAT, CIDR, DHCP, Private Adressräume} (32 Bit) wird nach und nach IPv6 eingeführt (128 Bit)
+
 \subsubsection{IPv4}
+Wurde im RFC 791\cite{rfc791} definiert.
+Der Header eines IPv4 Paketes ist insgesamt 20 Byte lang.
+Davon sind insbesondere die folgenden von Interesse:
+
+\begin{description}
+	\item [Version]: In diesem Fall \emph{4}, bei IPv6 offensichtlich \emph{6} (4 Bit)
+	\item [Header Length]: Gesamtlänge des Headers kann 20 Byte überschreiben, wenn zusätzliche Optionen gesetzt werden. Angabe in 32-Bit langen Blöcken (4 Bit)
+	\item [Total Length]: Gesamtgröße des Pakets. Nach RFC muss jeder Host in der Lage sein, mindestens Pakete mit einer Länge von 576 Bytes zu verarbeiten. (16 Bit)
+	\item [Type of Service]: Type of Service nach RFC791(ursprünglich für Quality-of-	Service-Anwendungen gedacht)
+	
+	\begin{itemize}
+		\item bits 0-2: precedence
+		\item bit 3: 0 = Normal Delay, 1 = Low Delay
+		\item bit 4: 0 = Normal Throughput, 1 = High Throughput
+		\item bit 5: 0 = Normal Reliability, 1 = High Reliability
+		\item bits 6-7: Reserved for future use
+	\end{itemize}
+	Heute anders verwendet zur Servicebeschreibung durch Dienstklassen (DiffServ, 8 Bit)
+	\item [Identification]: Falls ein Paket fragmentiert wird, haben alle Fragmente die	selbe Identification.
+	\item [Flags]: Reserved\cite{rfc3514}, Don't Fragment, More Fragments (3 Bit)
+	\item [Fragment Offset]: Kann ein Paket nicht auf einmal übertragen werden (z.B. bei
+	kleinerer Maximum Transfer Unit, MTU), wird es fragmentiert.
+	FO gibt an, ab welcher Stelle (gemessen in Blöcken von 8 Byte)
+	dieses Paket die Daten enthält (MF Flag ist gesetzt) (13 Bit)
+	\item[TTL]: Anzahl der Hops, bis Paket verworfen wird
+	\item [Options]: Beispielsweise für Source Routing (Route ist im Paket vorgegeben); Sehr selten verwendet, häufig blockiert oder ignoriert
+\end{description}
+
+\begin{center}
+\includegraphics[width=8cm]{img/IP_packet}
+\end{center}
+
 
 \subsubsection{IPv6}
 
@@ -384,6 +420,11 @@ Ermöglicht die Zusammenfassung mehrerer Ports zur Erhöhung des Datensatzes.
 \newglossaryentry{tpid}{name=TPID,description={Tag Protocol Identifier}}
 \newglossaryentry{cfi}{name=CFI,description={Canonical Formati Indicator}}
 \newglossaryentry{vid}{name=VID,description={VLAN Identifier}}
+\newglossaryentry{nat}{name=NAT,description={Network Address Translation}}
+\newglossaryentry{cidr}{name=CIDR,description={Classless Inter-Domain Routing}}
+\newglossaryentry{dhcp}{name=DHCP,description={Dynamic Host Configuration Protocol}}
+\newglossaryentry{tos}{name=ToS,description={Type of Service}}
+\newglossaryentry{ttl}{name=TTL,description={Time to Live}}
 \newpage
 \addcontentsline{toc}{section}{Glossar}
 
