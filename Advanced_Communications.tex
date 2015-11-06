@@ -87,16 +87,85 @@ nationalen Organisationen sowie von großen Firmen erstellt.
 Ein Standard wird als verbindliche oder unverbindliche
 (empfohlene) Festlegungen schriftlich niedergelegt.
 \end{description}
-\subsection{Netze, Autonome Systeme und Schichten}
 
+Ablauf einer Standardisierung bei RFCs:
+\begin{enumerate}
+	\item \textbf{Proposed Standard}: Vollständige, konsistente Spezifikation vorhanden
+	\item \textbf{Draft Standard}: Mindestens 2 unabhängige, interoperable Implementierungen
+	\item \textbf{Standard}: Operationell stabil
+\end{enumerate}
+\textbf{Weitere Status:} \emph{Experimental}, \emph{Informational} und \emph{Historic}.
+\subsection{Netze, Autonome Systeme und Schichten}
+Große Teile des Internet-Backbones werden von wenigen Firmen bereitgestellt (Tier-1).
+Diese werden an einigen Knotenpunkten verbunden.
+Wichtiger Knotenpunkt in Deutschland ist DE-CIX in Frankfurt/Main.
+Man unterteilt folgende \textbf{Netzwerk-Schichten}:
+\begin{description}
+	\item[Tier 1]: Ein Netzwerk, das mit allen anderen Tier-1-Netzwerken verbunden ist; \emph{Internet-Backbone}; z.B. ATDN, GX, AT\&T...
+	\item[Tier 2]: Netzwerk, das mit vielen Netzwerken verbunden ist, aber Transit \emph{einkauft}, um einige Bereiche des Internets zu erreichen; z.B. Deutsche Telekom
+	\item[Tier 3]: Ein Netzwerk, das ausschließlich Transit \emph{einkauft}, um das
+	Internet zu erreichen
+\end{description}
+\textbf{Autonome Systeme} sind Ansammlungen von IP-Netzen, die als Einheit verwaltet werden.
+Innerhalb kommt ein einheitliches Routing-Protokoll zum Einsatz.
+Autonome Systeme sind untereinander verbunden und
+bilden das Internet.
 \section{Protokolle}
+
+\subsection{Zustandslose und zustandsbehaftete Protokolle}
+Bei \textbf{zustandslosen Protokollen} wird jede Anfrage in einer eigenständigen Transaktion ausgeführt, es existieren keine Vorbedingungen oder Sitzungsinformationen (UDP, HTTP, TFTP).
+\textbf{Zustandsbehaftete Protokolle} hingegen merken sich den aktuellen Zustand mithilfe einer Sitzung.
+Nachfolgende Anfragen können auf die Sitzungsinformationen zugreifen.
+Diese Zustandsübergänge können durch endliche Automaten dargestellt werden.
+Beispiele sind FTP, TCP und SMTP.
 
 \subsection{OSI-7-Schichten-Modell}
 
-\subsection{Zustandslose und zustandsbehaftete Protokolle}
+\begin{enumerate}
+	\item Physical Layer / Bitübertragung
+	\item Data Link Layer / Sicherungsschicht / Datenübertragungsschicht
+	\item Network Layer / Vermittlungsschicht
+	\item Transport Layer
+	\item Session Layer / Sitzungsschicht
+	\item Presentation Layer / Darstellungsschicht
+	\item Application Layer / Anwendungsschicht
+\end{enumerate}
+
+Gute \textbf{Eselsbrücken} sind:
+\begin{itemize}
+	\item Alle deutschen Studenten trinken verschiedene Sorten Bier (deutsche Bezeichnungen, 7-1)
+	\item An dem Samstag trug Verena 'nen String in Blau (deutsche Bezeichnungen, 7-1)
+	\item Alle poppen Susis Tante nach der Party (deutsche Bezeichnungen, 7-1)
+	\item Physiker, die nicht trinken sind potentielle Attentäter (deutsche/englische Bezeichnungen, 1-7)
+	\item Alibaba präsentiert sich täglich nackt dem Personal
+	\item  Please Do Not Throw Salami Pizza Away (englisch, 1-7)
+\end{itemize}
+
+Jede Schicht $n$ nutzt die darunterliegende Schicht $n-1$ um mit dem Kommunikationspartner zu kommunizieren.
+Daten höherer Schichten werden in niederen Schichten umkapselt.
+Die Bezeichnung der Pakete ist je nach Schicht unterschiedlich:
+\begin{description}
+	\item[Data Link Layer] (Ethernet-)Frame
+	\item[Network Layer] Paket
+	\item[Transport Layer] Fragment
+\end{description}
 
 \subsection{Ethernet}
 
+Das Ethernet-Protokoll wirkt auf den Layern 1 + 2 und wird im Standard \textbf{IEEE 802.3} definiert.
+Es kümmert sich um Elektrokrams (Physikalische Eigenschaften, Stecker,Stromversorung, Kabel etc.), Zugriffsverfahren auf das Medium, Adressierung (MAC), Protocol-Multiplexing, Flow Control (Logical Link Control) und Fehlererkennung (CRC).
+Es ähnelt den Standards \textbf{802.11} (WLAN), \textbf{802.15.1} (Bluetooth) und \textbf{802.16} (WiMAX).
+
+\subsubsection{CSMA/CD}
+
+CSMA/CD regelt den Zugriff auf ein von mehreren Teilnehmern genutztes Medium (Kabel).
+Dazu prüft der sendene Host, ob das Medium frei ist, bevor er sendet.
+Beim Übertragen von Daten können Kollisionen erkannt werden.
+Der Sendevorgang wird dann nach einer zufälligen Zeit wiederholt.
+Aufgrund der verbreiteten Nutzung von Switches sind echte geteilte Medien inzwischen eher die Ausnahme.
+
+$\Rightarrow$ Jeder Port am Switch bildet eine eigene \emph{Kollisionsdomäne}.
+Die Bustopologie mit Koaxialkabeln (aber auch mit Hubs) wird nicht mehr genutzt.
 
 \subsection{Switching}
 
@@ -221,6 +290,19 @@ Ein Standard wird als verbindliche oder unverbindliche
 \newglossaryentry{ripe}{name=RIPE,description={Réseaux IP Européens}}
 \newglossaryentry{ripencc}{name=RIPE NCC,description={Réseaux IP Européens Network Coordination Centre}}
 \newglossaryentry{denic}{name=DENIC,description={Deutsches Network Information Center}}
+\newglossaryentry{dns}{name=DNS,description={Domain Name System}}
+\newglossaryentry{udp}{name=UDP,description={User Datagram Protocol}}
+\newglossaryentry{tcp}{name=TCP,description={Transmission Control Protocol}}
+\newglossaryentry{atdn}{name=ATDN,description={AOL Transit Data Network}}
+\newglossaryentry{gx}{name=GX,description={Global Crossing}}
+\newglossaryentry{decix}{name=DE-CIX,description={German Commercial Internet Exchange}}
+\newglossaryentry{http}{name=HTTP,description={Hypertext Transfer Protocol}}
+\newglossaryentry{tftp}{name=TFTP,description={Trivial File Transfer Protocol}}
+\newglossaryentry{ftp}{name=FTP,description={File Transfer Protocol}}
+\newglossaryentry{smtp}{name=SMTP,description={Simple Mail Transfer Protocol}}
+\newglossaryentry{mac}{name=MAC,description={Medium Access Control}}
+\newglossaryentry{crc}{name=CRC,description={Cyclic Redundancy Check}}
+\newglossaryentry{csmacd}{name=CSMA/CD,description={Carrier Sense Multiple Acces / Collision Detection}}
 \newpage
 \addcontentsline{toc}{section}{Glossar}
 
