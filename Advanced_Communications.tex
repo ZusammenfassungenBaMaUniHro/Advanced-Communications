@@ -145,9 +145,9 @@ Jede Schicht $n$ nutzt die darunterliegende Schicht $n-1$ um mit dem Kommunikati
 Daten höherer Schichten werden in niederen Schichten umkapselt.
 Die Bezeichnung der Pakete ist je nach Schicht unterschiedlich:
 \begin{description}
-	\item[Data Link Layer] (Ethernet-)Frame
-	\item[Network Layer] Paket
-	\item[Transport Layer] Fragment
+	\item[Data Link Layer]: (Ethernet-)Frame
+	\item[Network Layer]: Paket
+	\item[Transport Layer]: Fragment
 \end{description}
 
 \subsection{Ethernet}
@@ -155,6 +155,25 @@ Die Bezeichnung der Pakete ist je nach Schicht unterschiedlich:
 Das Ethernet-Protokoll wirkt auf den Layern 1 + 2 und wird im Standard \textbf{IEEE 802.3} definiert.
 Es kümmert sich um Elektrokrams (Physikalische Eigenschaften, Stecker,Stromversorung, Kabel etc.), Zugriffsverfahren auf das Medium, Adressierung (MAC), Protocol-Multiplexing, Flow Control (Logical Link Control) und Fehlererkennung (CRC).
 Es ähnelt den Standards \textbf{802.11} (WLAN), \textbf{802.15.1} (Bluetooth) und \textbf{802.16} (WiMAX).
+
+Ein \textbf{Ethernet-Frame} hat eine Größe von 64 - 1518 Byte.
+Davon ausgenommen sind die Präambel und der SFD.
+Wird das VLAN-Tag genutzt, sind 1522 Byte möglich.
+Das \textbf{Ethernet-Paket} (Offensichtlich Präambel + SFD + Ethernet-Frame) umfasst folgende Felder:
+
+\includegraphics[width=16cm]{img/EthernetFrame.jpg}
+
+\begin{description}
+	\item[Präambel]: Zum Synchronisieren von Sender und Empfänger, \emph{Einschwingphase} (8 Byte)
+	\item[SFD]: Festgelegte Sequenz 10101011 (1 Byte)
+	\item[Ziel-Mac-Adresse]: Adresse des Empfängers (8 Byte)
+	\item[Quell-Mac-Adresse]: Adresse des Senders (8 Byte)
+	\item[VLAN-Tag]: Nach IEEE 802.1q, optional (4 Byte)
+	\item[Typ-Feld]: Identifiziert die Art des nachfolgenden Inhalts, z.B. IP, ARP, etc...
+	\item[Nutzlast]
+	\item[PAD-Füllfeld]: Wird optional benötigt, um die Mindestlänge von 64 Byte einzuhalten \footnote{Rausfinden, warum mindestens 64 Byte nötig. Vermutung: Kollisionserkennung}
+	\item[CRC-Prüfsumme]: Zur Fehlererkennung (4 Byte)
+\end{description}
 
 \subsubsection{CSMA/CD}
 
@@ -167,7 +186,62 @@ Aufgrund der verbreiteten Nutzung von Switches sind echte geteilte Medien inzwis
 $\Rightarrow$ Jeder Port am Switch bildet eine eigene \emph{Kollisionsdomäne}.
 Die Bustopologie mit Koaxialkabeln (aber auch mit Hubs) wird nicht mehr genutzt.
 
+\subsubsection{Duplex / Half Duplex}
+
+Beim \textbf{Full Duplex} sind beide Seiten in der Lage, gleichzeitig zu Senden und zu Empfangen.
+Im Falle von \textbf{Half Duplex} ist dies nur wechselseitig möglich (vgl Walkie Talkie).
+Es sind verschiedene Realisierungen einer geteilten Nutzung eines Mediums möglich:
+
+\begin{description}
+	\item [Zeitduplex (TDD)]: Übertragung in verschiedenen Zeitschlitzen
+	\item [Frequenzduplex (FDD)]: Übertragung auf verschiedenen Frequenzen
+	\item [Codeduplex]: (nicht im Skript)
+\end{description}
+
 \subsection{Switching}
+
+\textbf{Switches} sind Geräte auf dem OSI-Layer 2.
+Sie empfangen Ethernet-Frames und leiten sie anhand ihrer Empfänger-MAC-Adresse weiter.
+Im Gegensatz zum Hub wird dabei nur über den Port ausgegeben, hinter dem sich der Empfänger befindet.
+Die Ausnahme ist hierbei, wenn der Port des Empfängers nicht bekannt ist.
+Anhand der empfangenen Frames lernt ein Switch, wo sich Geräte befinden.
+
+\subsubsection{Realisierungsmöglichkeiten}
+
+%TODO
+
+\subsubsection{Cut-Through und Store-and-Forward}
+
+Beim \textbf{Cut-Through} (auch \emph{On The Fly Forwarding}) werden Pakete sofort nach Empfang der Empfängeradresse auf dem entsprechenden Port weitergeleitet, sofern dieser Frei ist.
+Diese Methode ist sehr schnell (Verzögerung ca. 40$\mu$s), leitet jedoch gegebenenfalls auch fehlerhafte Frames weiter, da CRC umgangen wird.
+
+\textbf{Store-and-Forward} hingegen empfängt zuerst den gesamten Frame, prüft diesen und leitet ihn anschließend weiter.
+Offensichtlich werden keine fehlerhaften Pakete mehr in benachbarte Segmente weitergeleitet, dies wird jedoch durch erhöhte Latenz erkauft.
+
+In der Praxis arbeiten Switches häufig im Cut-Through-Modus und schalten bei erhöhter Fehlerrate in den Store-and-Forward-Modus.
+
+\subsubsection{VLAN}
+
+Ermöglicht die Aufteilung von Switches in mehrere virtuelle LANs.
+Den Ports werden dabei einzelne VLANs zugeordnet.
+Auf diese Weise kann Hardware eingespart werden.
+Realisiert wird dies mit einem 4 Byte langen Feld im Ethernet-Frame:
+\begin{itemize}
+	\item 2 Bytes \textbf{TPID} - Tag Protocol Identifier – Fester Wert 0x8100. Frame
+	trägt die 802.1Q/802.1p-Tag-Information
+	\item 3 Bit \textbf{Priorität} (user\_priority) – Benutzer-Prioritätsinformationen
+	\item 1 Bit \textbf{CFI} - Canonical Format Indicator – Gilt für alle vorhandenen
+MAC-Adressinformationen im MAC-Datenpaket des Frames. Wert 0
+das Format ist kanonisch (am wenigsten signifikante Bit zuerst); Wert
+1 Format nicht-kanonisch. Benutzung im Token Ring/Source-Routed-
+FDDI-Media-Zugang, um die Bit-Order der Adressinformationen des
+verkapselten Frames festzulegen
+	\item 12 Bit \textbf{VID} - VLAN Identifier – Identifizierung des VLANs zu dem der
+Frame gehört
+\end{itemize}
+
+\subsubsection{Trunking / Link Aggregation}
+Ermöglicht die Zusammenfassung mehrerer Ports zur Erhöhung des Datensatzes.
 
 \subsection{Asynchronous Transfer Mode}
 
@@ -303,6 +377,13 @@ Die Bustopologie mit Koaxialkabeln (aber auch mit Hubs) wird nicht mehr genutzt.
 \newglossaryentry{mac}{name=MAC,description={Medium Access Control}}
 \newglossaryentry{crc}{name=CRC,description={Cyclic Redundancy Check}}
 \newglossaryentry{csmacd}{name=CSMA/CD,description={Carrier Sense Multiple Acces / Collision Detection}}
+\newglossaryentry{fdd}{name=FDD,description={Frequency Divsion Duplex}}
+\newglossaryentry{tdd}{name=TDD,description={Time Division Duplex}}
+\newglossaryentry{sfd}{name=SFD,description={Start Frame Delimiter}}
+\newglossaryentry{atm}{name=ATM,description={Asynchronous Transfer Mode}}
+\newglossaryentry{tpid}{name=TPID,description={Tag Protocol Identifier}}
+\newglossaryentry{cfi}{name=CFI,description={Canonical Formati Indicator}}
+\newglossaryentry{vid}{name=VID,description={VLAN Identifier}}
 \newpage
 \addcontentsline{toc}{section}{Glossar}
 
