@@ -249,7 +249,7 @@ Ermöglicht die Zusammenfassung mehrerer Ports zur Erhöhung des Datensatzes.
 %TODO ATM
 
 \subsection{Internet Protocol}
-
+\label{subsec:ip}
 Beim Internet Protocol handelt es sich um ein Layer-3-Protkoll, weches auf die Layer-2-Protokolle Ethernet, ATM und FDDI aufsetzen kann.
 Es verwendet globale, logische Adressen.
 Aufgrund der Erschöpfung des IPv4-Adressraumes\footnote{Weitere Maßnahmen, dem entgegenzuwirken sind etwa: NAT, CIDR, DHCP, Private Adressräume} (32 Bit) wird nach und nach IPv6 eingeführt (128 Bit)
@@ -383,10 +383,67 @@ Zum Abbau der Verbindung genügt das Senden und Quittieren eines FIN.
 \section{Adressierung}
 
 % 030
+\subsection{MAC-Adressen}
 
+\begin{itemize}
+	\item Layer-2-Adressen für Ethernet
+	\item 6 Byte / 48 Bit groß
+	\item \emph{Eigentlich} weltweit eindeutig
+	\item \emph{Eigentlich} in Hardware gegossen, trotzdem fälschbar
+	\item Darstellung: Hexadezimal, Bits getrennt durch \[.:-\]
+	\item Bit 3 bis Bit 24 an Hersteller gebunden (z.B. 00-60-2F-xx-xx-xx für Cisco)
+	\item Broadcast: FF-FF-FF-FF-FF-FF 
+\end{itemize}
+
+\subsection{VPI und VCI bei ATM}
+
+%TODO VIP und VPI bei ATM
+
+\subsection{IP-Adressen}
+
+Siehe Abschnitt \ref{subsec:ip}.
+
+\subsection{Ports}
+
+Für die Layer-4-Protokolle UDP und TCP werden 16-Bit-Adressen verwendet.
+Diese werden als Ports bezeichnet.
+Ports 0-1023 sind dabei standardisiert.
+Wichtige Portnummern sind beispielsweise:
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+	\hline Port & TCP & UDP & Beschreibung \\ 
+	\hline 20 & Ja & Nein & FTP - Datenübertragung \\ 
+	\hline 21 & Ja & Nein & FTP - Kontrolle \\ 
+	\hline 22 & Ja & (Ja) & SSH \\ 
+	\hline 23 & Ja & Nein & Telnet \\ 
+	\hline 25 & Ja & Nein & SMTP \\ 
+	\hline 53 & Ja & Ja & DNS \\ 
+	\hline 80 & Ja & Nein & HTTP \\ 
+	\hline 110 & Ja & Nein & POP3 \\ 
+	\hline 123 & Nein & Ja & NTP \\ 
+	\hline 443 & Ja & Nein & HTTPS \\ 
+	\hline 
+\end{tabular} 
+\end{center}
+\subsection{URIs, URNs und URLs}
+\begin{description}
+\item [Uniform Resource Identifier]: String; Benennt oder identifiziert eine Ressource z.B.  \textbackslash\textbackslash139.30.3.23\textbackslash iukp\textbackslash beispiel.txt
+\item [Uniform Resource Name]: Sonderform der URI, die eine Ressource in einem bestimmten
+Namespace benennt | urn:ip-addr:139.30.3.23
+\item [Uniform Resource Locator]: Sonderform der URI, die zusätzlich das Protokoll angibt, über das die Ressource erreichbar ist z.B. http://139.30.3.23/beispiel.txt
+\end{description}
+\subsection{*cast} 
+\begin{description}
+	\item[Unicast]: Einer sendet an einen, wie beispielsweise in einer TCP-Verbindung für HTTP. Adressierung durch Angabe des Empfängers.
+	\item[Broadcast]: Einer sendet an alle, wie beispielsweise in ARP oder DHCP. Hierzu werden spezielle Adressen (MAC: FF-FF-FF-FF-FF-FF; IP: höchste Adresse im Subnetz) verwendet.
+	\item[Multicast]: Einer sendet an viele Mitglieder einer Gruppe. Siehe Abschnitt \ref{sec:muliticast}.
+	\item[Concast]: Viele senden an einen, Nachrichten werden so früh wie möglich zusammengefasst. Verhindert Implosion, Überlastung des Empfängers. Beispielswiese sinnvoll, wenn Fehlermeldungen zusammengefasst werden können. Keine direkte Unterstützung in IP
+\end{description}
+
+%TODO Foliensatz enthält noch ICMPv6 Neighbor Discovery Protocol, Domainverwaltung und Domain Registry
 \section{ARP, RARP}
 
-% 040
+% Ende 030, 040
 
 \section{DNS und WHOIS}
 
@@ -408,8 +465,8 @@ Zum Abbau der Verbindung genügt das Senden und Quittieren eines FIN.
 \label{sec:qos}
 % 140
 
-\section{Multicasts}
-
+\section{Multicast}
+\label{sec:muliticast}
 % 150, 180
 
 \section{Zeitsynchronisation}
@@ -515,6 +572,12 @@ Zum Abbau der Verbindung genügt das Senden und Quittieren eines FIN.
 \newglossaryentry{tos}{name=ToS,description={Type of Service}}
 \newglossaryentry{ttl}{name=TTL,description={Time to Live}}
 \newglossaryentry{snmp}{name=SNMP,description={Simple Network Management Protocol}}
+\newglossaryentry{vpi}{name=VPI,description={Virtual Path Identifier}}
+\newglossaryentry{vci}{name=VCI,description={Virtual Channel Identifer}}
+\newglossaryentry{uri}{name=URI,description={Uniform Resource Identifier}}
+\newglossaryentry{urn}{name=URN,description={Uniform Resource Name}}
+\newglossaryentry{url}{name=URL,description={Uniform Resource Locator}}
+
 \newpage
 \addcontentsline{toc}{section}{Glossar}
 
