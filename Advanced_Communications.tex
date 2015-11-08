@@ -152,7 +152,7 @@ Die Bezeichnung der Pakete ist je nach Schicht unterschiedlich:
 \end{description}
 
 \subsection{Ethernet}
-
+\label{subsec:ethernet}
 Das Ethernet-Protokoll wirkt auf den Layern 1 + 2 und wird im Standard \textbf{IEEE 802.3} definiert.
 Es kümmert sich um Elektrokrams (Physikalische Eigenschaften, Stecker,Stromversorung, Kabel etc.), Zugriffsverfahren auf das Medium, Adressierung (MAC), Protocol-Multiplexing, Flow Control (Logical Link Control) und Fehlererkennung (CRC).
 Es ähnelt den Standards \textbf{802.11} (WLAN), \textbf{802.15.1} (Bluetooth) und \textbf{802.16} (WiMAX).
@@ -445,6 +445,84 @@ Namespace benennt | urn:ip-addr:139.30.3.23
 
 % Ende 030, 040
 
+ARP sendet Layer-3-Adressen in Layer-2-Adressen um.
+Es beschränkt sich nicht auf das erfragen von MAC-Adressen zu IP-Adressen, sondern ermöglicht beispielsweise auch ATM ARP, IP over FDDI und IP over Token Ring.
+\begin{itemize}
+	\item Erfragt für gegebene IP-Adresse eine MAC-Adresse.
+	\item Host erzeugt Broadcast.
+	\item Der angefragte Host darf darauf antworten (Unicast).
+	\item Nachdem der Sender der Broadcast-Nachricht die Antwort erhalten hat, kann er die IP-Adresse der Ethernet-Adresse zuordnen.
+	\item Diese Ethernet-Adresse wird dann für alle folgenden Pakete an diese Internet-Adresse verwendet, solange bis die Cache-Zeit abgelaufen ist.
+	\item RFC 826 \cite{rfc826}
+\end{itemize}
+
+\subsection{Einsatzfälle}
+
+\begin{enumerate}
+	\item Zwei Hosts möchten im selben Netzwerk (ausschließlich Layer 2) miteinander kommunizieren und kennen nur die Layer-3-Adresse (z.B. IP-Adresse) des Empfängers.
+	\item Ein Host benötigt die Layer-2-Adresse des Gateways, um andere Netze zu erreichen (Sonderfall des zuvor genannten)
+	\item Zwei Gateways wollen kommunizieren.
+\end{enumerate}
+
+\subsection{Paketstruktur}
+Wichtige Felder eines ARP-Requests sind:
+\begin{description}
+	\item[Hardware type]: Kennzeichen für die verwendeten Hardware-Adressen (1 für Ethernet, 2 Byte)
+	\item[Protocol type]: Kennzeichen für die verwendeten Protokoll-Adressen (L3) (0x0800 für IPv4, 2 Byte).
+	\item[Hardware length]: Länge der Hardware-Adresse in Bytes (6 für Ethernet, 1 Byte)
+	\item[Protocol Length]: Länge der Protokoll-Adressen (L3) (4 für IPv4, 1 Byte)
+	\item[Operation]: Unterscheidung von 1 Request und 2 Reply, da für beides gleiche Pakete verwendet werden (2 Byte, warum zur Hölle reserviert man für 2 Werte 2 Byte?)
+\end{description}
+
+Es folgen Sender hardware address, Sender protocol address, Target hardware address und Target protocol address
+
+\subsection{ARP-Caching}
+
+Um nicht für jedes IP-Paket einen neuen ARP Request zu stellen, werden die Ergebnisse zwischengespeichert.
+Typischerweise 10 Minuten lang.
+Kommt es während der Cache-Zeit zu einem Fehler (Host nicht erreichbar), wird erneut ein ARP-Request ausgeführt.
+
+\subsection{ARP-Announcements}
+
+Der anfragende Host sendet bekanntlich einen Broadcast, alle Host im gleichen Netz können folglich diese Information ebenfalls verwenden, und auf diese Weise eigene Anfragen sparen.
+Anwendungen:
+\begin{itemize}
+\item Unterbrechungslose Übernahme einer Protokoll-Adresse (z.B. IP-Adresse) in hochverfügbaren Systemen.
+\item Der anfragende Host kann auf diese Weise feststellen, ob eine Protokoll-Adresse bereits vergeben ist (Gratuitous ARP). Dieser Mechanismus wird bei IP-Autoconf verwendet.
+\end{itemize}
+
+IP-Autoconf \cite{rfc3927} ist eine einfache Möglichkeit zur Adresskonfiguration ohne Server (DHCP, RARP).
+
+\begin{itemize}
+	\item Host wählt zufällig eine Adresse.
+	\item Überprüft mittels Gratuitous ARP, ob diese Adresse bereits vergeben ist.
+	\item Falls ja, andere Adresse zufällig wählen und erneut überprüfen.
+	\item Falls nein, Adresse benutzen und andere ARP Requests für diese Adresse beantworten.
+\end{itemize}
+
+\subsection{ARP-Spoofing}
+
+Da ARP nicht kryptografisch abgesichert ist, kann jeder Host auf ARP Requests antworten oder ARP Announcements erzeugen.
+Ziel ist das Umleiten von Datenpaketen.
+Es gibt Programme, die Änderungen der Hardware-Adressen erkennen (z.B. arpwatch).
+Der Administrator muss dann die Ursache überprüfen
+
+\subsection{Proxy ARP}
+
+Wird von speziellen Routing-Protokollen verwendet.
+Jeder Nachbar (One-Hop-Neighbor), der auf der Route zum Ziel liegt, beantwortet einen eintreffenden ARP-Request mit seiner Hardware-Adresse.
+Pakete werden so von Host zu Host weitergeleitet
+
+\subsection{Reverse RP}
+
+Erfragt eine IP-Adresse bei bekannter MAC-Adresse und ist nicht unbedingt für die Funktionsfähigkeit von IP über Ethernet notwendig.
+RARP wird in RFC 903 \cite{rfc903} standardisiert.
+Haupteinsatzzweck ist die automatische Konfiguration der Protokoll-Adresse.
+Dabei sendet der Host einen RARP-Request mit der eigenen Hardware-Adresse (z.B. MAC).
+Ein RARP-Server beantwortet diesen Request und liefert die hinterlegte Protokoll-Adresse (z.B.IP).
+Da RARP Link-Local-Broadcasts verwendet, ist ein RARP-Server pro Netz notwendig.
+Benutzt gleiche Paketstruktur wie ARP, lediglich anderen EtherType\footnote{Feld im Ethernet-Header, siehe Abschnitt \ref{subsec:ethernet}} (0x8035)
+
 \section{DNS und WHOIS}
 
 % 050
@@ -533,13 +611,15 @@ Namespace benennt | urn:ip-addr:139.30.3.23
 
 % 410
 
+%TODO \nocite{*} soll alle Literaturverweise anzeigen, auch wenn diese im Text nicht auftauchen. Funktioniert bisher allerdings nicht so
 
+%TODO Eventuell Literaturverzeichnis über zwei Spalten?
 \newpage
 \addcontentsline{toc}{section}{Literatur}
 \bibliographystyle{plain}
 \bibliography{literatur}
 
-
+%TODO Glossar einbinden
 \newglossaryentry{arpa}{name=ARPA,description={Advanced Research Projects Agency}}
 \newglossaryentry{icann}{name=ICANN,description={Internet Corporation for Assigned Names and Numbers}}
 \newglossaryentry{ietf}{name=IETF,description={Internet Engineering Task Force}}
