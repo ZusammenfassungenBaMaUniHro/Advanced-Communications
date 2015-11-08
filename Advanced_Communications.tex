@@ -526,10 +526,57 @@ Benutzt gleiche Paketstruktur wie ARP, lediglich anderen EtherType\footnote{Feld
 \section{DNS und WHOIS}
 
 % 050
+%TODO Ordnung in die Informationen bringen. Folien haben keinen guten roten Faden
 Die Aufgabe des Domain Name Systems ist die Übersetzung von (Layer-4) IP-Adressen in, für den menschlichen Gebrauch besser verwendbare Namen.
+Der Name wird dabei aus hierarchischen Domains, getrennt durch Punkte (.) zusammengesetzt.
+Direkt unter der Wurzel steht hierbei die sogenannte Top-Level-Domain.
+Bei Top-Level-Domains wird zwischen \textbf{länderspezifischen} (ccTLD) und \textbf{generischen} (gTLD) Domains unterschieden.
+Während erstere, bestehend aus zwei Buchstaben, durch lokal verantwortliche Institutionen\footnote{Network Information Centers z.B. DENIC für .de} verwaltet werden, werden gTLD durch die ICANN oder beauftragte Institutionen vergeben.
+%TODO 050_DNS.pdf hat hier noch so eine komische Seite 61
+Bei der Vergabe gilt das \emph{first come, first serve}-Prinzip.
+Für die Namensbildung gelten gewisse Regelungen, z.B. Ziffern 0-9, Bindestriche, Buchstaben, sowie einige ausgewählte lokale Buchstaben.
+Letztere müssen ASCII-kodierbar sein (ACE)\cite{rfc3490}.
+Jede (Teil-) Domain ist maximal 63 Zeichen lang, insgesamt ist der vollständige Pfad jedoch 255 Zeichen lang.
+Folgende Daten sind bei der Domainanmeldung von Interesse:
+
+\begin{description}
+	\item[Domaininhaber](Holder): Person, der die Domain \emph{gehört}
+	\item[Administrativer Ansprechpartner]: Vom Inhaber Bevollmächtiger, darf alle Entscheidungen treffen (Admin-C)
+	\item[Technischer Ansprechpartner, Zonenverwalter]: Typischerweise Kontaktadresse der Firma, die die Domain betreibt (Tech-C, Zone-C)
+	\item [Technische Daten]: z.B. Nameserver
+\end{description}
+
+Hoster tragen oft nicht den Inhaber selbst als Admin-C, sondern sich selbst ein.
+Außerdem stellen sie in der Regel den Nameserver zur Verfügung.
+Die Registrierung einer Domain gilt immer für einen bestimmten Zeitraum.
+Ein Wechsel erfordert eine Freigabe beim alten Provider durch Inhaber oder Admin-C.
+
+\subsection{Weiteres Bla zu DNS}
+
+Beim Domain Name System handelt es sich um ein \textbf{sehr großes}, \textbf{hierarchisch strukturiertes}, \textbf{verteiltes}, \textbf{repliziertes} und \textbf{lokal verwaltetes System} \cite{rfc1034,rfc1035}.
+Aus dem hierarchischen Benennungsschema resultiert das verteilte Datenbanksystem des DNS.
+Jede Domain bestimmt selbst, wie die unter ihr liegenden Domains zugewiesen werden, hat dementsprechend eigene Verantwortlichkeiten.
+Ist ein Namensserver für eine solche Zone verantwortlich, kann er Anfragen autoritativ beantworten(Autoritäskonzept).
+Andernfalls wird die Anfrage aus dem Cache beantwortet oder an einen anderen Nameserver delegiert (Delegationskonzept).
+Das kann der Nameserver einer Subdomain oder (default) ein Root Name server sein.
+
+\subsection{Servertypen}
+
+\begin{description}
+\item[Primary Server]: Ist Hauptserver einer Domain und autorisiert, Anfragen zu seiner Domain verbindlich zu
+beantworten.
+Er verfügt über alle Daten dieser Domain, welche in Zonen-Dateien abgelegt sind, die der Verwalter des
+Servers erstellt
+\item[Secondary Server]: Ist ebenfalls autorisiert, verbindliche Antworten zu seiner
+Domain zu liefern, lädt die Domain-Datenbank von einem Primary Server und aktualisiert sie bei Bedarf
+\item[Caching-only Server]: Verfügt über keine eigenen Domain-Informationen.
+Fragt bei dem für die Domain zuständigen Primary oder Secondary Server nach und speichert die Antwort zwischen
+Ist zur Beantwortung von Anfragen zu einer Domain „nicht autorisiert“ (kann die Genauigkeit und Aktualität nicht gewährleisten)
+\item[Slave	Server]: Reicht alle Anfragen, die er selbst nicht aus seinem eigenen Cache beantworten kann, an eine zuvor festgelegte Liste von anderen Servern (Forwarders) weiter.
+Forwarders fragen ihrerseits den zuständigen Server und speichern Ergebnis zwischen (Caching)
+\end{description}
 
 
-\subsection{Server Typen}
 
 \section{Migration von IPv4 nach IPv6}
 
@@ -620,6 +667,7 @@ Die Aufgabe des Domain Name Systems ist die Übersetzung von (Layer-4) IP-Adress
 %TODO Eventuell Literaturverzeichnis über zwei Spalten?
 \newpage
 \addcontentsline{toc}{section}{Literatur}
+\nocite{*}
 \bibliographystyle{plain}
 \bibliography{literatur}
 
@@ -661,6 +709,12 @@ Die Aufgabe des Domain Name Systems ist die Übersetzung von (Layer-4) IP-Adress
 \newglossaryentry{uri}{name=URI,description={Uniform Resource Identifier}}
 \newglossaryentry{urn}{name=URN,description={Uniform Resource Name}}
 \newglossaryentry{url}{name=URL,description={Uniform Resource Locator}}
+\newglossaryentry{tld}{name=TLD,description={Top Level Domain}}
+\newglossaryentry{cctld}{name=ccTLD,description={Country Code Top Level Domain}}
+\newglossaryentry{gtld}{name=gTLD,description={Generic Top Level Domain}}
+\newglossaryentry{nicdns}{name=NIC,description={Name Information Center}}
+\newglossaryentry{nic}{name=NIC,description={Network Interface Controller}}
+\newglossaryentry{ace}{name=ACE,description={ASCII Compatible Encoding}}
 
 \newpage
 \addcontentsline{toc}{section}{Glossar}
