@@ -667,7 +667,93 @@ Forwarders fragen ihrerseits den zuständigen Server und speichern Ergebnis zwis
 \section{Zeitsynchronisation}
 
 % 160, 190
-%TODO Zeitsynchronisation
+
+\subsection{Notwendigkeit der Zeitsynchronisation}
+Authentisierungsverfahren müssen die Gültigkeit von Schlüsseln überprüfen können.
+Ebenso haben einige Abläufe eine beschränkte zeitliche Dauer.
+Andere Verfahren benötigen Time-Stamps, Vorher-Nachher-Beziehungen von Ereignissen müssen bekannt sein.
+
+Uhren in verteilten Systemen sind nicht zwangsweise Synchron.
+Sie können unterschiedliche Zeiten aufweisen, je nach Art der Uhr \emph{ticken} sie unterschiedlich schnell (Quarzuhr, Atomuhr).
+Zusätzlich kann die physikalische Umgebung diesen Effekt verstärken (z.B. Temperatur einer Quarzuhr).
+Eigenschaften von Uhren nach Mühl sind: Drift, Auflösung und Abweichung (von der Realzeit).
+
+\subsection{Logische Zeit}
+Manchmal reicht es, nicht den genauen Zeitpunkt von Ereignissen, sondern lediglich die Vorher-Nachher-Beziehung zu kennen.
+Man spricht von \textbf{Lamport-Zeitstempel} oder \textbf{Vektoruhren}.
+Empfangene Lamport-Zeitstempel werden einfach bei jedem Kommunikationsschritt um eins inkrementiert und dann als eigener Zeitstempel versendet.
+Bei der Vektor-Zeit werden zusätzlich die Zeitstempel der anderen Kommunikationspartner mitgeführt.
+Dies hat den Vorteil, dass ein kausaler Zusammenhang immer erkennbar ist.
+
+\subsection{Herausforderungen}
+\begin{itemize}
+	\item Logische Zeitstempel (Lamport-Zeitstempel und Vektor-Zeit) genügen den Anforderungen nicht immer.
+	\item Viele Uhren müssen synchronisiert werden.
+	\item Die Übertragung eines Zeitstempels kostet Zeit – Latenz.
+	\item Die Latenz ist nicht konstant – Jitter.
+	\item Die Latenz ist nicht symmetrisch.
+\end{itemize}
+
+\subsection{Algorithmen}
+\textbf{Anforderungen} an Algorithmen sind symmetrische oder bekannte Laufzeiten und eine konstante Latenz.
+Letzteres ist in paketvermittelnden Netzen nicht erreichbar.
+\subsubsection{Algorithmus von Cristian}
+Clients fragen beim Server nach der korrekten Zeit.
+Server kennt die Zeit aus zuverlässiger, externer Quelle.
+
+\subsubsection{Berkeley-Algorithmus}
+Server fragt alle verfügbaren Clients nach der Zeit und bildet den Mittelwert.
+Zeit wird anschließend an Clients verbreitet.
+
+\subsubsection{Marzullo's Algorithmus}
+Versucht den Einfluss des Jitters durch mehrfache Messungen zu eliminieren.
+Messungen werden solange durchgeführt, bis das Konfidenzinterval den Anforderungen entspricht.
+
+\subsection{NTP}
+NTP\cite{rfc1305, rfc5905} verwendet Marzullo's Algorithmus.
+Es löste den ICMP Timestamp Request (Abschnitt \ref{subsec:icmptime}) ab und ist mittlerweile in Version 4 aktuell.
+NTP-Server lauschen auf UDP-Port 123.
+Im Internet sind Genauigkeiten von $\leq 10ms$ erreichbar.
+
+\subsubsection{Paketaufbau}
+\textbf{Anmerkung}: Paketaufbau von Version 4 scheint sich recht stark von Version 3 zu unterscheiden.
+Ich bleibe bei der in der Vorlesung besprochenen Version 3.
+\begin{description}
+	\item[Leap Indicator]: Gibt an, ob Schaltsekunde in dieser Minute hinzugefügt oder entfernt wird  (2 Bit)
+	\item[Status]: Gibt mögiche Fehler an.
+		\begin{enumerate}
+			\setcounter{enumi}{-1}
+			\item clock operating correctly
+			\item carrier loss
+			\item synch loss
+			\item format error
+			\item interface (Type 1) or link (Type 2) failure
+		\end{enumerate}
+	\item[Type]: Typ\footnote{Neuere Versionen bezeichnen dies als Stratum; Es gibt quasi eine Hierarchie bei den (Genauigkeiten der) NTP-Server} der Referenzuhr: 1 | Primärreferenz (z.B. Atomuhr) bis 4 | \emph{Eyeball and wrist watch}
+	\item[Precision]: Angabe der Genauigkeit der Uhr (als Exponent zur Basis 2)
+	\item[Estimated Error]: Geschätzter Fehler zum Zeitpunkt der Synchronisation in Sekunden.
+	\item[Estimated Drift Rate]: Geschätzte Drift der Uhr (ohne Einheit).
+	\item[Reference Timestamp]: Zeit, auf den die Uhr bei der letzten Synchronisation eingestellt
+	wurde.
+	\item[Originate Timestamp]: Zeit beim Senden des Pakets
+	\item[Receive Timestamp]: Lokale Zeit bei Ankunft des Pakets
+	\item[Transmit Timestamp]: Lokale Zeit beim Senden der Anwort
+\end{description}
+
+\subsection{SNTP}
+Vereinfachung von NTP, bei der auf eine Wiederholung der Zeitsynchronisation verzichtet wird.
+So sind etwa Synchronisationen über Multi- und Broadcasts möglich.
+Es werden dasselbe Nachrichtenformat und derselbe UDP-Port, wie bei NTP genutzt\cite{rfc4330}.
+
+\subsection{ICMP - Timestamp Request und Reply}
+\label{subsec:icmptime}
+
+Timestamp Request\cite{rfc792} ermöglicht die Anfrage eines anderen Systems nach der aktuellen Zeit.
+Es handelt sich um ICMP-Nachrichten mit den Type-Werten 13 (Request) oder 14 (Reply)\footnote{Skript sagt hier 17 und 18, im RFC stehen allerdings 13 und 14. Habe Thomas drauf hingewiesen.}.
+Empfohlener Rückgabewert sind die Millisekunden seit Mitternacht (Coordinated Universal Time - UTC).
+Identifier und Sequence Number (ICMP-Felder; Gestatten dem Sender eine Zuordnung von replys bei mehreren Requests) werden vom Sender eingetragen und vom Empfänger in die Antwort kopiert.
+Gestattet dem Sender eine Zuordnung von replys bei mehreren Requests
+
 \section{Internet Control Message Protocol}
 
 % 170
@@ -893,6 +979,9 @@ Forwarders fragen ihrerseits den zuständigen Server und speichern Ergebnis zwis
 \newglossaryentry{nicdns}{name=NIC,description={Name Information Center}}
 \newglossaryentry{nic}{name=NIC,description={Network Interface Controller}}
 \newglossaryentry{ace}{name=ACE,description={ASCII Compatible Encoding}}
+\newglossaryentry{ntp}{name=NTP,description={Network Time Protocol}}
+\newglossaryentry{sntp}{name=SNTP,description={Simple Network Time Protocol}}
+
 
 \newpage
 \addcontentsline{toc}{section}{Glossar}
