@@ -354,6 +354,33 @@ Wichtige Felder sind:
 	\includegraphics[width=10cm]{img/IPv6_header}
 \end{center}
 
+\subsubsection{Migration von IPv4 nach IPv6}
+
+\emph{Wie migriert man Millionen von Hosts im Internet auf IPv6?}
+Langsam, nach und nach.
+Alle Hosts auf einmal sind nicht realisierbar.
+RFC 1933\cite{rfc1933} schlägt drei Migrationsstrategien vor.
+
+\begin{description}
+	\item [Tunnelning]: Zwischen zwei IPv6-Knoten wird ein virtueller Link aufgebaut.
+	Die IPv6-Pakete werden (als Payload) in IPv4-Pakete verpackt und \emph{normal} über das Internet geroutet.
+	\item [Dual Stack]: Auf Hosts und Routern werden sowohl IPv4 als acuh IPv6 eingerichtet.
+	DNS kann A- oder AAAA-Records zurück geben, entsprechender Stack wird dann genutzt.
+	%TODO Hier ist inhaltliche Überprüfung notwendig.
+	Wird häufig mit Automatic Tunneling\footnote{\textquotedblleft IPv6-over-IPv4 tunneling where the IPv4 tunnel endpoint address is determined from the IPv4 address embedded in the IPv4-compatible destination address of the IPv6	packet.\textquotedblright} genutzt.
+	
+	Außerdem besteht die Möglichkeit von \textbf{Assignment of IPv4 Global Addresses to IPv6 Hosts} (AIIH).
+	Dabei wird eine IPv4-kompatible IPv6-Adresse genutzt.
+	Diese entspricht dem 96-bit Präfix 0:0:0:0:0:0, gefolgt von der IPv4-Adresse.
+	Ist der Client der Dual-Stack-Hosts und der Server IPv4-only, verlangt der Client für die Dauer der Kommunikation eine	temporäre IPv4 Adresse beim AIIH Server (Kooperation von DNS und DHCPv6).
+	Andernfalls (Client IPv4-only; Server Dual-Stack): DNS verlangt bei DHCPv6 eine temporäre IPv4 Adresse für Dual-Stack Host, welcher mit dieser rekonfiguriert wird.
+	\item [Übersetzung der Header](Header Translation): Hierbei wird die IPv4 Unterstützung auf Systemen entfernt. Die IPv4-Pakete werden in IPv6-Pakete übersetzt; ein Translator übersetzt IP und ICMP Meldungen.
+	%TODO Ist mit den Erweiterungsheadern das Options-Zeugs bei IPv4 gemeint?
+	Erweiterungsheader werden nicht, oder nur bedingt übersetzt.
+	Probleme entstehen, weil sich einige Felder nicht immer übersetzen lassen und Adressumwandlung Datenbanken-Lookups erfordern.
+\end{description}
+
+
 \subsection{User Datagram Protocol}
 
 Bei UDP handelt es sich um ein Layer-4-Protokoll.\cite{rfc768}
@@ -601,9 +628,6 @@ Forwarders fragen ihrerseits den zuständigen Server und speichern Ergebnis zwis
 
 %TODO DNS ist noch nicht fertig
 
-\section{Migration von IPv4 nach IPv6}
-
-% 060
 
 \section{Timeouts, ACK, Bestätigungen}
 
