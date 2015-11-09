@@ -154,7 +154,15 @@ Die Bezeichnung der Pakete ist je nach Schicht unterschiedlich:
 \subsection{Ethernet}
 \label{subsec:ethernet}
 Das Ethernet-Protokoll wirkt auf den Layern 1 + 2 und wird im Standard \textbf{IEEE 802.3} definiert.
-Es kümmert sich um Elektrokrams (Physikalische Eigenschaften, Stecker,Stromversorung, Kabel etc.), Zugriffsverfahren auf das Medium, Adressierung (MAC), Protocol-Multiplexing, Flow Control (Logical Link Control) und Fehlererkennung (CRC).
+Es kümmert sich um 
+	\begin{itemize}		
+		\item Elektrokrams (Physikalische Eigenschaften, Stecker, Stromversorung, Kabel etc.),
+		\item Zugriffsverfahren auf das Medium,
+		\item Adressierung (MAC),
+		\item Protocol-Multiplexing,
+		\item Flow Control (Logical Link Control),
+		\item Fehlererkennung (CRC). 
+	\end{itemize}
 Es ähnelt den Standards \textbf{802.11} (WLAN), \textbf{802.15.1} (Bluetooth) und \textbf{802.16} (WiMAX).
 
 Ein \textbf{Ethernet-Frame} hat eine Größe von 64 - 1518 Byte.
@@ -179,7 +187,7 @@ Das \textbf{Ethernet-Paket} (Offensichtlich Präambel + SFD + Ethernet-Frame) um
 \subsubsection{CSMA/CD}
 
 CSMA/CD regelt den Zugriff auf ein von mehreren Teilnehmern genutztes Medium (Kabel).
-Dazu prüft der sendene Host, ob das Medium frei ist, bevor er sendet.
+Dazu prüft der sendende Host, ob das Medium frei ist, bevor er sendet.
 Beim Übertragen von Daten können Kollisionen erkannt werden.
 Der Sendevorgang wird dann nach einer zufälligen Zeit wiederholt.
 Aufgrund der verbreiteten Nutzung von Switches sind echte geteilte Medien inzwischen eher die Ausnahme.
@@ -229,7 +237,7 @@ Auf diese Weise kann Hardware eingespart werden.
 Realisiert wird dies mit einem 4 Byte langen Feld im Ethernet-Frame:
 \begin{itemize}
 	\item 2 Bytes \textbf{TPID} - Tag Protocol Identifier – Fester Wert 0x8100. Frame
-	trägt die 802.1Q/802.1p-Tag-Information
+	trägt die 802.1q/802.1p-Tag-Information
 	\item 3 Bit \textbf{Priorität} (user\_priority) – Benutzer-Prioritätsinformationen
 	\item 1 Bit \textbf{CFI} - Canonical Format Indicator – Gilt für alle vorhandenen
 MAC-Adressinformationen im MAC-Datenpaket des Frames. Wert 0
@@ -317,7 +325,7 @@ Wichtige Felder sind:
 	Empfänger kann Datenstrom am Flow Label erkennen. \cite{rfc3697, rfc6437}
 	\item[Next Header]: Gibt an, dass ein weiterer Header folgt.
 	In IPv6 sind viele Felder weggefallen.
-	Next Header ermöglicht das anfügen eines weiteren Headers.
+	Next Header ermöglicht das Anfügen eines weiteren Headers.
 	RFC 2460\cite{rfc2460} bietet beispielsweise:
 	\begin{itemize}
 		\item Hop – by – Hop Options Header
@@ -375,10 +383,13 @@ Wichtige Felder sind:
 
 \subsubsection{Zustände}
 
-Zum Aufbau einer Verbindung wird der \textbf{3-Way-Handshake} durchgeführt: $\rightarrow$ SYN | $\leftarrow$ SYN + ACK | $rightarrow$ ACK.
-Ein Timeout findet typischerweise nach 75 Sekunden statt.
-
-Zum Abbau der Verbindung genügt das Senden und Quittieren eines FIN.
+Zum Aufbau einer Verbindung wird der \textbf{3-Way-Handshake} durchgeführt:
+\begin{enumerate}
+	\item $\rightarrow$ SYN
+	\item $\leftarrow$ SYN + ACK
+	\item $\rightarrow$ ACK
+\end{enumerate}
+Ein Timeout findet typischerweise nach 75 Sekunden statt. Zum Abbau der Verbindung genügt das Senden und Quittieren eines FIN.
 
 \section{Adressierung}
 
@@ -445,8 +456,8 @@ Namespace benennt | urn:ip-addr:139.30.3.23
 
 % Ende 030, 040
 
-ARP sendet Layer-3-Adressen in Layer-2-Adressen um.
-Es beschränkt sich nicht auf das erfragen von MAC-Adressen zu IP-Adressen, sondern ermöglicht beispielsweise auch ATM ARP, IP over FDDI und IP over Token Ring.
+ARP wandelt Layer-3-Adressen in Layer-2-Adressen um.
+Es beschränkt sich nicht auf das Erfragen von MAC-Adressen zu IP-Adressen, sondern ermöglicht beispielsweise auch ATM ARP, IP over FDDI und IP over Token Ring.
 \begin{itemize}
 	\item Erfragt für gegebene IP-Adresse eine MAC-Adresse.
 	\item Host erzeugt Broadcast.
