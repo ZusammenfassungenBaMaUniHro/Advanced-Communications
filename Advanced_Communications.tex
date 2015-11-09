@@ -13,6 +13,7 @@
 \usepackage{algpseudocode}
 \usepackage{tikz}
 \usepackage{enumitem}
+\usepackage{multicol}
 \usepackage[xindy]{glossaries}
 \makeglossaries
 \usepackage[labelformat=empty]{caption}
@@ -926,14 +927,13 @@ Gestattet dem Sender eine Zuordnung von replys bei mehreren Requests
 			\end{itemize}
 	\end{itemize}
 
-%TODO \nocite{*} soll alle Literaturverweise anzeigen, auch wenn diese im Text nicht auftauchen. Funktioniert bisher allerdings nicht so
-
-%TODO Eventuell Literaturverzeichnis über zwei Spalten?
 \newpage
-\addcontentsline{toc}{section}{Literatur}
-\nocite{*}
-\bibliographystyle{plain}
-\bibliography{literatur}
+\begin{multicols}{2}
+	\addcontentsline{toc}{section}{Literatur}
+	\nocite{*}
+	\bibliographystyle{plain}
+	\bibliography{literatur}
+\end{multicols}
 
 %TODO Glossar einbinden
 \newglossaryentry{arpa}{name=ARPA,description={Advanced Research Projects Agency}}
