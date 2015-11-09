@@ -75,7 +75,8 @@ Im Gegenzug können konstante Bandbreiten nicht ohne Weiteres (Abschnitt \ref{se
 
 \subsection{Standards}
 Standards ermöglichen die Kooperation im Netzwerk, nur durch sie können Geräte verschiedener Hersteller miteinander kommunizieren.
-Sie können textuell, mithilfe einer Referenzimplementierung oder anhand von Automaten (meist für zustandsbehaftete Protokolle) festgelegt werden.
+Sie können textuell, mithilfe einer Referenzimplementierung oder anhand von Automaten (meist für zustandsbehaftete Protokolle) festgelegt werden.\\
+Sie müssen verschiedenen Ansprüchen genügen: Vollständig, eindeutig (widerspruchsfrei) und stabil 
 
 \begin{description}
 \item[Protokoll] Standardisierte Regeln (Vorschriften) und Vereinbarungen zu
@@ -111,8 +112,9 @@ Man unterteilt folgende \textbf{Netzwerk-Schichten}:
 Innerhalb kommt ein einheitliches Routing-Protokoll zum Einsatz.
 Autonome Systeme sind untereinander verbunden und
 bilden das Internet.
-\section{Protokolle}
 
+\section{Protokolle}
+Protokolle können als Vorschrift betrachtet werden, wie sich verhalten werden soll. Zur Interaktion wird beschrieben, welches Datenformat und wann etwas geschickt werden darf.
 \subsection{Zustandslose und zustandsbehaftete Protokolle}
 Bei \textbf{zustandslosen Protokollen} wird jede Anfrage in einer eigenständigen Transaktion ausgeführt, es existieren keine Vorbedingungen oder Sitzungsinformationen (UDP, HTTP, TFTP).
 \textbf{Zustandsbehaftete Protokolle} hingegen merken sich den aktuellen Zustand mithilfe einer Sitzung.
@@ -248,13 +250,21 @@ verkapselten Frames festzulegen
 	\item 12 Bit \textbf{VID} - VLAN Identifier – Identifizierung des VLANs zu dem der
 Frame gehört
 \end{itemize}
+Erleichtert die Arbeit eines Administrators, da es viele Probleme von physikalischen Verbindungen umgeht. (bspw. Viel Hardware, unflexibel, Anpassungen nur mit hohem Aufwand)\\
 
+
+\glqq Faulheit ist die Mutter der Ingenieurswissenschaften\grqq\\
 \subsubsection{Trunking / Link Aggregation}
 Ermöglicht die Zusammenfassung mehrerer Ports zur Erhöhung des Datensatzes.
 
 \subsection{Asynchronous Transfer Mode}
 
-%TODO ATM
+\subsection{ATM}
+	\begin{itemize}
+		\item ATM kann als Protokoll für Internettelefonie eingesetzt werden und bietet eine geringe Latenz (von unter 200ms).
+		\item Im Gegensatz zu Ethernet bietet ATM Garantien(!) und besitzt einen geringen Header von 5Byte. Es wird eine Leitung für den Datenstrom geschaltet.
+		
+	\end{itemize}
 
 \subsection{Internet Protocol}
 \label{subsec:ip}
@@ -287,7 +297,9 @@ Davon sind insbesondere die folgenden von Interesse:
 	kleinerer Maximum Transfer Unit, MTU), wird es fragmentiert.
 	FO gibt an, ab welcher Stelle (gemessen in Blöcken von 8 Byte)
 	dieses Paket die Daten enthält (MF Flag ist gesetzt) (13 Bit)
-	\item[TTL]: Anzahl der Hops, bis Paket verworfen wird
+	\item[TTL]: Anzahl der Hops, bis Paket verworfen wird (wird bei jedem Routingvorgang reduziert)
+	\item[Protocol]: Enthält für die darüber liegenden Layer Informationen, \glqq sodass diese etwas damit anfangen können\grqq
+	\item[Checksum] wird selbst als 0 betrachtet, und fließt so nicht in die Kalkulation mit ein
 	\item [Options]: Beispielsweise für Source Routing (Route ist im Paket vorgegeben); Sehr selten verwendet, häufig blockiert oder ignoriert
 \end{description}
 
@@ -625,6 +637,106 @@ Die Aufgabe des Domain Name Systems ist die Übersetzung von (Layer-4) IP-Adress
 \section{HTTP2 und SCTP}
 
 % 410
+
+\section{Thomas Fragestunde}
+\subsection{08.04}
+	\begin{itemize}
+		\item Merkmale von Verbindungen
+		\begin{enumerate}
+			\item Latenz
+			\item Datenrate
+			\item Jitter\\
+			(Änderung der Latenz über die Zeit)
+			\item Verfügbarkeit
+			\item Fehlerrate
+		\end{enumerate}
+		\item Bandbreite wird in Hz und nicht in Mbit/s angegeben (Wlan bspw.)
+		\item Ursachen für Jitter
+			\begin{itemize}
+				\item Es ist notwendig zu warten, bis gesendet werden kann
+				\item Sich ändernde Routen, durch bspw. Wegänderungen, Datenaufteilung durch den Router
+			\end{itemize}
+		\item Warum Begrenzung der Übertragungsraten?
+			\begin{itemize}
+				\item Physikalisch - Frequenzen
+			\end{itemize}
+		\item Was begrenzt den max. Durchsatz eines Glasfaseranschlusses
+			\begin{itemize}
+				\item unterschiedlich lange Wege
+				\item Kapazität (Zeit bis Ladung angekommen ist)
+				\item Transistoren schalten nicht so schnell
+				\item Signal-Rausch-Verhältnis
+			\end{itemize}
+	\end{itemize}
+\subsection{09.04}
+	\begin{itemize}
+		\item Was begrenzt die Bandbreite?
+			\begin{itemize}
+				\item Kapazität $\rightarrow$ Grenzfrequenz
+			\end{itemize}			
+		\item CSACD
+			\begin{itemize}
+				\item Warten auf freies Medium
+				\item Es gibt jedoch keine Garantien
+				\item Verursacht Jitter
+			\end{itemize}
+		\item Jitter Gegenmaßnahmen
+			\begin{itemize}
+				\item Puffer (Warteschlange, FiFo)
+				\item Pakete werden in gleichmäßiger Reihenfolge erhalten
+			\end{itemize}
+		\item Leitungs- vs. Paketorientiert
+			\begin{itemize}
+				\item ?
+			\end{itemize}
+		\item Möglichkeiten zur Beschreibung eines Standards
+			\begin{itemize}
+				\item textuell (schwer)
+				\item Referenzimplementation (bspw. Bittorrent - aber berücksichtigt ggf. nicht alle Fälle)
+				\item Automaten (5-Tupel, Mealy/Moore)
+			\end{itemize}
+		\item Zustandsbehaftete und zustandslose Protokolle
+			\begin{itemize}
+				\item Beispiel TCP (closed, SYN, etc.) besitzt einen Zustand
+				\item Ein Zustand merkt sich die \glqq Vorgeschichte \grqq und damit was passiert ist. Somit ist ein Login immer zustandsbehaftet.
+				\item Werden die Zwischenschritte nicht gespeichert, ist es zustandslos.
+				\item Cookies bieten die Möglichkeit einen Zustand nachzurüsten.
+			\end{itemize}
+		\item Autonome Systeme sind \glqq Provider \grqq, die miteinander über \textit{Peering Points} verbunden sind
+		\item Minimierung der Aufreihungslatenz
+			\begin{itemize}
+				\item Entsteht dadurch, dass das Paket erst versendet wird, wenn es vollständig da ist
+				\item Lösung, Weiterleiten, sobald die ersten 6 Byte (Adresse) bekannt sind
+			\end{itemize}
+		\item Problem von CRC (cyclic redundancy check)?
+			\begin{itemize}
+				\item Es entsteht eine unnötige Belastung, wenn fehlerhafte Pakete weitergeleitet werden
+			\end{itemize}
+		\item Wann sollte umgeschaltet werden zwischen den verschiedenen Switch-Modi?
+	\end{itemize}
+\subsection{22.04}
+	\begin{itemize}
+		\item Implemenationen von Switches
+			\begin{itemize}
+				\item Shared Memorie
+				\item Schaltmatrix (crossPoint $\rightarrow$ komplexe Schaltungen)
+				\item Gemeinsamer Bus
+			\end{itemize}
+		\item Welche Geräte arbeiten auf welchen Layern?
+			\begin{itemize}
+				\item Layer 3: Router
+				\item Layer 2: Switches
+			\end{itemize}		
+		\item Welche Dienste werden von welchen Layern erbracht?
+			\begin{itemize}
+				\item Layer 3: Routing, logische Adressierung
+				\item Layer 2: Media Access
+			\end{itemize}
+		\item 
+			\begin{itemize}
+				\item 
+			\end{itemize}
+	\end{itemize}
 
 %TODO \nocite{*} soll alle Literaturverweise anzeigen, auch wenn diese im Text nicht auftauchen. Funktioniert bisher allerdings nicht so
 
