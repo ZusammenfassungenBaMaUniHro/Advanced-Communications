@@ -711,7 +711,7 @@ Versucht den Einfluss des Jitters durch mehrfache Messungen zu eliminieren.
 Messungen werden solange durchgeführt, bis das Konfidenzinterval den Anforderungen entspricht.
 
 \subsection{NTP}
-NTP\cite{rfc1305, rfc5905} verwendet Marzullo's Algorithmus.
+\Gls{ntp}\cite{rfc1305, rfc5905} verwendet Marzullo's Algorithmus.
 Es löste den ICMP Timestamp Request (Abschnitt \ref{subsec:icmptime}) ab und ist mittlerweile in Version 4 aktuell.
 NTP-Server lauschen auf UDP-Port 123.
 Im Internet sind Genauigkeiten von $\leq 10ms$ erreichbar.
@@ -752,13 +752,55 @@ Es werden dasselbe Nachrichtenformat und derselbe UDP-Port, wie bei NTP genutzt\
 Timestamp Request\cite{rfc792} ermöglicht die Anfrage eines anderen Systems nach der aktuellen Zeit.
 Es handelt sich um ICMP-Nachrichten mit den Type-Werten 13 (Request) oder 14 (Reply)\footnote{Skript sagt hier 17 und 18, im RFC stehen allerdings 13 und 14. Habe Thomas drauf hingewiesen.}.
 Empfohlener Rückgabewert sind die Millisekunden seit Mitternacht (Coordinated Universal Time - UTC).
-Identifier und Sequence Number (ICMP-Felder; Gestatten dem Sender eine Zuordnung von replys bei mehreren Requests) werden vom Sender eingetragen und vom Empfänger in die Antwort kopiert.
-Gestattet dem Sender eine Zuordnung von replys bei mehreren Requests
+ICMP-Data-Bereich kennt Felder \textbf{Originate Timestamp}, \textbf{Receive Timestamp} und \textbf{Transmit Timestamp} (je 32 Bit); diese scheinen dieselbe Bedeutung wie bei NTP zu haben.
+Außerdem \textbf{Identifier} und \textbf{Sequence Number}, diese gestatten dem Sender eine Zuordnung von Replies bei mehreren Requests.
+Letztere werden vom Sender eingetragen und vom Empfänger in die Antwort kopiert.
 
 \section{Internet Control Message Protocol}
 
-% 170
-%TODO ICMP
+ICMP ist ein Layer-3-Protokoll zur Steuerung des Nachrichtenaustausches im Internet\cite{rfc792}\footnote{Laut Folien RFC 950\cite{rfc950}, aber das ist Quatsch (\emph{Internet Standard Subnetting Procedure})}.
+Es dient häuptsächlich dem Austausch von Status- und Fehlermeldungen zwischen Gateways und Hosts.
+Die Nachrichten werden über IP-Datagramme übertragen, das Protokoll ist verbindungslos.
+
+\subsection{Paketaufbau}
+Eine ICMP-Nachricht besteht aus den Feldern \textbf{Type}, \textbf{Code}, \textbf{Checksum} und \textbf{Data}, angeführt von einem 20 Byte IP-Header.
+Der IP-Header hat häufig vorbestimmte Feldwerte, z.B. Type of Service = 0, weitere Infos im RFC.
+
+\begin{description}
+	\item[Type]: Bestimmt das Format der weiteren  Felder. (1 Byte)
+	\item[Code]: Inhalt Abhängig vom Type (1 Byte)
+	\item[Checksum]: Prüfsumme\footnote{Scheinbar abhängig vom Type; häufig: \emph{The checksum is the 16-bit ones's complement of the one's complement sum of the ICMP message starting with the ICMP Type.}} (2 Byte) 
+	\item[Data]: Nicht immer genutzt; Enthält beispielsweise bei Type \emph{Redirect Message} (5) die \emph{Gateway Internet Address} oder die in Abschnitt \ref{subsec:icmptime} beschriebenen Felder für Timestamps.
+\end{description}
+
+\subsection{Beispiele}
+\subsubsection{Destination Unreachable}
+
+Wird beispielsweise gesendet, wenn er Empfänger laut den Routing-Tabellen eines Gateways nicht erreichbar ist, z.B. weil die Distanz zum Zielnetzwerk unendlich ist.
+Empfänger im IP-Header ist der ursprüngliche Absender einer (nicht zustellbaren) Nachricht.
+Der ICMP-\textbf{Type} ist 3, der Code gibt genauere Informationen zur Fehlerursache (z.B. 3 | port unreachable)
+\subsubsection{Ping}
+Beispiel nicht aus dem Skript.
+Beim Request wird ein \textbf{Echo-Request} (Type 8) versendet.
+Das Feld \textbf{Code} enthält den Wert 0\footnote{Laut RFC scheint die Möglichkeit zu bestehen, dass hier etwas anderes steht. Warum das so ist, kann ich allerdings nicht finden}.
+\textbf{Identifier} und \textbf{Sequence Number} helfen bei Unterscheidung mehrerer Requests/Replys.
+Im \textbf{Data} Feld kann scheinbar noch unbestimmter Payload mitgesendet werden.
+
+Bei der Antwort werden Sender- und Empfängeradresse im IP-Header vertauscht.
+Der \textbf{Type} ist 0 (Echo-Reply).
+Weitere Felder werden aus dem Request übernommen.
+
+\subsection{Regeln}
+ICMP-Fehler-Nachrichten werden nie als Folge auf
+\begin{itemize}
+\item  eine ICMP Fehlermeldung („Teufelskreislauf“) erzeugt.
+\item  ein Datagram, das an eine IP Broadcast Adresse oder eine IP
+Multicast - Adresse (class D) gesendet wird, erzeugt.
+\item  ein Datagram, welches als Link - Layer Broadcast gesendet
+wird, erzeugt.
+\item  ein anderes Fragment als des ersten erzeugt.
+\item  ein Paket erzeugt, dessen Quelladresse nicht einen einzelnen Host definiert.
+\end{itemize}
 \section{Voice over IP}
 
 % 200, 210
