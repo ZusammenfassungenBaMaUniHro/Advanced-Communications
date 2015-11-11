@@ -774,6 +774,9 @@ Der IP-Header hat häufig vorbestimmte Feldwerte, z.B. Type of Service = 0, weit
 \end{description}
 
 \subsection{Beispiele}
+Im Skript existiert eine umfangreiche Tabelle von Funktionen und entsprechender Werte für Type- und Code-Felder.
+Diese auswendig zu lernen entspräche nicht 80-20.
+Daher beschränke ich mich hier nur auf zwei Beispiele (+ Zeitsynchronisation in Abschnitt \ref{subsec:icmptime})
 \subsubsection{Destination Unreachable}
 
 Wird beispielsweise gesendet, wenn er Empfänger laut den Routing-Tabellen eines Gateways nicht erreichbar ist, z.B. weil die Distanz zum Zielnetzwerk unendlich ist.
@@ -829,6 +832,21 @@ Bis zum Ende der 90er-Jahre vervielfachte sich die Zahl der Websites dramatisch 
 	\item Verbindungsherstellung.
 	\item Datenübertragung (Versendung von Datenpaketen /Datagrammen).
 \end{itemize}
+
+\subsection{Hypertext Transfer Protocol}
+
+HTTP wurde in RFC 2616\cite{rfc2616} definiert.
+TLS\cite{rfc2817} führte später einige Sicherheitsfeatures ein.
+Trotz des \emph{Hypertext} im Namen ist es generisch und ermöglicht die Übertragung beliebiger Inhalte.
+HTTP ist \textbf{zustandslos} und nutzt den TCP-Port 80.
+Es handelt sich um ein \textbf{Request-Response-Protokoll}.
+Zusätzlich werden Nachrichten im ASCII-Klartext gesendet, solange sie nicht verschlüsselt werden.
+Ressourcen werden über URIs\cite{rfc2396} adressiert.\footnote{Angeführt durch die Protokollangabe http:// oder https://, dabei handelt es sich dann allerdings um eine URL.}
+
+Eine einfachste Anfrage an den Server wäre beispielsweise \ttfamily{GET index.html HTTP/1.1}.
+Hierbei handelt es sich offensichtlich um eine Bitte, die Datei index.html auszuliefern und dabei HTTP 1.1 zu verwenden.
+
+\subsection{File Transfer Protocol}
 
 \section{Peer-to-Peer}
 
@@ -1002,7 +1020,7 @@ Bis zum Ende der 90er-Jahre vervielfachte sich die Zahl der Websites dramatisch 
 \newglossaryentry{icann}{name=ICANN,description={Internet Corporation for Assigned Names and Numbers}}
 \newglossaryentry{ietf}{name=IETF,description={Internet Engineering Task Force}}
 \newglossaryentry{ripe}{name=RIPE,description={Réseaux IP Européens}}
-\newglossaryentry{ripencc}{name=RIPE NCC,description={Réseaux IP Européens Network Coordination Centre}}
+\newglossaryentry{ripencc}{name=RIPE NCC,description={RIPE Coordination Centre}}
 \newglossaryentry{denic}{name=DENIC,description={Deutsches Network Information Center}}
 \newglossaryentry{dns}{name=DNS,description={Domain Name System}}
 \newglossaryentry{udp}{name=UDP,description={User Datagram Protocol}}
@@ -1044,7 +1062,7 @@ Bis zum Ende der 90er-Jahre vervielfachte sich die Zahl der Websites dramatisch 
 \newglossaryentry{ntp}{name=NTP,description={Network Time Protocol}}
 \newglossaryentry{sntp}{name=SNTP,description={Simple Network Time Protocol}}
 \newglossaryentry{www}{name=WWW,description={World Wide Web}}
-
+\newglossaryentry{tls}{name=TLS,description={Transport Layer Security}}
 
 \newpage
 \addcontentsline{toc}{section}{Glossar}
