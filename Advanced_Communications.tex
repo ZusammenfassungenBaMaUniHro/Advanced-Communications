@@ -14,7 +14,7 @@
 \usepackage{tikz}
 \usepackage{enumitem}
 \usepackage{multicol}
-\usepackage[xindy]{glossaries}
+\usepackage[xindy,nonumberlist]{glossaries}
 \makeglossaries
 \usepackage[labelformat=empty]{caption}
 \title{Zusammenfassung - Advanced Communications}
@@ -711,7 +711,7 @@ Versucht den Einfluss des Jitters durch mehrfache Messungen zu eliminieren.
 Messungen werden solange durchgeführt, bis das Konfidenzinterval den Anforderungen entspricht.
 
 \subsection{NTP}
-\Gls{ntp}\cite{rfc1305, rfc5905} verwendet Marzullo's Algorithmus.
+NTP\cite{rfc1305, rfc5905} verwendet Marzullo's Algorithmus.
 Es löste den ICMP Timestamp Request (Abschnitt \ref{subsec:icmptime}) ab und ist mittlerweile in Version 4 aktuell.
 NTP-Server lauschen auf UDP-Port 123.
 Im Internet sind Genauigkeiten von $\leq 10ms$ erreichbar.
@@ -1027,7 +1027,10 @@ wird, erzeugt.
 
 \newpage
 \addcontentsline{toc}{section}{Glossar}
+\begin{multicols}{2}
+	\glsaddall
+	\printglossary[title=Glossar,toctitle=Glossar]
+\end{multicols}
 
-\printglossary[title=List of Terms,toctitle=Terms and abbreviations]
 
 \end{document}
