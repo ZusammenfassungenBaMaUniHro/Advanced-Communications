@@ -363,7 +363,7 @@ Alle Hosts auf einmal sind nicht realisierbar.
 RFC 1933\cite{rfc1933} schlägt drei Migrationsstrategien vor.
 
 \begin{description}
-	\item [Tunnelning]: Zwischen zwei IPv6-Knoten wird ein virtueller Link aufgebaut.
+	\item [Tunneling]: Zwischen zwei IPv6-Knoten wird ein virtueller Link aufgebaut.
 	Die IPv6-Pakete werden (als Payload) in IPv4-Pakete verpackt und \emph{normal} über das Internet geroutet.
 	\item [Dual Stack]: Auf Hosts und Routern werden sowohl IPv4 als acuh IPv6 eingerichtet.
 	DNS kann A- oder AAAA-Records zurück geben, entsprechender Stack wird dann genutzt.
@@ -393,7 +393,7 @@ Der Header enthält 4 Felder (je 16 Bit): Quellport, Zielport, Datagram-Länge u
 
 TCP ist ebenfalls ein Layer-4-Protokoll.\cite{rfc793}
 Es garantiert eine Ankunft der Pakete in korrekter Reihenfolge.
-Clienten sehen die Verbindung als bidirektionalen Datenstrom, tatsächlich findet die Kommunikation über Pakete statt.
+Clienten sehen die Verbindung als bidirektionalen Datenstrom, tatsächlich findet die Kommunikation über Pakete statt. Die Kommunikation erfolgt durch TCP zustandsbehaftet.
 
 \subsubsection{Paketstruktur}
 
@@ -486,9 +486,9 @@ Namespace benennt | urn:ip-addr:139.30.3.23
 \subsection{*cast} 
 \begin{description}
 	\item[Unicast]: Einer sendet an einen, wie beispielsweise in einer TCP-Verbindung für HTTP. Adressierung durch Angabe des Empfängers.
-	\item[Broadcast]: Einer sendet an alle, wie beispielsweise in ARP oder DHCP. Hierzu werden spezielle Adressen (MAC: FF-FF-FF-FF-FF-FF; IP: höchste Adresse im Subnetz) verwendet.
+	\item[Broadcast]: Einer sendet an alle, wie beispielsweise in ARP oder DHCP. Hierzu werden spezielle Adressen (MAC: FF-FF-FF-FF-FF-FF; IP: höchste Adresse im Subnetz) verwendet. Broadcastbereiche sollten möglichst klein gehalten werden, um möglichst wenig Teilnehmer zu belästigen.
 	\item[Multicast]: Einer sendet an viele Mitglieder einer Gruppe. Siehe Abschnitt \ref{sec:muliticast}.
-	\item[Concast]: Viele senden an einen, Nachrichten werden so früh wie möglich zusammengefasst. Verhindert Implosion, Überlastung des Empfängers. Beispielswiese sinnvoll, wenn Fehlermeldungen zusammengefasst werden können. Keine direkte Unterstützung in IP
+	\item[Concast]: Viele senden an einen, Nachrichten werden so früh wie möglich zusammengefasst. Verhindert Implosion, Überlastung des Empfängers. Beispielswiese sinnvoll, wenn Fehlermeldungen zusammengefasst werden können. Keine direkte Unterstützung in IP, MAC, Ethernet
 \end{description}
 
 %TODO Foliensatz enthält noch ICMPv6 Neighbor Discovery Protocol, Domainverwaltung und Domain Registry
@@ -579,10 +579,10 @@ Benutzt gleiche Paketstruktur wie ARP, lediglich anderen EtherType\footnote{Feld
 % 050
 %TODO Ordnung in die Informationen bringen. Folien haben keinen guten roten Faden
 Die Aufgabe des Domain Name Systems ist die Übersetzung von (Layer-4) IP-Adressen in, für den menschlichen Gebrauch besser verwendbare Namen.
-Der Name wird dabei aus hierarchischen Domains, getrennt durch Punkte (.) zusammengesetzt.
+Der Name wird dabei aus hierarchischen Domains, getrennt durch Punkte (.) zusammengesetzt.\\
 Direkt unter der Wurzel steht hierbei die sogenannte Top-Level-Domain.
 Bei Top-Level-Domains wird zwischen \textbf{länderspezifischen} (ccTLD) und \textbf{generischen} (gTLD) Domains unterschieden.
-Während erstere, bestehend aus zwei Buchstaben, durch lokal verantwortliche Institutionen\footnote{Network Information Centers z.B. DENIC für .de} verwaltet werden, werden gTLD durch die ICANN oder beauftragte Institutionen vergeben.
+Während erstere, bestehend aus zwei Buchstaben, durch lokal verantwortliche Institutionen\footnote{Network Information Centers z.B. DENIC für .de} verwaltet werden, werden gTLD durch die \textbf{ICANN} oder beauftragte Institutionen vergeben.
 %TODO 050_DNS.pdf hat hier noch so eine komische Seite 61
 Bei der Vergabe gilt das \emph{first come, first serve}-Prinzip.
 Für die Namensbildung gelten gewisse Regelungen, z.B. Ziffern 0-9, Bindestriche, Buchstaben, sowie einige ausgewählte lokale Buchstaben.
@@ -609,7 +609,8 @@ Aus dem hierarchischen Benennungsschema resultiert das verteilte Datenbanksystem
 Jede Domain bestimmt selbst, wie die unter ihr liegenden Domains zugewiesen werden, hat dementsprechend eigene Verantwortlichkeiten.
 Ist ein Namensserver für eine solche Zone verantwortlich, kann er Anfragen autoritativ beantworten(Autoritäskonzept).
 Andernfalls wird die Anfrage aus dem Cache beantwortet oder an einen anderen Nameserver delegiert (Delegationskonzept).
-Das kann der Nameserver einer Subdomain oder (default) ein Root Name server sein.
+Das kann der Nameserver einer Subdomain oder (default) ein Root Name server sein.\\
+Die Aufteilung in die Zonen erfolgt anhand von Punkten - Bsp: www.spiegel.de
 
 \subsection{Servertypen}
 
@@ -621,7 +622,7 @@ Servers erstellt
 \item[Secondary Server]: Ist ebenfalls autorisiert, verbindliche Antworten zu seiner
 Domain zu liefern, lädt die Domain-Datenbank von einem Primary Server und aktualisiert sie bei Bedarf
 \item[Caching-only Server]: Verfügt über keine eigenen Domain-Informationen.
-Fragt bei dem für die Domain zuständigen Primary oder Secondary Server nach und speichert die Antwort zwischen
+Fragt bei dem für die Domain zuständigen Primary oder Secondary Server nach und speichert die Antwort zwischen.
 Ist zur Beantwortung von Anfragen zu einer Domain „nicht autorisiert“ (kann die Genauigkeit und Aktualität nicht gewährleisten)
 \item[Slave	Server]: Reicht alle Anfragen, die er selbst nicht aus seinem eigenen Cache beantworten kann, an eine zuvor festgelegte Liste von anderen Servern (Forwarders) weiter.
 Forwarders fragen ihrerseits den zuständigen Server und speichern Ergebnis zwischen (Caching)
@@ -674,7 +675,7 @@ Authentisierungsverfahren müssen die Gültigkeit von Schlüsseln überprüfen k
 Ebenso haben einige Abläufe eine beschränkte zeitliche Dauer.
 Andere Verfahren benötigen Time-Stamps, Vorher-Nachher-Beziehungen von Ereignissen müssen bekannt sein.
 
-Uhren in verteilten Systemen sind nicht zwangsweise Synchron.
+Uhren in verteilten Systemen sind nicht zwangsweise synchron.
 Sie können unterschiedliche Zeiten aufweisen, je nach Art der Uhr \emph{ticken} sie unterschiedlich schnell (Quarzuhr, Atomuhr).
 Zusätzlich kann die physikalische Umgebung diesen Effekt verstärken (z.B. Temperatur einer Quarzuhr).
 Eigenschaften von Uhren nach Mühl sind: Drift, Auflösung und Abweichung (von der Realzeit).
@@ -777,8 +778,8 @@ Der IP-Header hat häufig vorbestimmte Feldwerte, z.B. Type of Service = 0, weit
 Im Skript existiert eine umfangreiche Tabelle von Funktionen und entsprechender Werte für Type- und Code-Felder.
 Diese auswendig zu lernen entspräche nicht 80-20.
 Daher beschränke ich mich hier nur auf zwei Beispiele (+ Zeitsynchronisation in Abschnitt \ref{subsec:icmptime})
-\subsubsection{Destination Unreachable}
 
+\subsubsection{Destination Unreachable}
 Wird beispielsweise gesendet, wenn er Empfänger laut den Routing-Tabellen eines Gateways nicht erreichbar ist, z.B. weil die Distanz zum Zielnetzwerk unendlich ist.
 Empfänger im IP-Header ist der ursprüngliche Absender einer (nicht zustellbaren) Nachricht.
 Der ICMP-\textbf{Type} ist 3, der Code gibt genauere Informationen zur Fehlerursache (z.B. 3 | port unreachable)
@@ -804,6 +805,11 @@ wird, erzeugt.
 \item  ein anderes Fragment als des ersten erzeugt.
 \item  ein Paket erzeugt, dessen Quelladresse nicht einen einzelnen Host definiert.
 \end{itemize}
+
+
+\section{Internet Group Message Protocol}
+%TODO Ist in Mitschriften genannt worden
+
 \section{Voice over IP}
 
 % 200, 210
@@ -1007,6 +1013,94 @@ Hierbei handelt es sich offensichtlich um eine Bitte, die Datei index.html auszu
 				\item 
 			\end{itemize}
 	\end{itemize}
+\subsection{04.05}
+	\begin{itemize}
+		\item Routing?
+		\begin{itemize}
+			\item Erfolgt auf dem Network-Layer
+			\item Dient der Kommunikation zwischen Geräten (IP kann als Protokoll genutzt werden)
+			\item Ziele sind das Verbinden von Netzen miteinander und das Finden des richtigen Weges.
+			\item IP bietet die Möglichkeit Netze logisch einzuteilen.
+		\end{itemize}
+		\item DNS (Domain Name System)
+		\begin{itemize}
+			\item Zum Auflösen einer Domain zu einer IP-Adresse
+			\item Es gibt verschiedene Ebenen ...
+			\item Beschreibung der Struktur: hierarchisch, mit Root, etc.
+			\item Anfragen werden mitunter gecached
+		\end{itemize}
+		\item Migrationsstrategien von IPv4 nach IPv6\\
+		(Tunneling, Dual Stack, Header Translation)
+		\item Funktionsweise eines Routers
+		\begin{itemize}
+			\item Statisch (fest eingegebene Liste)
+			\item Dynamisch (Routingprotkolle, Topologieermittlung, Pfaderkennung)
+		\end{itemize}
+		\item Möglichkeit zur Topologiebestimmung
+		\begin{itemize}
+			\item Es werden Testnachrichten (TTL=1) im Netzwerk versendet
+			\item Auf diese Weise werden die Nachbarn bestimmt
+			\item Anschließend erfolgt die Weitergabe dieser Informationen: n-Hob-Nachbarn
+			\item Eine wichtige Bedingung hierbei ist, dass kein häufiger Wechsel erfolgt
+		\end{itemize}
+	\end{itemize}
+	\subsection{13.05}
+	\begin{itemize}
+		\item Wie lange Routingverfahren brauchen um zu konvergieren hängt von der Größe der Netzwerke ab. Mögliche Lösungen sind
+		\begin{itemize}
+			\item Näherungsverfahren (Es muss nicht alles bekannt sein)
+			\item pro- bzw. reaktives Routing: Abhängig davon, ob Kenntnisse über das Netz vorhanden sind, oder nicht
+			\item Reduzierung der Graphenkomplexität - Einführen eines Backbones als \glqq minimal dominating set\grqq. Eine Menge, aus der alle Knoten erreichbar sind
+		\end{itemize}
+		\item Das Count-to-infinity-Problem kann durch einen Distanzvektor behoben werden
+		\item Netzwerkparameter, die die Güte beschreiben: Datenrate, Datensatz, Fehlerrate
+		\item Was ist zu tun, wenn mehr Bedarf als Ressourcen bestehen
+		\begin{itemize}
+			\item Flusskontrolle
+			\item Prioritäten festlegen \\
+			(Ein Gespräch sollte eine Latenz von unter 1/45 Sekunden haben, 64 kbit/s + Header)
+		\end{itemize}
+	\end{itemize}	
+	\subsection{18.05}
+	\begin{itemize}
+		\item Gegen was wirkt die FiFo-Queue?\\
+		$\rightarrow$ Zur Jitter-Bekämpfung, bewirkt dafür aber Latenz
+		\item Ursachen für Verzögerungen auf Layer 2 (Ethernet)
+		\begin{itemize}
+			\item Shared Medium
+			\item Alle Teilnehmer senden, dadurch kommt es Kollisionen, die Teilnehmer müssen warten/lauschen/nach einer zufälligen Zeit erneut senden
+		\end{itemize}
+		\item Beispielhafte Übertragungsraten
+		\begin{itemize}
+			\item Audio CD
+				\begin{itemize}
+					\item 44,1 kHz Abtastfrequenz, 16 Bit Abtastung (geringer Quantisierungsfehler), *2 (Stereo)
+					\item 1,5 Mbit/s ohne Fehlerkorrektur
+				\end{itemize}
+			\item Video 10-100 Mbit/s
+			\item Tippgeschwindigkeit: 200-300 Anschläge die Minute
+		\end{itemize}
+		\item Ursachen für Latenz
+		\begin{itemize}
+			\item Entfernung, Router/Switches, Aufreihung, Pakete erst abgesendet, wenn voll
+		\end{itemize}
+	\end{itemize}
+	\subsection{?}
+	\begin{itemize}
+		\item 
+		\begin{itemize}
+			\item 
+		\end{itemize}
+	\end{itemize}
+	\subsection{?}
+	\begin{itemize}
+		\item 
+		\begin{itemize}
+			\item 
+		\end{itemize}
+	\end{itemize}
+	
+	
 
 \newpage
 \begin{multicols}{2}
