@@ -67,7 +67,7 @@ Im Gegenzug können konstante Bandbreiten nicht ohne Weiteres (Abschnitt \ref{se
 \subsubsection{Organisationen}
 
 \begin{description}
-\item [ICANN:] Vergibt IP-Adressen und betreibt die DNS-Rootserver.
+\item[ICANN:] Vergibt IP-Adressen und betreibt die DNS-Rootserver.
 \item[IETF:] Standardisierung von Protokollen in RFCs \cite{rfc3233}
 \item[RIPE:] Administration und technische Koordination
 \item[RIPE NCC:] Adressvergabe in Europa und Zentralasien, Verwaltung der WHOIS-Datenbank.
@@ -113,6 +113,14 @@ Man unterteilt folgende \textbf{Netzwerk-Schichten}:
 Innerhalb kommt ein einheitliches Routing-Protokoll zum Einsatz.
 Autonome Systeme sind untereinander verbunden und
 bilden das Internet.
+
+\subsection{Begriffe}
+%TODO
+\begin{description}
+	\item[Datendurchsatz] Bla
+	\item[Datenrate] Bla
+	\item[Routing] Bla
+\end{description}
 
 \section{Protokolle}
 Protokolle können als Vorschrift betrachtet werden, wie sich verhalten werden soll. Zur Interaktion wird beschrieben, welches Datenformat und wann etwas geschickt werden darf.
@@ -1104,7 +1112,7 @@ Hierbei handelt es sich offensichtlich um eine Bitte, die Datei index.html auszu
 			\item ? Kommt es zu einem zu hohen Verlust, erfolgt ein Kodecwechsel
 		\end{itemize}
 	\end{itemize}
-	\subsection{03.06.}
+	\subsection{03.06}
 	\begin{itemize}
 		\item SMTP/POP3
 		\begin{itemize}
@@ -1207,11 +1215,89 @@ Hierbei handelt es sich offensichtlich um eine Bitte, die Datei index.html auszu
 			\item Biometrisch, Token, Schlüssel, wissensbasiert
 		\end{itemize}		
 	\end{itemize}
-	\subsection{?}
+	\subsection{24.06}
 	\begin{itemize}
-		\item 
+		\item Kerberos 
 		\begin{itemize}
-			\item 
+			\item Kerberos ist ein verteilter Authentifizierungsdienst
+			\item Kerberos soll eine sichere und einheitliche Authentifizierung in einem ungesicherten TCP/IP-Netzwerk auf sicheren Hostrechnern bieten.
+		\end{itemize}
+		\item Medienzugriff auf Layer 2
+		\begin{itemize}
+			\item Aloa (Bei Zugriff wird einfach zugerufen)
+			\item Slotted Aloa (Zugriff nur zu bestimmten Zeiten, dadurch geringere Kollisionen)
+			\item Bei Ethernet: CSMACD
+			\begin{itemize}
+				\item Carrier Sense (Lauschen auf dem Medium)
+				\item Multiple Access
+				\item Collision Detection 
+			\end{itemize}
+			\item Pure Aloa
+			\item GSM als kollisionsfreies Zugriffsverfahren (sobald die Verbindung besteht - auf Grund des exklusiven Medienzugriffs??)
+		\end{itemize}
+		\item Multiplexverfahren
+		\begin{itemize}
+			\item Methoden zur Signal- und Nachrichtenübertragung, bei denen mehrere Signale zusammengefasst und simultan über ein Medium übertragen werden.\\
+			(Raum, Frequenz, Zeit, Code)
+		\end{itemize}
+	\end{itemize}
+	\subsection{29.06}
+	\begin{itemize}
+		\item Faktoren die in eine Kostenfunktion beim Routing miteinbezogen werden können
+		\begin{itemize}
+			\item Topologiekenntnisse
+			\item Durchsatz/Datenrate
+			\item Latenz
+			\item Reale Kosten
+		\end{itemize}
+		\item Dijkstra Algorithmus
+		\item Hidden Station Problem
+		\begin{itemize}
+			\item RTC/CTS lohnt sich, wenn die Pakete klein genug sind - verglichen zu den Nutzerdaten
+			\item OLSR (Optimized Link State Routing)\\
+			(Reduzierung der Graphenkomplexität - Backbone Bildung)
+		\end{itemize}
+	\end{itemize}
+	\subsection{08.07}
+	\begin{itemize}
+		\item MIB (bei SNMP)
+		\begin{itemize}
+			\item Management Information Base (deutsch: Verwaltungsinformationsbasis) beschreibt die Informationen, die über ein Netzwerk-Management-Protokoll abgefragt oder modifiziert werden können.
+			\item Das Simple Network Management Protocol ist ein Netzwerkprotokoll, um Netzwerkelemente von einer zentralen Station aus überwachen und steuern zu können. 
+			\item Es werden Schlüssel beschrieben, die zur Speicherung des \glqq Gesundheitszustandes\grqq von Geräten dienen.
+			\item Eine MIB-Datenbank erklärt, für welche Information ein Schlüssel steht.
+		\end{itemize}
+		\item Hemming-Distanz
+		\begin{itemize}
+			\item Der Hamming-Abstand ist ein Maße für die Unterschiedlichkeit von Zeichenketten. 
+			\item Die Distanz zweier Blöcke mit fester Länge ist dabei die Anzahl der unterschiedlichen Stellen.
+			\item HD wird zur Fehlererkennung und zur Fehlerkorrektur benutzt.
+			\item Ob eine Fehlererkennung oder -korrektur stattfinden kann, hängt von der Hamming-Distanz ab.
+			\item FEC - forward error correction
+			\begin{itemize}
+				\item Am einfachsten: 2-3 mal senden
+				\item Fehler erkennen: Distanz von 2
+				\item Fehler korrigieren: Distanz von 3
+			\end{itemize}
+		\end{itemize}
+		\item Aktives vs. passives Scanning
+		\begin{itemize}
+			\item Passiv: Der AP sendet Beacons mit Daten aus
+			\item Aktiv: Der Client fragt beim AP nach
+			\item Wenn ein Client wechseln möchte, wäre er solange offline bis er ein Beacon erhalten würde. Durch aktives nachfragen kann die \glqq Hand off\grqq Zeit reduziert werden.
+		\end{itemize}
+		\item RTS/CTS (Ready to send / clear to send)
+		\item Bluetooth
+		\begin{itemize}
+			\item Musik, Staubsauger, Eingaben, Smartwatches, Datenübertragung,...
+			\item Kopfhörer Datenübertragung
+			\begin{itemize}
+				\item Bits pro Sekunde = Samplerate * Samplebreite * Kanäle
+				\item 2*48 kHz (Nyquist) - Audio-CD: 44,1 kHz
+				\item 16 Bit
+				\item 2 Kanäle
+				\item $\approx$ 140/150 kBit/s
+			\end{itemize}
 		\end{itemize}
 	\end{itemize}
 	
