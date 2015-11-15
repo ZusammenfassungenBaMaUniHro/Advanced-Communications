@@ -431,6 +431,10 @@ Zum Aufbau einer Verbindung wird der \textbf{3-Way-Handshake} durchgeführt:
 \end{enumerate}
 Ein Timeout findet typischerweise nach 75 Sekunden statt. Zum Abbau der Verbindung genügt das Senden und Quittieren eines FIN.
 
+\subsubsection{Sliding Window}
+%TODO
+\subsubsection{Nagel-Algorithmus}
+%TODO
 \section{Adressierung}
 
 % 030
@@ -931,6 +935,7 @@ Hierbei handelt es sich offensichtlich um eine Bitte, die Datei index.html auszu
 			\begin{itemize}
 				\item Es ist notwendig zu warten, bis gesendet werden kann
 				\item Sich ändernde Routen, durch bspw. Wegänderungen, Datenaufteilung durch den Router
+				\item Zeit, Route, Warteschlangenproblematik, gemeinsam genutzte Medien, CSMA
 			\end{itemize}
 		\item Warum Begrenzung der Übertragungsraten?
 			\begin{itemize}
@@ -1031,6 +1036,11 @@ Hierbei handelt es sich offensichtlich um eine Bitte, die Datei index.html auszu
 		\end{itemize}
 		\item Migrationsstrategien von IPv4 nach IPv6\\
 		(Tunneling, Dual Stack, Header Translation)
+		\item Nachteile von Tunneling?
+			\begin{itemize}
+				\item mehr Header-Daten
+				\item äußeres Protokoll bspw. nicht von Admins kontrolliert werden
+			\end{itemize}
 		\item Funktionsweise eines Routers
 		\begin{itemize}
 			\item Statisch (fest eingegebene Liste)
@@ -1085,12 +1095,117 @@ Hierbei handelt es sich offensichtlich um eine Bitte, die Datei index.html auszu
 			\item Entfernung, Router/Switches, Aufreihung, Pakete erst abgesendet, wenn voll
 		\end{itemize}
 	\end{itemize}
-	\subsection{?}
+	\subsection{25.05?}
 	\begin{itemize}
-		\item 
+		\item RTP (Real-Time Transport Protocol)?
 		\begin{itemize}
-			\item 
+			\item zur kontinuierlichen Übertragung von audiovisuellen Daten
+			\item Normalerweise über UDP
+			\item ? Kommt es zu einem zu hohen Verlust, erfolgt ein Kodecwechsel
 		\end{itemize}
+	\end{itemize}
+	\subsection{03.06.}
+	\begin{itemize}
+		\item SMTP/POP3
+		\begin{itemize}
+			\item Via TCP (Layer 4)
+			\item Port 25,584
+			\item Thomas erwartete detailiertes Wissen (bspw. befindet sich am Ende ein Punkt, etc.)
+			\item Sicherheit, Authentizität,... gibt es nicht
+		\end{itemize}
+		\item Zustandsbehaftete Protokolle sind: POP3, IMAP, TCP, FTP
+		\item IMAP4
+		\begin{itemize}
+			\item Port 143
+			\item neuer und bietet Verwaltung, Ordner, etc.
+			\item \glqq Besser\grqq als POP3 und arbeitet auf dem Server (suchen, kopieren, etc.)
+		\end{itemize}
+		\item Sinn von Subnetzmasken?
+		\begin{itemize}
+			\item Anhand der Ziel-, der eigenen Adresse und der Netzmaske kann entschieden werden, ob sich der Empfänger im eigenen Netzwerk oder außerhalb befindet
+		\end{itemize}
+		\item Nutzung von UPnP: Fernseher, Smartphones, Playstation, DSL-Router, Drucker, etc.
+		\item ICMP?
+		\begin{itemize}
+			\item Steuerungsnachrichten für Geräte im Internet
+			\item Meldungen, wenn Nachricht nicht zugestellt wurde (Host, Port, etc. unreachable)
+			\item TTL abgelaufen (bei IP-Paketen)
+			\item EchoRequest \& EchoReply
+			\item \glqq Mach-mal-langsam\grqq Nachrichten			
+		\end{itemize}
+		\item Routingprotokolle
+		\begin{itemize}
+			\item Topologieerkennung
+			\item Topologieverbreitung
+			\item günstigste Wege finden (Kostenfunktion)
+			\item Distanzvektorproblem
+			\item CountToInfinity $\rightarrow \infty = 16$
+		\end{itemize}
+		\item typische Protokollfragen
+		\begin{itemize}
+			\item VLAN
+			\item HTTP
+			\item FTP
+			\item Die zwei Modi von Switches
+			\item Routing Protokoll
+		\end{itemize}		
+	\end{itemize}
+	\subsection{15.06}
+	\begin{itemize}
+		\item Wie groß sollten LAN-Segmente gewählt werden?
+		\begin{itemize}
+			\item Nachteile von groß: Broadcast Domain
+			\item Nachteile von klein: Mehr Routing, mehr verpacken, Aufreihungslatenz, Prüfsummen, mehr Overhead
+		\end{itemize}
+		\item Anforderungen an das Networkfilesystem (NFS): sicher, transparent, Mehrbenutzerbetrieb, schnell, Latenz
+		\item RFC Lebenszyklus: ?
+		%TODO
+		\item XMPP
+		\begin{itemize}
+			\item basiert auf XML zum Nachrichtenaustausch
+			\item Ende-zu-Ende chatten
+			\item Geringe Datenübertragungsrate (Chat, ohne Bilder)
+			\item Character-Encoding
+			\item Anwesenheitserkennung (on, off, tipping)
+		\end{itemize}
+	\end{itemize}
+	\subsection{17.06}
+	\begin{itemize}
+		\item Was ist P2P?
+		\begin{itemize}
+			\item direkte Kommunikation via Vermittlungsstellen
+			\item Verfügbarkeit: auf einem PC (Lösung: Replikation)
+			\item dezentral: keine legislativen/judikativen Entscheidungen
+			\item Lastverteilung
+		\end{itemize}
+		\item WebDav
+		\begin{itemize}
+			\item Web-based Distributed Authoring and Versioning
+			\item Standard zur Bereitstellung von Dateien im Internet
+			\item setzt auf HTTP auf - und fügt hinzu
+			\item Mit WebDAV können ganze Verzeichnisse übertragen werden.
+			\item Einsatz für CMS
+		\end{itemize}
+		\item Angaben von RoutNameServern für Topleveldomains
+		\begin{itemize}
+			\item Country: de,...
+			\item General: edu, org,...
+		\end{itemize}
+		\item LDAP?
+		\begin{itemize}
+			\item hierarchische Datenbank
+			\item Aktives Verzeichnis: Nutzergruppenverwaltung
+		\end{itemize}
+		\item Aufgabe des Sessionlayers
+		\begin{itemize}
+			\item Zusammenfassung der verschiedenen Kommunikationspfade
+			\item Nutzung der Zustände (-behaftete: SSH,FTP,TCP,IMAP4,POP3)
+		\end{itemize}
+		\item Begriff Authentisierung
+		\begin{itemize}
+			\item "Dem System klar machen wer man ist"
+			\item Biometrisch, Token, Schlüssel, wissensbasiert
+		\end{itemize}		
 	\end{itemize}
 	\subsection{?}
 	\begin{itemize}
