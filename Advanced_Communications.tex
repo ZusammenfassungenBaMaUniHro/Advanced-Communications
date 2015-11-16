@@ -644,7 +644,63 @@ Forwarders fragen ihrerseits den zuständigen Server und speichern Ergebnis zwis
 
 
 \section{Timeouts, ACK, Bestätigungen}
-
+	\subsection{Begriffe}
+	\begin{itemize}
+		\item \textbf{Positive Bestätigung}
+		\begin{itemize}
+			\item Bestätigung, wenn ein Protokollschritt erfolgreich ausgeführt wurde.
+			\item Wartezeit ist ein Nachteil.
+			\item Reaktion auf verloren gegangene Bestätigungen muss
+			vorgesehen werden.
+		\end{itemize}
+		\item \textbf{Negative Bestätigung}
+		\begin{itemize}
+			\item Fehlermeldung, wenn ein Protokollschritt nicht erfolgreich war.
+			\item Ausbleiben der Fehlermeldung ist nur eine notwendige
+			Bedingung, keine hinreichende, dafür, dass Protokollschritt
+			erfolgreich war.
+		\end{itemize}		
+		\item \textbf{Timeouts}
+		\begin{itemize}
+			\item Ein Kontrollsignal in einem technischen System, das die Überschreitung der normalerweise für eine Aktion benötigten Zeit anzeigt. Damit sollen unkontrollierte Zustände (Warten, Endlosschleifen) verhindert und die Systemressourcen geschont werden.\cite{timeout}
+		\end{itemize}		
+		\item \textbf{Acknowledgements}
+		\begin{itemize}
+			\item Ein ACK dient der Bestätigung eines empfangenen Datenpakets.
+		\end{itemize}
+	\end{itemize}
+	
+	\subsection{TFTP - Trivial File Transfer Protocol}
+	\begin{itemize}
+		\item TFTP ist ein vereinfachtes Datei-Übertragungs-Protokoll, das auf UDP aufbaut (FTP verwendet TCP).
+		\item RFC 1350
+		%TODO: nicht referenziertes RFC ;) -- TFTP ist laut Thomas aber sowieso schlecht definiert in diesem
+		\item Das Ziel von TFTP ist zum einen ein einfacher \textbf{Datentransfer} und zum anderen das Ermöglichen des \textbf{Bootens einer Workstation} ohne Diskettenlaufwerk.
+		\item An TFTP gestellte Anforderungen sind, dass es kompakt sein soll (um ins ROM zu passen), keine Authentifikation.
+		\item TFTP ist ein stop-and-wait Protokoll.
+		\begin{itemize}
+			\item Kein neuer Protokollschritt, solange nicht der vorhergehende erfolgreich (korrekt) abgeschlossen ist.
+			\item Niedrige Protokoll-Leistung (Datendurchsatz).
+			\item Dafür einfache Implementierung.
+			\item Geänderte Reihenfolge stellen kein Problem dar, da stopand-wait Protokoll nur jeweils ein Paket hängig hat.
+		\end{itemize}
+		\item Alternative
+		\begin{itemize}
+			\item Positive Bestätigung kann verzögert werden (sliding window).
+			\item Übersendung mehrerer Pakete und dann erst warten auf eine Bestätigung.
+			\item Höherer Datentransfer (Beispiel TCP).
+		\end{itemize}
+		\item Doppelte Pakete werden aufgrund der Blocknummer erkannt, während verlorene Pakete über Timeout beider Partner erkannt werden.
+		\item TFTP Nachricht hat keine Checksumme, Datenveränderungen müssen durch die UDP-Checksumme abgefangen werden.
+		\item Retransmission Timer
+		\begin{itemize}
+			\item Wert sollte je timeout um bestimmten Faktor multipliziert werden (sog. Exponential backoff).
+			\item Retransmission timeout je Paket = 5 s.
+			\item Retransmission timeout für \glqq Verbindung\grqq = 25 s.
+		\end{itemize}
+	\end{itemize}
+	\includegraphics[width=10cm]{img/tftp.png}
+	
 % 070
 %TODO Timeouts, ACK, Bestätigungen
 
