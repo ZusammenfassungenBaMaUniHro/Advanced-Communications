@@ -14,8 +14,8 @@
 \usepackage{tikz}
 \usepackage{enumitem}
 \usepackage{multicol}
-%\usepackage[xindy,nonumberlist]{glossaries}
-%\makeglossaries
+\usepackage[xindy,nonumberlist]{glossaries}
+\makeglossaries
 \usepackage[labelformat=empty]{caption}
 \title{Zusammenfassung - Advanced Communications}
 \author{
@@ -672,9 +672,7 @@ Forwarders fragen ihrerseits den zuständigen Server und speichern Ergebnis zwis
 	
 	\subsection{TFTP - Trivial File Transfer Protocol}
 	\begin{itemize}
-		\item TFTP ist ein vereinfachtes Datei-Übertragungs-Protokoll, das auf UDP aufbaut (FTP verwendet TCP).
-		\item RFC 1350
-		%TODO: nicht referenziertes RFC ;) -- TFTP ist laut Thomas aber sowieso schlecht definiert in diesem
+		\item TFTP ist ein vereinfachtes Datei-Übertragungs-Protokoll, das auf UDP aufbaut (FTP verwendet TCP) \cite{rfc1350}.
 		\item Das Ziel von TFTP ist zum einen ein einfacher \textbf{Datentransfer} und zum anderen das Ermöglichen des \textbf{Bootens einer Workstation} ohne Diskettenlaufwerk.
 		\item An TFTP gestellte Anforderungen sind, dass es kompakt sein soll (um ins ROM zu passen), keine Authentifikation.
 		\item TFTP ist ein stop-and-wait Protokoll.
@@ -699,7 +697,10 @@ Forwarders fragen ihrerseits den zuständigen Server und speichern Ergebnis zwis
 			\item Retransmission timeout für \glqq Verbindung\grqq = 25 s.
 		\end{itemize}
 	\end{itemize}
-	\includegraphics[width=10cm]{img/tftp.png}
+	\begin{center}
+		\includegraphics[width=10cm]{img/tftp.png}
+	\end{center}
+	
 	
 % 070
 %TODO Timeouts, ACK, Bestätigungen
@@ -1367,60 +1368,59 @@ Hierbei handelt es sich offensichtlich um eine Bitte, die Datei index.html auszu
 	\bibliography{literatur}
 \end{multicols}
 
-%\newglossaryentry{arpa}{name=ARPA,description={Advanced Research Projects Agency}}
-%\newglossaryentry{icann}{name=ICANN,description={Internet Corporation for Assigned Names and Numbers}}
-%\newglossaryentry{ietf}{name=IETF,description={Internet Engineering Task Force}}
-%\newglossaryentry{ripe}{name=RIPE,description={Réseaux IP Européens}}
-%\newglossaryentry{ripencc}{name=RIPE NCC,description={RIPE Coordination Centre}}
-%\newglossaryentry{denic}{name=DENIC,description={Deutsches Network Information Center}}
-%\newglossaryentry{dns}{name=DNS,description={Domain Name System}}
-%\newglossaryentry{udp}{name=UDP,description={User Datagram Protocol}}
-%\newglossaryentry{tcp}{name=TCP,description={Transmission Control Protocol}}
-%\newglossaryentry{atdn}{name=ATDN,description={AOL Transit Data Network}}
-%\newglossaryentry{gx}{name=GX,description={Global Crossing}}
-%\newglossaryentry{decix}{name=DE-CIX,description={German Commercial Internet Exchange}}
-%\newglossaryentry{http}{name=HTTP,description={Hypertext Transfer Protocol}}
-%\newglossaryentry{tftp}{name=TFTP,description={Trivial File Transfer Protocol}}
-%\newglossaryentry{ftp}{name=FTP,description={File Transfer Protocol}}
-%\newglossaryentry{smtp}{name=SMTP,description={Simple Mail Transfer Protocol}}
-%\newglossaryentry{mac}{name=MAC,description={Medium Access Control}}
-%\newglossaryentry{crc}{name=CRC,description={Cyclic Redundancy Check}}
-%\newglossaryentry{csmacd}{name=CSMA/CD,description={Carrier Sense Multiple Acces / Collision Detection}}
-%\newglossaryentry{fdd}{name=FDD,description={Frequency Divsion Duplex}}
-%\newglossaryentry{tdd}{name=TDD,description={Time Division Duplex}}
-%\newglossaryentry{sfd}{name=SFD,description={Start Frame Delimiter}}
-%\newglossaryentry{atm}{name=ATM,description={Asynchronous Transfer Mode}}
-%\newglossaryentry{tpid}{name=TPID,description={Tag Protocol Identifier}}
-%\newglossaryentry{cfi}{name=CFI,description={Canonical Formati Indicator}}
-%\newglossaryentry{vid}{name=VID,description={VLAN Identifier}}
-%\newglossaryentry{nat}{name=NAT,description={Network Address Translation}}
-%\newglossaryentry{cidr}{name=CIDR,description={Classless Inter-Domain Routing}}
-%\newglossaryentry{dhcp}{name=DHCP,description={Dynamic Host Configuration Protocol}}
-%\newglossaryentry{tos}{name=ToS,description={Type of Service}}
-%\newglossaryentry{ttl}{name=TTL,description={Time to Live}}
-%\newglossaryentry{snmp}{name=SNMP,description={Simple Network Management Protocol}}
-%\newglossaryentry{vpi}{name=VPI,description={Virtual Path Identifier}}
-%\newglossaryentry{vci}{name=VCI,description={Virtual Channel Identifer}}
-%\newglossaryentry{uri}{name=URI,description={Uniform Resource Identifier}}
-%\newglossaryentry{urn}{name=URN,description={Uniform Resource Name}}
-%\newglossaryentry{url}{name=URL,description={Uniform Resource Locator}}
-%\newglossaryentry{tld}{name=TLD,description={Top Level Domain}}
-%\newglossaryentry{cctld}{name=ccTLD,description={Country Code Top Level Domain}}
-%\newglossaryentry{gtld}{name=gTLD,description={Generic Top Level Domain}}
-%\newglossaryentry{nicdns}{name=NIC,description={Name Information Center}}
-%\newglossaryentry{nic}{name=NIC,description={Network Interface Controller}}
-%\newglossaryentry{ace}{name=ACE,description={ASCII Compatible Encoding}}
-%\newglossaryentry{ntp}{name=NTP,description={Network Time Protocol}}
-%\newglossaryentry{sntp}{name=SNTP,description={Simple Network Time Protocol}}
-%\newglossaryentry{www}{name=WWW,description={World Wide Web}}
-%\newglossaryentry{tls}{name=TLS,description={Transport Layer Security}}
+\newglossaryentry{arpa}{name=ARPA,description={Advanced Research Projects Agency}}
+\newglossaryentry{icann}{name=ICANN,description={Internet Corporation for Assigned Names and Numbers}}
+\newglossaryentry{ietf}{name=IETF,description={Internet Engineering Task Force}}
+\newglossaryentry{ripe}{name=RIPE,description={Réseaux IP Européens}}
+\newglossaryentry{ripencc}{name=RIPE NCC,description={RIPE Coordination Centre}}
+\newglossaryentry{denic}{name=DENIC,description={Deutsches Network Information Center}}
+\newglossaryentry{dns}{name=DNS,description={Domain Name System}}
+\newglossaryentry{udp}{name=UDP,description={User Datagram Protocol}}
+\newglossaryentry{tcp}{name=TCP,description={Transmission Control Protocol}}
+\newglossaryentry{atdn}{name=ATDN,description={AOL Transit Data Network}}
+\newglossaryentry{gx}{name=GX,description={Global Crossing}}
+\newglossaryentry{decix}{name=DE-CIX,description={German Commercial Internet Exchange}}
+\newglossaryentry{http}{name=HTTP,description={Hypertext Transfer Protocol}}
+\newglossaryentry{tftp}{name=TFTP,description={Trivial File Transfer Protocol}}
+\newglossaryentry{ftp}{name=FTP,description={File Transfer Protocol}}
+\newglossaryentry{smtp}{name=SMTP,description={Simple Mail Transfer Protocol}}
+\newglossaryentry{mac}{name=MAC,description={Medium Access Control}}
+\newglossaryentry{crc}{name=CRC,description={Cyclic Redundancy Check}}
+\newglossaryentry{csmacd}{name=CSMA/CD,description={Carrier Sense Multiple Acces / Collision Detection}}
+\newglossaryentry{fdd}{name=FDD,description={Frequency Divsion Duplex}}
+\newglossaryentry{tdd}{name=TDD,description={Time Division Duplex}}
+\newglossaryentry{sfd}{name=SFD,description={Start Frame Delimiter}}
+\newglossaryentry{atm}{name=ATM,description={Asynchronous Transfer Mode}}
+\newglossaryentry{tpid}{name=TPID,description={Tag Protocol Identifier}}
+\newglossaryentry{cfi}{name=CFI,description={Canonical Formati Indicator}}
+\newglossaryentry{vid}{name=VID,description={VLAN Identifier}}
+\newglossaryentry{nat}{name=NAT,description={Network Address Translation}}
+\newglossaryentry{cidr}{name=CIDR,description={Classless Inter-Domain Routing}}
+\newglossaryentry{dhcp}{name=DHCP,description={Dynamic Host Configuration Protocol}}
+\newglossaryentry{tos}{name=ToS,description={Type of Service}}
+\newglossaryentry{ttl}{name=TTL,description={Time to Live}}
+\newglossaryentry{snmp}{name=SNMP,description={Simple Network Management Protocol}}
+\newglossaryentry{vpi}{name=VPI,description={Virtual Path Identifier}}
+\newglossaryentry{vci}{name=VCI,description={Virtual Channel Identifer}}
+\newglossaryentry{uri}{name=URI,description={Uniform Resource Identifier}}
+\newglossaryentry{urn}{name=URN,description={Uniform Resource Name}}
+\newglossaryentry{url}{name=URL,description={Uniform Resource Locator}}
+\newglossaryentry{tld}{name=TLD,description={Top Level Domain}}
+\newglossaryentry{cctld}{name=ccTLD,description={Country Code Top Level Domain}}
+\newglossaryentry{gtld}{name=gTLD,description={Generic Top Level Domain}}
+\newglossaryentry{nicdns}{name=NIC,description={Name Information Center}}
+\newglossaryentry{nic}{name=NIC,description={Network Interface Controller}}
+\newglossaryentry{ace}{name=ACE,description={ASCII Compatible Encoding}}
+\newglossaryentry{ntp}{name=NTP,description={Network Time Protocol}}
+\newglossaryentry{sntp}{name=SNTP,description={Simple Network Time Protocol}}
+\newglossaryentry{www}{name=WWW,description={World Wide Web}}
+\newglossaryentry{tls}{name=TLS,description={Transport Layer Security}}
 
-%\newpage
-%\addcontentsline{toc}{section}{Glossar}
-%\begin{multicols}{2}
-%	\glsaddall
-%	\printglossary[title=Glossar,toctitle=Glossar]
-%\end{multicols}
-
+\newpage
+\addcontentsline{toc}{section}{Glossar}
+\begin{multicols}{2}
+	\glsaddall
+	\printglossary[title=Glossar,toctitle=Glossar]
+\end{multicols}
 
 \end{document}
