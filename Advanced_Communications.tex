@@ -1081,10 +1081,9 @@ Auf diesen Verbindet er sich dann zur Datenübertragung.
 %TODO Dateien und Drucken
 
 \section{Telnet, SSH und rlogin}
-
+%TODO Qualitätskontrolle für den gesamten Abschnitt nötig, Folien geben nicht viel her!
 % 320
 \subsection{Telnet}
-%TODO kann theoretisch noch ergänzungen aus externen Quellen vertragen
 Telnet wird genutzt, um eine allgemeine, bidirektionale, 8-bit-orientierte Kommunikation zu ermöglichen und so mit entfernten Terminalen und terminal-orientierten Prozessen zu kommunizieren.
 Es verwendet den TCP-Port 23, wobei es ursprünglich NCP genutzt hat.
 Auf beiden Enden der Verbindungen werden Network Virtual Terminals (NVT) angelegt.
@@ -1093,9 +1092,23 @@ Diese handeln "Options" aus (z.B. Character Set, Binary Transmission, Echo,Statu
 \textbf{Jedoch: } Keine Verschlüsselung der Daten. Keine Authentisierung
 auf Paket-Ebene. Tunnel durch TLS natürlich möglich.
 \subsection{Secure Shell}
-
+SSH\cite{rfc4251} ermöglicht eine kryptografisch abgesicherte Terminal-Verbindung.
+Es nutzt RSA und DSH\footnote{Distributed Shell, warum steht das hier?}
+Außerdem wird eine Authentisierung über Public Key ermöglicht.
+SSH-Server lauschen für gewöhnlich auf TCP-Port 22.
 \subsection{rlogin}
-
+rlogin\cite{rfc1258} lauscht auf TCP-Port 513.
+Nach Verbindungsaufbau sendet der Client vier Strings:
+\begin{itemize}
+	\item \textless null \textgreater
+	\item client-user-name\textless null\textgreater
+	\item server-user-name \textless null\textgreater
+	\item terminal-type/speed \textless null\textgreater
+\end{itemize}
+Server antwortet mit Null-Byte.
+Flusskontrolle über START- und STOP-Zeichen.
+Dimensionen des Ausgabefensters werden übertragen.
+Sicherheit wie telnet, hinzu kommt, dass viele Implementierungen Passwort-Eingabe für einzelne Clients (nach IP-Adresse) abschalten können.
 \section{Extensible Messaging and Presence Protocol (XMPP)}
 
 % 330
@@ -1562,6 +1575,7 @@ auf Paket-Ebene. Tunnel durch TLS natürlich möglich.
 \newglossaryentry{sctp}{name=SCTP,description={Stream Control Transmission Protocol}}
 \newglossaryentry{ssh}{name=SSH,description={Secure Shell}}
 \newglossaryentry{nvt}{name=NVT,description={Network Virtual Terminal}}
+\newglossaryentry{rsa}{name=RSA,description={Rivest, Shamir und Adleman}}
 
 \newpage
 \addcontentsline{toc}{section}{Glossar}
