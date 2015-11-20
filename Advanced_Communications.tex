@@ -997,6 +997,69 @@ Ziele bei der Entwicklung von SPDY waren unter anderem:
 
 \subsection{File Transfer Protocol}
 
+FTP\cite{rfc959} ist ein Protokoll zum Kopieren von Dateien von einem System auf ein anderes.
+Es wurde so konzipiert, dass verschiedene Hosts (betriebssystemunabhängig), Dateitypen (ASCII, binary, etc.) und Dateistrukturen (byte stream oder record oriented) unterstützt werden.
+Zum Übertragen der Daten wird in der Regel der TCP-Port 20 verwendet, für Steuernachrichten Port 21.
+Der prinzipielle Ablauf ist wie folgt:
+\begin{enumerate}
+	\item FTP - Clientprozess wird gestartet.
+	\item Client baut eine TCP Verbindung zum Server auf.
+	\item Durch TCP werden zwischen den beiden Prozessen zwei Verbindungen aufgebaut (Daten und Kommunikation).
+	\item Interaktiver Anwender muss Zugangsberechtigung auf Server eingeben (Login/Passwort bzw. anonym).
+	\item Datentransfer kann erfolgen (Textdateien und Binärdateien).
+\end{enumerate}
+
+
+\subsubsection{Steuersignale und Return Codes}
+Steuersignale werden im Klartext vom Client an den Server gesendet.
+%\begin{multicols}{2}
+%TODO Multicols wieder aktivieren?
+\begin{description}
+	\item [USER] (User Name) - Eingabe einer UserID für den Server.
+	\item [PASS] (Password) - Passwort an den Server senden.
+	\item [CWD] (Change Working Directory) - Wechseln des Arbeitsverzeichnisses.
+	\item [PORT] - Angabe der Client Callback-Adresse (IP und Port).
+	\item [LIST] - Auflisten von Dateien / Verzeichnissen.
+	\item [RETR] (Retrieve) - Hole eine Datei vom Server.
+	\item [STOR] (Store) - Speichere eine Datei auf dem Server.
+	\item [SYST] (System) - Erhalte vom Server den System - Typ.
+	\item [TYPE] - Angabe der zu nutzenden Datendarstellung (A / I).
+	\item [ABOR] (Abort) - Beendet den Datentransfer bzw. den letzten Befehl.
+	\item [QUIT] - Ausloggen vom Server / Verbindung abbauen.
+	\item [MKD] (Make Directory)
+	\item[RMD] (Remove Directory) 
+	\item[DELE] (Delete)
+	\item[PWD] (Print Working Directory)
+	\item [HELP]
+\end{description}
+%\end{multicols}
+
+Analog zu den Statuscodes bei HTTP sendet der Server Return Codes.
+\begin{description}
+\item [1yz] – Positiver Beginn eines Befehls.
+\item [2yz] – Positive Beendigung eines Befehls.
+\item [3yz] – Positiver Zwischenbericht.
+\item [4yz] – Transientes Problem. Der Befehl wurde nicht ausgeführt.
+\item [5yz] – Definitives Problem.
+\item [x0z] – Syntaxfehler.
+\item [x1z] – Allgemeine Information.
+\item [x2z] – Verbindungszustand.
+\item [x3z] – Authentisierung und Accounting
+\item [x4z] – Nicht spezifiziert.
+\item [x5z] – Status des Dateisystems.	
+\end{description}
+
+\subsubsection{Aktiver und Passiver Modus}
+
+Beim \textbf{aktiven} Modus baut der Client eine den Steuerkanal auf und öffnet einen TCP-Port zur Datenübertagung.
+Dieser teilt er dem Server mit, welcher sich darauf verbindet und die Datenübertragung kann beginnen.
+Beim \textbf{passiven} Modus teilt der Server dem  Client einen Port mit.
+Auf diesen Verbindet er sich dann zur Datenübertragung.
+
+\begin{center}
+	\includegraphics[width=7cm]{img/ftp_active}
+	\includegraphics[width=7cm]{img/ftp_passive}	
+\end{center}	
 \section{Peer-to-Peer}
 
 % 240, 250
