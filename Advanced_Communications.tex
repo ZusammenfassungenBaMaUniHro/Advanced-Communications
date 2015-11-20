@@ -973,9 +973,27 @@ Entsprechend enthält die dann Antwort (im Allgemeinen) die Felder \emph{Content
 
 %TODO HTTP Caching optional
 
-\subsection{HTTP 2}
+\subsection{HTTP/2}
 
-
+HTTP/2 wird in RFC 7540\cite{rfc7540} definiert.
+Es erweitert seinen Vorgänger um einige neue Funktionen:
+\begin{itemize}
+	\item Möglichkeit des Zusammenfassens mehrerer Anfragen,
+	\item Weitergehende Datenkompressionsmöglichkeiten,
+	\item Binär kodierte Übertragung von Inhalten und
+	\item Server-initiierte Datenübertragungen (push-Verfahren).
+\end{itemize}
+HTTP/2 überträgt sämtliche Nachrichten in Streams.
+Ein Stream ist eine unabhängige, bidirektionale Sequenz von Frames, die zwischen Client und Server in einer HTTP/2 Verbindung übertragen werden. 
+Es handelt sich weiterhin um ein Klartext-Protokoll, die Syntax ist hierbei jedoch stark verändert worden.
+Es basiert in weiten Teilen von Googles \textbf{SPDY}, welches wiederum auf HTTP aufsetzt und dieses verbessern sollte.
+Ziele bei der Entwicklung von SPDY waren unter anderem:
+\begin{itemize}
+	\item SPDY-Übertragung wird immer mittels TLS verschlüsselt	(HTTP/2 optional, aber Browser-Hersteller verlangen Verschlüsselung)
+	\item Multiplexen der Übertragungen
+	\item Über eine einzelne TCP-Verbindung können beliebig viele Dokumente parallel übertragen werden
+	\item Möglichkeit zur Priorisierung einzelner Anfragen
+\end{itemize}
 
 \subsection{File Transfer Protocol}
 
