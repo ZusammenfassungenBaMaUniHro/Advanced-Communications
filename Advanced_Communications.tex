@@ -398,10 +398,14 @@ Die Adressierung geschieht über Ports (16 Bit).
 Der Header enthält 4 Felder (je 16 Bit): Quellport, Zielport, Datagram-Länge und eine Checksumme.
 
 \subsection{Transmission Control Protocol}
-
+ %TODO TCP Slow start wird bei HTTP erwähnt, hier nochmal kurz erklären?
 TCP ist ebenfalls ein Layer-4-Protokoll.\cite{rfc793}
 Es garantiert eine Ankunft der Pakete in korrekter Reihenfolge.
 Clienten sehen die Verbindung als bidirektionalen Datenstrom, tatsächlich findet die Kommunikation über Pakete statt. Die Kommunikation erfolgt durch TCP zustandsbehaftet.
+
+\subsection{SCTP}
+
+%TODO SCTP
 
 \subsubsection{Paketstruktur}
 
@@ -909,17 +913,69 @@ Bis zum Ende der 90er-Jahre vervielfachte sich die Zahl der Websites dramatisch 
 \end{itemize}
 
 \subsection{Hypertext Transfer Protocol}
+\begin{framed}
+\textbf{Anmerkung: } Die Folien sind hier nicht so geil.
+Ich schreibe das Interessanteste zu HTTP aus dem Tanenbaum\cite{tanenbaum2003computer} und den Folien hier zusammen, sodass der Leser danach hoffentlich einen kurzen, zusammenhängenden Schnack über das Thema hinbekommt.
+\end{framed}
 
-HTTP wurde in RFC 2616\cite{rfc2616} definiert.
-TLS\cite{rfc2817} führte später einige Sicherheitsfeatures ein.
-Trotz des \emph{Hypertext} im Namen ist es generisch und ermöglicht die Übertragung beliebiger Inhalte.
-HTTP ist \textbf{zustandslos} und nutzt den TCP-Port 80.
-Es handelt sich um ein \textbf{Request-Response-Protokoll}.
-Zusätzlich werden Nachrichten im ASCII-Klartext gesendet, solange sie nicht verschlüsselt werden.
+HTTP 1.1 wurde in RFC 2616\cite{rfc2616} definiert und später um  TLS(RFC 2817 \cite{rfc2817}) erweitert; 2014 wurde die gesamte Protokollsuite in den RFCs 7230 - 7235 neu formuliert\cite{rfc7230,rfc7231,rfc7232,rfc7233,rfc7234,rfc7235}.
+Es handelt sich um ein\textbf{generisches}\footnote{Es ermöglicht die Übertragung jeglicher Daten und beschränkt sich nicht nur auf Hypertext-Dokumente.}, \textbf{zustandsloses} \textbf{Request-Response-Protokoll}, 
+Daten werden im Klartext übermittelt, wenn keine explizite Verschlüsselung gefordert ist.
 Ressourcen werden über URIs\cite{rfc2396} adressiert.\footnote{Angeführt durch die Protokollangabe http:// oder https://, dabei handelt es sich dann allerdings um eine URL.}
 
-Eine einfachste Anfrage an den Server wäre beispielsweise \texttt{GET index.html HTTP/1.1}.
-Hierbei handelt es sich offensichtlich um eine Bitte, die Datei index.html auszuliefern und dabei HTTP 1.1 zu verwenden.
+\subsubsection{Verbindungen}
+
+HTTP nutzt den TCP-Port 80 (bzw 443 für HTTPs).
+Während bei HTTP 1.0 für jede Anfrage und Antwort eine eigene Verbindung aufgebaut wurde, bleibt diese in HTTP 1.1 eine Weile erhalten (\emph{persisten connections}).
+Auf diese Weise wird der Overhead zum Auf- und Abbau der Verbindung, sowie der Leistungsverlust durch \textbf{TCP-Slow-Start} verringert, wenn weitere Inhalte (z.B. Bilder, CSS, Skripte) in Folge der originalen Anfrage nachgeladen werden.
+Hier ist auch \textbf{Pipelining} erlaubt, das heißt, dass mehrere Anfragen gesendet werden können, bevor entsprechende Antworten empfangen wurden.
+
+\subsubsection{Methoden}
+
+HTTP kennt mehrere Methoden\footnote{Laut Tanenbaum\cite{tanenbaum2003computer} scheint hier tatsächlich die Methode aus dem objektorientierten Sprachgebrauch gemeint zu sein.}.
+Eine Anfrage beginnt immer mit dem Namen der angeforderten Methode.
+Einige Methoden sind:
+\begin{description}
+	\item[GET]: Lesen einer Website
+	\item[HEAD]: Lesen des Headers einer Website, zum Beispiel genutzt von Suchmaschinen
+	\item[POST]: Anhängen von Daten an eine Website, beispielsweise genutzt, um Formulardaten an den Server zu übermitteln.
+\end{description}
+Weitere sind beispielsweise \textbf{PUT}, \textbf{DELETE}, \textbf{TRACE}, \textbf{CONNECT} und \textbf{OPTIONS}.
+Eine einfache Anfrage wäre etwa \texttt{GET index.html HTTP/1.1}.
+Diese fordert offensichtlich die Datei \texttt{index.html} unter Verwendung von HTTP 1.1 an.
+
+Die Antwort auf eine Anfrage besteht aus einer Statuszeile und gegebenenfalls weiteren Informationen.
+Zu Letzterem zählt insbesondere der angeforderte Inhalt, sofern verfügbar.
+In der Statuszeile ist ein \textbf{Statuscode}, bestehend aus drei Ziffern zu finden.
+Diese Statuscodes werden, entsprechend der ersten Ziffer, in fünf Gruppen geordnet:
+\begin{description}
+	%TODO Eventuell übersetzen
+	\item[1xx]: Informational - Request received, continuing process
+	\item[2xx]: Success - The action was successfully received, understood, and accepted
+	\item[3xx]: Redirection - Further action must be taken in order to complete the request
+	\item[4xx]: Client Error - The request contains bad syntax or cannot be fulfilled
+	\item[5xx]: Server Error - The server failed to fulfill an apparently valid request
+\end{description}
+
+\subsubsection{Header}
+
+An die im letzten Abschnitt gezeigten Anfrage können weitere Informationen in \textbf{Request Headern}\footnote{Möglicherweise eine Sache der Übersetzung, aber im Tanenbaum wird ein Feld als einzelner Header bezeichnet. Ich switche gleich zu Feldern statt Headern.} angefügt werden.
+Analog dazu kann die Antwort mit \textbf{Response Headern} versehen werden.
+Einige dieser Felder können nur bei Anfragen (z.B. User-Agent), einige nur bei Antworten(z.B. Content-Encoding), einige bei beidem (z.B. Date) übermittelt werden.
+
+Der Client kann beispielsweise in seiner Anfrage angeben, welche Zeichensätze (\emph{Accept-Charset}, z.B. ISO-8859-1) und Codierungen (\emph{Accept-Encoding}, z.B. gzip, compress oder deflate\cite{rfc1950,rfc1951}) er akzeptiert .
+Entsprechend enthält die dann Antwort (im Allgemeinen) die Felder \emph{Content-Encoding} und \emph{Content-Type\footnote{Eigentlich für den MIME-Typ, enthält aber auch den charset.}}
+
+%TODO will hier noch jemand eine Liste mit weiteren Beispielen?
+
+
+%\subsubsection{Caching}
+
+%TODO HTTP Caching optional
+
+\subsection{HTTP 2}
+
+
 
 \subsection{File Transfer Protocol}
 
@@ -978,10 +1034,6 @@ Hierbei handelt es sich offensichtlich um eine Bitte, die Datei index.html auszu
 % 370, 380, 390, 400
 %TODO Mobile Netzwerke
 
-\section{HTTP2 und SCTP}
-
-% 410
-%TODO HTTP2, SCTP [Reserviert für Marc]
 
 \section{Thomas Fragestunde}
 \subsection{08.04}
@@ -1415,6 +1467,7 @@ Hierbei handelt es sich offensichtlich um eine Bitte, die Datei index.html auszu
 \newglossaryentry{sntp}{name=SNTP,description={Simple Network Time Protocol}}
 \newglossaryentry{www}{name=WWW,description={World Wide Web}}
 \newglossaryentry{tls}{name=TLS,description={Transport Layer Security}}
+\newglossaryentry{sctp}{name=SCTP,description={Stream Control Transmission Protocol}}
 
 \newpage
 \addcontentsline{toc}{section}{Glossar}
