@@ -1083,7 +1083,18 @@ Auf diesen Verbindet er sich dann zur Datenübertragung.
 \section{Telnet, SSH und rlogin}
 
 % 320
-%TODO SSH [Reserviert für Marc]
+\subsection{Telnet}
+%TODO kann theoretisch noch ergänzungen aus externen Quellen vertragen
+Telnet wird genutzt, um eine allgemeine, bidirektionale, 8-bit-orientierte Kommunikation zu ermöglichen und so mit entfernten Terminalen und terminal-orientierten Prozessen zu kommunizieren.
+Es verwendet den TCP-Port 23, wobei es ursprünglich NCP genutzt hat.
+Auf beiden Enden der Verbindungen werden Network Virtual Terminals (NVT) angelegt.
+Diese handeln "Options" aus (z.B. Character Set, Binary Transmission, Echo,Status, Timing Mark Option usw.)
+
+\textbf{Jedoch: } Keine Verschlüsselung der Daten. Keine Authentisierung
+auf Paket-Ebene. Tunnel durch TLS natürlich möglich.
+\subsection{Secure Shell}
+
+\subsection{rlogin}
 
 \section{Extensible Messaging and Presence Protocol (XMPP)}
 
@@ -1549,6 +1560,8 @@ Auf diesen Verbindet er sich dann zur Datenübertragung.
 \newglossaryentry{www}{name=WWW,description={World Wide Web}}
 \newglossaryentry{tls}{name=TLS,description={Transport Layer Security}}
 \newglossaryentry{sctp}{name=SCTP,description={Stream Control Transmission Protocol}}
+\newglossaryentry{ssh}{name=SSH,description={Secure Shell}}
+\newglossaryentry{nvt}{name=NVT,description={Network Virtual Terminal}}
 
 \newpage
 \addcontentsline{toc}{section}{Glossar}
