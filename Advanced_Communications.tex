@@ -919,6 +919,103 @@ wird, erzeugt.
 %TODO Ist in Mitschriften genannt worden
 
 \section{Voice over IP}
+VoIP ist kostengünstig, da taugliche IP-Geräte verbreitet und auf Grund der hohen Stückzahlen billig zu produzieren sind. Außerdem sind die Betriebskosten gering.\\
+Des Weiteren gibt es eine Vielzahl an Gründen für VoIP: 
+\begin{itemize}
+	\item Integration von Sprach- und Datendiensten.
+	\item Leichtere Implementierung komplexerer Anwendungen	(z.B. Call Center).
+	\item Potentiell geringerer Bandbreitenbedarf.
+	\item Verfügbarkeit von IP-Netzen.
+\end{itemize}
+Wichtige Aspekte sind die Digitalisierung der Sprache (Bandbreite, Gesprächsqualität) und die eigentliche Übertragung der Sprache (Quality of Service / Priorisierung).
+\subsection{Digitalisierung}
+Zur Digitalisierung der Sprache bestehen verschiedene Möglichkeiten:
+\begin{itemize}
+	\item Zählverfahren - „Hochzählen“ um jeweils einen Spannungsschritt und Vergleichen mit dem Input.
+	\item Sukzessive Approximation – schrittweise Annäherung der Spannung entsprechend der Bitwertigkeit mittels D-A-Wandler	und Vergleich (Komperator).
+	\item Parallel-Umsetzer – ein Komperator pro möglichem	Eingangswert.	
+\end{itemize}
+Die Digitalisierung erfolgt mittels Quantisierung. Durch begrenzte Auflösung des A-D-Wandlers kommt es zu einem Quantisierungsrauschen. Dadurch entstehen Quantisierungsfehler:\\
+\includegraphics[width=12cm]{img/quantisierungsfehler.png}
+\subsection{Sprachqualität}
+Eine Aussage über die subjektive Sprachqualität wird in der Regel über \glqq Testhörer\grqq getroffen. Andere Methoden vergleichen das Eingangs- und das Ausgangssignal algorithmisch, z.B. Perceptual Speech Quality Measurement.\\
+Die Sprachqualität hängt von verschiedenen Faktoren ab:
+\begin{itemize}
+	\item Latenz\\
+	(ITU-T G.114 empfiehlt maximal 300ms, andere Empfehlungen unter 150ms.)
+	\item Jitter
+	\item Packet Loss
+	\item Quantisierung
+	\item Abtastfrequenz
+	\item Art der Sprachkodierung
+\end{itemize}
+Die Sprachqualität wird in MOS (Mean Opinion Score) angegeben.
+\subsection{Sprachkodierung}
+Die folgenden Kodierungen können durch verschiedene \glqq Trick\grqq verbessert werden:
+\begin{itemize}
+	\item Silence Detection (auch Abschaltung des Senders DTX bei GSM).
+	\item Comfort Noice (teilweise mit unterschiedlichen Rauschmodellen).
+	\item Ein Problem bei der Mehrfachkodierung ist, dass falls mehrfach der Codec gewechselt wird, die
+	Sprachqualität stark abnimmt (z.B. bei Netzübergängen).
+\end{itemize}
+\subsubsection{Pulse Code Modulation (PCM)}
+\begin{itemize}
+	\item Waveform Codec - Abtastung und Erzeugung unkomprimierter, unveränderter Daten.
+	\item PCM ist ein Pulsmodulationverfahren, das ein zeit- und wertkontinuierliches analoges Signal in ein zeit- und wertdiskretes digitales Signal umsetzt.
+	\item G.711 zum Beispiel mit 8000Hz, 8bit (64kbit/s netto)
+	\item Funktionsweise:
+	\begin{enumerate}
+		\item Abtastung des analogen Signals mit einer zeitlich konstanten Abtastrate. Dabei wird aus dem zeitkontinuierlichen Signalverlauf eine zeitdiskrete Signalfolge gebildet. Zur Erhaltung der Information in der zeitdiskreten Folge ist die Erfüllung des Nyquist-Shannon-Abtasttheorems notwendig. Dies bedeutet, dass die Abtastrate mehr als doppelt so groß sein muss, wie die im Signalverlauf höchste vorkommende Frequenzkomponente ist.
+		\item Quantisierung auf diskrete Werte mit endlich vielen Stellen.
+		\item Erzeugung des Digitalsignals mittels Codierung.
+	\end{enumerate}
+\end{itemize}
+\subsubsection{Differential Pulse Code Modulation (DPCM)}
+\begin{itemize}
+	\item Die Kodierung wird teilweise auch Delta PCM genannt und es handelt sich um einen Waveform Codec.
+	\item Wegen der relativ langsamen Änderungen des Eingangssignals lassen sich einige Werte mit annehmbarer Genauigkeit	vorhersagen.
+	\item DPCM überträgt Differenz zwischen Sample n und Sample n+1.
+	\item Bei einigen Varianten von DPCM werden lediglich die Differenzen zwischen einer Vorhersage und Messwert übertragen.
+	\item Gleicher Informationsgehalt, wie PCM, allerdings reduzierte Datenübertragung.
+\end{itemize}
+\subsubsection{Adaptive Differential Pulse Code Modulation (ADPCM)}
+\begin{itemize}
+	\item Wie DPCM, allerdings mit dynamischer Anpassung der Quantisierungsschritte.
+	\item Verlustbehaftet
+	\item G.726 mit 32kbit/s hat MOS von 4,0.
+\end{itemize}
+\subsubsection{Vocoder}
+\begin{itemize}
+	\item Einige Codecs versuchen, ein mathematisches Modell der an der Spracherzeugung beteiligten Vokaltrakts zu erstellen.
+	\item Es werden die \glqq Einstellungen\grqq des Vokaltrakts übertragen.
+	\item Es ist jedoch keine natürlich klingende Ausgabe möglich.
+\end{itemize}
+\subsubsection{Hybride Codecs}
+\begin{itemize}
+	\item Hybride Codecs kombinieren beide Varianten und benutzen Teilinformationen aus Waveform Codecs und von Vocodern.
+	\item Erzeugen immer kleine Verzögerung durch blockweise Bearbeitung der Daten.
+	\item G.728 – Low Delay Code-Excited Linear Predictive, MOS 3,9	bei 16kbit/s.
+	\item G.723 – Algebraic Code-Excited Linear Prediction – 30ms Verzögerung.
+	\item GSM-Codec.
+\end{itemize}
+
+\begin{center}
+	\includegraphics[width=10cm]{img/hybridVoIP.png}
+\end{center}
+\subsection{Aufbau eines VoIP-Systems}
+Es ist notwendig, dass neben dem Austausch der reinen Sprachdaten (oder Audio-Video-Daten) eine Möglichkeit zur Steuerung besteht. Die folgenden Punkte sind dabei zu beachten:
+\begin{itemize}
+	\item Gesprächsauf- / -abbau.
+	\item Umleitungen.
+	\item Ansagen / Anrufbeantworter.
+	\item Konferenzschaltung
+	\item Übergang in andere Netze.
+	\item Ressourcenverwaltung / QoS-Steuerung.
+	\item Abrechnung / Logging / „Vorratsdatenspeicherung“.
+\end{itemize}
+
+\subsection{Migration}
+Zur Zeit existieren unterschiedliche Telefonnetze, Anbieter und Standards. Deshalb ist eine Umstellung auf VoiIP nicht instantan möglich. Die Umstellung erfordert eine schrittweise Migration: Zeitweiser Parallelbetrieb; Spezielle Telefon-Router zur Kostenoptimierung; Umsetzer zwischen verschiedenen Standards und ein Austausch von Telefonanlagen.
 
 % 200, 210
 %TODO Voip
