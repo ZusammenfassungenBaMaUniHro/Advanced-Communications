@@ -512,7 +512,37 @@ Namespace benennt | urn:ip-addr:139.30.3.23
 	\item[Concast]: Viele senden an einen, Nachrichten werden so früh wie möglich zusammengefasst. Verhindert Implosion, Überlastung des Empfängers. Beispielswiese sinnvoll, wenn Fehlermeldungen zusammengefasst werden können. Keine direkte Unterstützung in IP, MAC, Ethernet
 \end{description}
 
-%TODO Foliensatz enthält noch ICMPv6 Neighbor Discovery Protocol, Domainverwaltung und Domain Registry
+\subsection{ICMPv6 Neighbor Discovery Protocol(NDP)} 
+\begin{itemize}
+	\item Dient als Ablösung von ARP
+	\item Mechanismus von IPv6 für Auflösung (Übersetzung) von Netzwerkadressen in Hardwareadressen.
+	%TODO - "Details folgen" -> wo gibt es mehr dazu?? -> Verlinken oder hier einfügen
+\end{itemize}
+\subsection{Domainverwaltung}
+\begin{itemize}
+	\item Adressierung mit Hilfe von IP-Adressen ist für menschliche Nutzer sehr unpraktisch. Daher werden Namen zur Adressierung verwendet.
+	\item Namen sind in einem paketvermittelten Netzwerk unpraktikabel. Daher ist eine Umwandlung der Namen in IP-Adressen notwendig.
+	\item Domain Name Service (DNS) erledigt diese Aufgabe.
+	\item Verteilung der Verantwortlichkeiten.
+	\begin{itemize}
+		\item Keine einzelne Institution verwaltet alle Namen im Baum.
+		\item NIC verwaltet die Top-Level Domain.
+		\item Die Verwaltung der unteren Ebenen wird entsprechend verteilt.
+	\end{itemize}
+	\item Wird die Verantwortung für eine Zone delegiert, dann ist die entsprechende „Person“ für diese Zone verantwortlich (Zerlegung der Aufgabe in kleinere Teilaufgaben).
+	\begin{itemize}
+		\item Zuordnung von Namen und IP-Adressen.
+		\item Betrieb von Primary Name Server und mindestens ein Secondary Name Server.
+	\end{itemize}
+\end{itemize}
+\subsection{Informationen in der Domain Registry}
+\begin{itemize}
+	\item IPv4-Adressen (A-Records)
+	\item IPv6-Adressen (AAAA-Records)
+	\item Adresse des Mail-Servers (MX-Records)
+	\item Referenzen auf andere Einträge (CNAME)
+\end{itemize}
+
 \section{ARP, RARP}
 
 % Ende 030, 040
