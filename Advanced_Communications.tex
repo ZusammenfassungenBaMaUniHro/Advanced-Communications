@@ -463,9 +463,14 @@ Ein Timeout findet typischerweise nach 75 Sekunden statt. Zum Abbau der Verbindu
 \end{itemize}
 
 \subsection{VPI und VCI bei ATM}
-
-%TODO VIP und VPI bei ATM
-
+ATM beruht auf Verbindungen, die sowohl fest eingerichtet oder nur für eine bestimmte Zeit geschaltet werden können. Für diesen Zweck wurden Virtual Paths (VPs) und Virtual Channels (VCs) definiert. Jede ATM-Zelle enthält im Header einen Virtual Path Identifier (VPI, 8 bzw. 12 Bit) und einen Virtual Channel Identifer (VCI, 16 Bit).\\
+Ein ATM-Paket besteht aus 5 Byte Headerund 48 Byte Nutzlast. Es gibt zwei Arten von ATM-Paket-Formaten:
+	\begin{enumerate}
+		\item NNI (Network-Network-Interface)\\
+		Wird von öffentlichen ATM-Netzen verwendet.	
+		\item UNI (User-Network-Interface)\\
+		Wird für private ATM-Verbindungen genutzt. UNI besitzt ein GFC-Feld für eine (bis heute undefinierte) lokale Flusskontrolle zwischen Netz und User.
+	\end{enumerate}
 \subsection{IP-Adressen}
 
 Siehe Abschnitt \ref{subsec:ip}.
