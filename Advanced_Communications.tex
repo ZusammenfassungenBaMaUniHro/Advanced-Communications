@@ -747,18 +747,101 @@ Forwarders fragen ihrerseits den zuständigen Server und speichern Ergebnis zwis
 \section{Routingkonzepte}
 
 % 080, 090, 095, 100, 110, 120, 130
-%TODO Routingkonzepte
+Routing optimiert den Weg zum Ziel einzelner Pakete.
+Dabei gewährt es Dienstgüten (z.B. Konstante Latenz, Bitrate, Durchsatz, sowie Priorisierung von Paketen) und minimiert Kosten.
 
 \subsection{Begriffe}
+\begin{description}
+	\item[Router] - Gerät, welches mindestens zwei unterschiedliche Netzwerke verbindet.
+					Ist in der Lage, den besten Weg für eine Nachricht durch ein Netzwerksystem bis zum Empfänger zu bestimmen.
+	\item[Routing] - bezeichnet das Transportieren Daten innerhalb eines Netzes
+	\item[Passives/Source Routing] - Route ist durch das zu versendende Datenpaket vorgegeben (z.B. im Header enthalten)
+	\item[Aktives Routing] - Router kann sich den Versandweg selbst aussuchen
+	\item[Globales Routing] - Ein Knoten hat vollständige Informationen zu Topologie und Kosten. 
+							Informationen über das komplette Netz sind vorhanden.
+							Optimierung läuft an einer Stelle oder repliziert an mehreren.
+	\item[Dezentrales Routing] - Keine vollständigen Informationen in einem Knoten.
+								 Jeder Knoten kennt zunächst (initial) nur die Kosten verbundener Links.
+								Berechnung erfolgt iterativ und dezentral.
+	\item[Distanz-Vektor-Algorithmen] - Kein Knoten hat Wissen über das komplette Netz und kennt daher nie die komplette Route von einer Quelle zu seiner Senke. 
+	\item[Link-State-Algorithmen] - Knoten haben Wissen über die gesamte Netztopologie.
+									Daher haben im stabilen Zustand alle Knoten die gleiche Sicht auf das Netz.
+	\item[Statisches/nichtadaptives Routing] - Ist beim Starten/Hochfahren des Systems fixiert.
+	\item[Dynamisches/adaptives Routing] - Routen ändern sich im laufenden Betrieb und passen sich so an Änderungen von Topologie, Netzlast, Kosten etc. an.
+	                                       Setzt zwingend ein Protokoll voraus.	
+\end{description}
 
-\subsection{Routing-Algorithmen}
-%Anforderungen
-%Djikstra
-%Bellman-Ford
+\subsection{Anforderungen}
+Die Anforderungen an Routing-Algorithmen sind:
+\begin{description}
+	\item[Einfachheit] - Algorithmus muss in kurzer Zeit mit wenig Ressourcen berechnet werden können.
+	\item[Robustheit] - Bewältigung von Änderungen der Topologie.
+	\item[Stabilität] - Erreichung eines stabilen Zustandes.
+	\item[Fairness] - Alle Knoten werden gleich bedient.
+	\item[Optimalität] - Gemäß der Kostenfunktion günstigster Weg wird gefunden.
+\end{description}
+\textbf{Anmerkung:} Ohne weiteres können sich diese Anforderungen widersprechen!
+So kann etwa die Kommunikation der Knoten $x \rightarrow x'$ die Kommunikation $a \rightarrow a', b \rightarrow b' und c \rightarrow c'$ stark negativ beeinflussen und damit den Gesamtdurchsatz (Optimalität) verringern.
 
-\subsection{Link-State-Routing}
+\subsection{Spannbäume}
+\textbf{Optimalitätsprinzip:} \emph{Wenn ein Router J auf dem optimalen Pfad von Router I zu Router K liegt, dann gehört der optimale Weg von J nach K zum gleichen Pfad}\cite{tanenbaum2003computer}.
+So lässt sich eine allgemeine Aussage über optimale Pfade treffen, ohne dass konkrete Kenntnisse der Topologie des Netzwerkes vonnöten sind.
+Alle optimalen Routen von den Knoten zu einem bestimmten Ziel (Senke), bilden einen \textbf{Spannbaum}\footnote{Im Tanenbaum\cite{tanenbaum2003computer}, welcher für die Entstehung des Skripts offensichtlich Modell gestanden hat, wird dieser als \textbf{Quelle-Senke-Baum} (sink tree) bezeichnet}.
+\begin{itemize}
+	\item Senke muss nicht zwangsläufig eindeutig sein (auf den
+	gleichen Pfadstrecken kann es auch andere Bäume geben).
+	\item Da Senke ein Baum ist, enthält sie keine Schleifen.
+	\item Pakete werden auf einer endlichen, begrenzten Anzahl von
+	Teilstrecken übertragen.
+\end{itemize}
 
-\subsection{Distance-Vector-Routing}
+\subsection{Algorithmen}
+\textbf{Eingabe:} Graph G des Netzes, wobei jeder Knoten im Graphen einen Router und jede Kante eine Übertragungsleitung darstellt.\\
+\textbf{Problemstellung:} Finde für einen Startknoten $s$ und einen Endknoten $e$ eines gewichteten Graphen $G = (V,E)$“ und der Kostenfunktion $k(E)$, einen Weg zwischen $s$ und $e$ mit minimalen Kosten bezüglich k.
+\subsubsection{Dijkstra-Algorithmus und Link-State-Routing}
+Beschreibung Dijkstra-Algorithmus nach \cite{brandstadt1994graphen}:
+\begin{algorithmic}
+	\State $d(v_1) \gets 0$
+	\For {j := 2 to n} $d(v_j) \gets \infty$ \EndFor
+	\State $OFFEN \gets V$
+	\While { $OFFEN \neq \emptyset$ }
+		\State wähle ein $v \in OFFEN$ mit $d(v) = min\{d(w) : w \in OFFEN\})$
+		\State $OFFEN \gets OFFEN \backslash \{v\}$
+		\ForAll {$w \in OFFEN$ mit $(v,w \in E)$}
+			$d(w) \gets min\{(d(w),d(v) + k(v,w))\}$
+		\EndFor
+	\EndWhile
+\end{algorithmic}
+\textbf{Verbale Beschreibung: } %TODO Dijkstra verbal
+
+Dieser Algorithmus wird beim \emph{Link-State-Routing} verwendet.
+Zur Durchführung werden komplette (Topologie- und) Kosteninformationen benötigt
+Dazu propagieren die Knoten die Kosten zu ihren Nachbarn mittels Broad-/und Multicasts  im gesamten Netzwerk.
+
+\subsubsection{Oszillation} 
+Oszillation ist ein Problem, welches bei zu häufiger Ausführung und der Berücksichtigung der Netzauslastung entsteht.
+Dabei schaltet der Verkehr ständig zwischen verschiedenen alternativen Pfaden hin und her.
+Grund hierfür ist die Reaktion auf die Auslastung der einzelnen Verbindungen: 
+Wird der Verkehr über Alternative A geleitet und Alternative B hat eine geringere Auslastung, wird der Pfad entsprechend geändert.
+Dadurch ist die Auslastung von Alternative A nun geringer und es findet wieder ein Wechsel statt.
+Diesem Phänomen lässt sich entgegenwirken, indem man a) die Netzauslastung nicht zur Berechnung der Routen mit einbezieht, wobei dies die Verwendung von Alternativrouten bei Lastspitzen verhindert, b) schnelle Änderungen der Routen verbietet (Hold-down), c) die durchschnittliche Auslastung (oder anderweitig aggregierte Werte) heranzieht\cite{comer2011tcp} oder d) verhindern, dass Router den Algorithmus gleichzeitig durchführen, z.B. durch zufällige Wartezeiten.
+
+\subsection{Bellmann-Ford-Algorithmus und Distance-Vector-Routing}
+Beschreibung Bellmann-Ford-Algorithmus nach \cite{brandstadt1994graphen}:
+\begin{algorithmic}
+	\State $d(v_1) \gets 0$
+	\For {j := 2 to n} $d(v_j) \gets \infty$ \EndFor	
+	\For {$i \gets 1$ to $|V| -1$}
+		\ForAll {$(u,v) \in E$}
+			\State $d(v) \gets min(d(v),d(u) + k(u,v))$
+		\EndFor
+	\EndFor
+	\ForAll {$(u,v) \in E$}
+		\If {$d(v) > d(u) + k(u,v)$} \Return FALSE \EndIf
+	\EndFor	
+\end{algorithmic}
+
+Beim Distance-Vector-Routing wird lediglich die Routing-Tabelle eines Knotens an 
 
 \subsubsection{Count-to-infinity-Problem}
 
