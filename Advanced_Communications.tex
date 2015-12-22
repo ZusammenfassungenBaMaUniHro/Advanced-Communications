@@ -744,7 +744,7 @@ Forwarders fragen ihrerseits den zuständigen Server und speichern Ergebnis zwis
 % 070
 %TODO Timeouts, ACK, Bestätigungen
 
-\section{Routingkonzepte}
+\section{Routing}
 
 % 080, 090, 095, 100, 110, 120, 130
 Routing optimiert den Weg zum Ziel einzelner Pakete.
@@ -823,7 +823,7 @@ Oszillation ist ein Problem, welches bei zu häufiger Ausführung und der Berüc
 Dabei schaltet der Verkehr ständig zwischen verschiedenen alternativen Pfaden hin und her.
 Grund hierfür ist die Reaktion auf die Auslastung der einzelnen Verbindungen: 
 Wird der Verkehr über Alternative A geleitet und Alternative B hat eine geringere Auslastung, wird der Pfad entsprechend geändert.
-Dadurch ist die Auslastung von Alternative A nun geringer und es findet wieder ein Wechsel statt.
+Dadurch ist die Auslastung von Alternative A nun geringer und es findet wieder ein Wechsel statt.\\
 Diesem Phänomen lässt sich entgegenwirken, indem man a) die Netzauslastung nicht zur Berechnung der Routen mit einbezieht, wobei dies die Verwendung von Alternativrouten bei Lastspitzen verhindert, b) schnelle Änderungen der Routen verbietet (Hold-down), c) die durchschnittliche Auslastung (oder anderweitig aggregierte Werte) heranzieht\cite{comer2011tcp} oder d) verhindern, dass Router den Algorithmus gleichzeitig durchführen, z.B. durch zufällige Wartezeiten.
 
 \subsection{Bellmann-Ford-Algorithmus und Distance-Vector-Routing}
@@ -841,10 +841,29 @@ Beschreibung Bellmann-Ford-Algorithmus nach \cite{brandstadt1994graphen}:
 	\EndFor	
 \end{algorithmic}
 
-Beim Distance-Vector-Routing wird lediglich die Routing-Tabelle eines Knotens an 
-
+Beim Distance-Vector-Routing verwaltet jeder Knoten eine Routingtabelle mit Informationen zu bekannten Zielen.
+Zu jedem Ziel wird der zu wählende Ausgang\footnote{Interface, Next Hop, whatever} mit den damit verbundenen Kosten gespeichert.
+Es wird jeweils angenommen, dass es sich dabei um die beste (= günstigste) bekannte  Weiterleitung handelt.
+Die Informationen werden an die direkten Nachbarn weitergeleitet.
+Nachbarn können so neue Ziele kennenlernen oder Routen zu bekannten Zielen verbessern.
+Errechnen lassen sich die Kosten zum Ziel als Summe der Kosten zum Erreichen des Nachbarn und dessen Kosten zum Erreichen des Ziels.\\
+Distance-Vector-Algorithmen sind \textbf{verteilt},  \textbf{iterativ} und \textbf{asynchron}.
+Bei \textbf{Änderung von Kosten} läuft der Algorithmus neu an, bis er sich auf allen Knoten stabilisiert hat.
+Haben sich die Kosten verbessert, findet eine schnelle Adaption (\textbf{Good news travels fast}) statt, bei Verschlechterungen ist die Reaktionszeit relativ hoch ((\textbf{Bad news travels slow})). 
 \subsubsection{Count-to-infinity-Problem}
-
+\textbf{Hinweis:} Zur Vereinfachung wird in diesem Abschnitt angenommen, dass als Metrik die Anzahl der Hops zum Ziel gewählt wird.\\
+In bestimmten Fällen kann es bei Distance-Vector-Algorithmen dazu kommen, dass das Verfahren nicht konvergiert.
+Dies ist beispielsweise der Fall, wenn ein Router (oder jede Verbindung zu ihm) ausfällt.
+Die verbleibenden Router sind vom Ausfall nicht informiert, stattdessen erhalten sie weiterhin von ihren Nachbarn veraltete Informationen zur Entfernung.\\
+Der vormals direkte Nachbar, welcher zuvor von einer Entfernung von 1 kannte, erhält nun von einem anderen Nachbarn die Information, dass dieser den Ausgefallenen mit Kosten von 2 erreichen kann.
+Dies führt dazu, dass die fehlerhafte Information übernommen wird und sich die Kosten | zumindest theoretisch | bis unendlich \emph{hochschaukeln}.\\
+Gegenmaßnahmen sind a) \textbf{Split Horizon} - hierbei werden Updates nie an den Nachbarn gesendet, von dem die beste Route gelernt wurde.
+Stattdessen gibt es Updates erst nach einem Timeout.
+Variante b) \textbf{Split Horizon with Poisoned Reverse} funktioniert, wie folgt:
+Ein Router A glaubt, dass er über einen Router B zum Ziel gelangt.
+Dann teilt A B mit, dass er selbst keine Route zum Ziel kennt.
+Dies kostet allerdings unnötig Bandbreite und funktioniert wohl in der Praxis nicht ganz so gut.
+Kein Plan.
 \subsection{Routing in MANETs}
 
 \section{Quality of Service}
@@ -1171,7 +1190,7 @@ Diese Statuscodes werden, entsprechend der ersten Ziffer, in fünf Gruppen geord
 	\item[4xx]: Client Error - The request contains bad syntax or cannot be fulfilled
 	\item[5xx]: Server Error - The server failed to fulfill an apparently valid request
 \end{description}
-
+\textbf{Klugscheißerwissen:} Neuer Statuscode 451 für zensierte Inhalte\cite{http451rfcDraft, sokolov2015http451}
 \subsubsection{Header}
 
 An die im letzten Abschnitt gezeigten Anfrage können weitere Informationen in \textbf{Request Headern}\footnote{Möglicherweise eine Sache der Übersetzung, aber im Tanenbaum wird ein Feld als einzelner Header bezeichnet. Ich switche gleich zu Feldern statt Headern.} angefügt werden.
@@ -1302,7 +1321,7 @@ Auf diesen Verbindet er sich dann zur Datenübertragung.
 Telnet wird genutzt, um eine allgemeine, bidirektionale, 8-bit-orientierte Kommunikation zu ermöglichen und so mit entfernten Terminalen und terminal-orientierten Prozessen zu kommunizieren.
 Es verwendet den TCP-Port 23, wobei es ursprünglich NCP genutzt hat.
 Auf beiden Enden der Verbindungen werden Network Virtual Terminals (NVT) angelegt.
-Diese handeln "Options" aus (z.B. Character Set, Binary Transmission, Echo,Status, Timing Mark Option usw.)
+Diese handeln \emph{Options} aus (z.B. Character Set, Binary Transmission, Echo,Status, Timing Mark Option usw.)
 
 \textbf{Jedoch: } Keine Verschlüsselung der Daten. Keine Authentisierung
 auf Paket-Ebene. Tunnel durch TLS natürlich möglich.
