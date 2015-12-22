@@ -799,6 +799,13 @@ Alle optimalen Routen von den Knoten zu einem bestimmten Ziel (Senke), bilden ei
 \textbf{Eingabe:} Graph G des Netzes, wobei jeder Knoten im Graphen einen Router und jede Kante eine Übertragungsleitung darstellt.\\
 \textbf{Problemstellung:} Finde für einen Startknoten $s$ und einen Endknoten $e$ eines gewichteten Graphen $G = (V,E)$“ und der Kostenfunktion $k(E)$, einen Weg zwischen $s$ und $e$ mit minimalen Kosten bezüglich k.
 \subsubsection{Dijkstra-Algorithmus und Link-State-Routing}
+Dijkstra arbeitet nur für nichtnegative Kantengewichte korrekt. 
+Die Zeitkomplexität\footnote{Abhängig von Kantenzahl $m$ und Knotenzahl $n$} beträgt $\mathcal{O}(n^2)$, bei der Verwendung eines Fibbonacci-Heaps kann diese auf $\mathcal{O}(m + n \log{n})$ verbessert werden.
+
+Dieser Algorithmus wird beim \emph{Link-State-Routing} verwendet.
+Zur Durchführung werden komplette (Topologie- und) Kosteninformationen benötigt
+Dazu propagieren die Knoten die Kosten zu ihren Nachbarn mittels Broad-/und Multicasts  im gesamten Netzwerk.
+
 Beschreibung Dijkstra-Algorithmus nach \cite{brandstadt1994graphen}:
 \begin{algorithmic}
 	\State $d(v_1) \gets 0$
@@ -812,11 +819,6 @@ Beschreibung Dijkstra-Algorithmus nach \cite{brandstadt1994graphen}:
 		\EndFor
 	\EndWhile
 \end{algorithmic}
-\textbf{Verbale Beschreibung: } %TODO Dijkstra verbal
-
-Dieser Algorithmus wird beim \emph{Link-State-Routing} verwendet.
-Zur Durchführung werden komplette (Topologie- und) Kosteninformationen benötigt
-Dazu propagieren die Knoten die Kosten zu ihren Nachbarn mittels Broad-/und Multicasts  im gesamten Netzwerk.
 
 \subsubsection{Oszillation} 
 Oszillation ist ein Problem, welches bei zu häufiger Ausführung und der Berücksichtigung der Netzauslastung entsteht.
@@ -827,6 +829,16 @@ Dadurch ist die Auslastung von Alternative A nun geringer und es findet wieder e
 Diesem Phänomen lässt sich entgegenwirken, indem man a) die Netzauslastung nicht zur Berechnung der Routen mit einbezieht, wobei dies die Verwendung von Alternativrouten bei Lastspitzen verhindert, b) schnelle Änderungen der Routen verbietet (Hold-down), c) die durchschnittliche Auslastung (oder anderweitig aggregierte Werte) heranzieht\cite{comer2011tcp} oder d) verhindern, dass Router den Algorithmus gleichzeitig durchführen, z.B. durch zufällige Wartezeiten.
 
 \subsection{Bellmann-Ford-Algorithmus und Distance-Vector-Routing}
+Beim Distance-Vector-Routing verwaltet jeder Knoten eine Routingtabelle mit Informationen zu bekannten Zielen.
+Zu jedem Ziel wird der zu wählende Ausgang\footnote{Interface, Next Hop, whatever} mit den damit verbundenen Kosten gespeichert.
+Es wird jeweils angenommen, dass es sich dabei um die beste (= günstigste) bekannte  Weiterleitung handelt.
+Die Informationen werden an die direkten Nachbarn weitergeleitet.
+Nachbarn können so neue Ziele kennenlernen oder Routen zu bekannten Zielen verbessern.
+Errechnen lassen sich die Kosten zum Ziel als Summe der Kosten zum Erreichen des Nachbarn und dessen Kosten zum Erreichen des Ziels.\\
+Distance-Vector-Algorithmen sind \textbf{verteilt},  \textbf{iterativ} und \textbf{asynchron}.
+Bei \textbf{Änderung von Kosten} läuft der Algorithmus neu an, bis er sich auf allen Knoten stabilisiert hat.
+Haben sich die Kosten verbessert, findet eine schnelle Adaption (\textbf{Good news travels fast}) statt, bei Verschlechterungen ist die Reaktionszeit relativ hoch ((\textbf{Bad news travels slow})).
+
 Beschreibung Bellmann-Ford-Algorithmus nach \cite{brandstadt1994graphen}:
 \begin{algorithmic}
 	\State $d(v_1) \gets 0$
@@ -841,15 +853,7 @@ Beschreibung Bellmann-Ford-Algorithmus nach \cite{brandstadt1994graphen}:
 	\EndFor	
 \end{algorithmic}
 
-Beim Distance-Vector-Routing verwaltet jeder Knoten eine Routingtabelle mit Informationen zu bekannten Zielen.
-Zu jedem Ziel wird der zu wählende Ausgang\footnote{Interface, Next Hop, whatever} mit den damit verbundenen Kosten gespeichert.
-Es wird jeweils angenommen, dass es sich dabei um die beste (= günstigste) bekannte  Weiterleitung handelt.
-Die Informationen werden an die direkten Nachbarn weitergeleitet.
-Nachbarn können so neue Ziele kennenlernen oder Routen zu bekannten Zielen verbessern.
-Errechnen lassen sich die Kosten zum Ziel als Summe der Kosten zum Erreichen des Nachbarn und dessen Kosten zum Erreichen des Ziels.\\
-Distance-Vector-Algorithmen sind \textbf{verteilt},  \textbf{iterativ} und \textbf{asynchron}.
-Bei \textbf{Änderung von Kosten} läuft der Algorithmus neu an, bis er sich auf allen Knoten stabilisiert hat.
-Haben sich die Kosten verbessert, findet eine schnelle Adaption (\textbf{Good news travels fast}) statt, bei Verschlechterungen ist die Reaktionszeit relativ hoch ((\textbf{Bad news travels slow})). 
+ 
 \subsubsection{Count-to-infinity-Problem}
 \textbf{Hinweis:} Zur Vereinfachung wird in diesem Abschnitt angenommen, dass als Metrik die Anzahl der Hops zum Ziel gewählt wird.\\
 In bestimmten Fällen kann es bei Distance-Vector-Algorithmen dazu kommen, dass das Verfahren nicht konvergiert.
@@ -865,7 +869,81 @@ Dann teilt A B mit, dass er selbst keine Route zum Ziel kennt.
 Dies kostet allerdings unnötig Bandbreite und funktioniert wohl in der Praxis nicht ganz so gut.
 Kein Plan.
 \subsection{Routing in MANETs}
+Ein Mobile Ad Hoc Network (MANET) ist ein drahtloses, selbstkonfigurierendes Netzwerk mobiler Knoten.
+Zumindest einige dieser mobilen Knoten müssen auch als Router arbeiten können.
+Alle Knoten bewegen sich unkoordiniert und nur schlecht vorhersagbar.
+MANETs können Übergänge in andere Netze haben, z.B. in das Internet.
 
+\subsubsection{Herausfoderungen und Probleme}:
+\begin{itemize}
+	\item Netzwerke ohne feste Infrastruktur.
+	\item Knoten sind in der Regel mobil, daher können keine statischen Routen verwendet werden.
+	\item Zielfunktion des Routings enthält weitere Faktoren
+	\begin{itemize}
+		\item Energieeffizienz
+		\item Durchsatz einzelner Strecken
+		\item Gesamtdurchsatz
+		\item QoS für bestimmte Dienste
+	\end{itemize}
+\end{itemize}
+Beim Routing in MANETs bestehen insbesondere Probleme bei der \textbf{Konvergenz} (Routen müssen gefunden werden, bevor Knoten wieder außer Reichweite sind) und der \textbf{Skalierbarkeit} (Overhead durch Routing).
+\subsubsection{Lösungsansätze}
+\begin{itemize}
+	\item Einfache Ansätze
+	\begin{itemize}
+		\item Reaktiv (bei Bedarf), Suche nach dem Ziel
+		\item Proaktiv (auf Vorrat), Regelmäßige Verbreitung aller Pfade
+		\item Flooding
+		\begin{itemize}
+			\item Nachricht wird in alle Richtungen verschickt
+			\item Bisheriger Weg wird gespeichert
+			\item Nachricht, die zuerst am Ziel ankommt enthält die günstigste Route
+		\end{itemize}
+	\end{itemize}
+	\item Erweiterte Ansätze
+	\begin{itemize}
+		\item Auswahl besonderer Knoten als Router
+		\item Geografisches Routing
+		\item Vorausberechnung der Knotenbewegung
+		\item Scalable Source Routing\cite{fuhrmann2007performance} (Nicht im Skript)
+	\end{itemize}
+\end{itemize}
+\subsubsection{Backbone-Netze}
+Auswahl bestimmter Knoten als Router. Jeder Knoten hat
+genau einen Backbone-Nachbarn.
+Berechnung des Minimum Dominating Sets\footnote{Eine dominierende Menge eines Graphen ist eine Teilmenge $D$ von $V$, sodass jedes $v \in V \backslash D$ einen Nachbarn in D hat.} ist schwieriges Problem (NP-vollständig).
+Jeder Knoten außerhalb des Backbones hat ein \emph{default gateway} im Backbone.
+Routing im Backbone nach den üblichen Routing-Verfahren.
+Erhaltung des Backbones bei wegfallenden Verbindungen ist ebenso ein schwieriges Problem.
+
+\subsubsection{Proaktives und Reaktives Routing}
+\begin{table}[h]
+	\centering
+	%\caption{My caption}
+	\label{tab:proaktiv-reaktiv}
+	\begin{tabular}{|p{2cm}|p{6cm}|p{6cm}|}
+		\hline
+		& \textbf{Vorteile}                                                                        & \textbf{Nachteile}                                                           \\ \hline
+		\textbf{Reaktiv}  & Geringe Latenz durch Routing und Zustandsinformationen über alle Verbindungen liegen vor & Overhead und Reparatur von Routen hängt von der Aktualisierungshäufigkeit ab \\ \hline
+		\textbf{Proaktiv} & Kein Overhead für das Vorausberechnen der Routen                                         & Latenz durch Routenberechnung                                                \\ \hline
+	\end{tabular}
+\end{table}
+\textbf{Geometric Routing}
+\begin{itemize}
+	\item Alle Knoten kennen ihre Position z.B. GPS bei mobilen Knoten
+	\item Verschiedene Varianten
+	\begin{itemize}
+		\item 	Wahl des Knotens, der am nächsten an der „Luftlinie“ liegt.
+		\item Wahl des Nachbarknotens, der möglichst nahe am Ziel liegt.
+		\item Wahl des Knotens, der in möglichst derselben Richtung wie das Ziel liegt.
+	\end{itemize}
+
+\end{itemize}
+
+\subsection{Routing-Protokolle}
+%MANETs
+	%AODV
+	%OLSR
 \section{Quality of Service}
 \label{sec:qos}
 % 140
