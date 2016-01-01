@@ -742,7 +742,6 @@ Forwarders fragen ihrerseits den zuständigen Server und speichern Ergebnis zwis
 	
 	
 % 070
-%TODO Timeouts, ACK, Bestätigungen
 
 \section{Routing}
 
@@ -946,8 +945,112 @@ Erhaltung des Backbones bei wegfallenden Verbindungen ist ebenso ein schwieriges
 	%OLSR
 \section{Quality of Service}
 \label{sec:qos}
+\subsection{Qualitätsparameter}
+	\begin{itemize}
+	\item Datendurchsatz (Throughput, Bandbreite (minimale, mittlere, maximale)
+	\item Paketverzögerung / Latenzzeit (inklusive zeitlicher Schwankungen / Jitter)
+	\item Zuverlässigkeit (gegenüber Störungen,  Ausfällen und Übertragungsfehlern)
+	\item Zeitbedarf (Antwortzeit,  Verbindungsaufbauzeit,  Haltezeit)
+	\item Verfügbarkeit (Fehlerraten,  Paketverlustrate)
+	\end{itemize}
+	
+\subsection{Möglichkeiten zur Qualitätsverbesserung}
+	\begin{enumerate}
+	\item Reduzierung der Komplexität\\
+	(Schaffung einer Struktur mit kurzen Wegen zwischen den Komponenten und die Vermeidung von unnötigen Routern.)
+	\item Bandbreite erhöhen
+		\begin{itemize}
+		\item Neuere Netzwerktechnologie\\
+		(Höhere Frequenzen und bessere Modulationsverfahren)
+		\item Leistungsfähige Technik
+		\item Full-Duplex
+		\item Alternative Verbindungen
+		\end{itemize}
+	\item Geschickte Verteilung der vorhandenen Bandbreite des Internets.
+	\item Priorisierung des Datenverkehrs
+	\item QoS Systeme managen die zur Verfügung stehende Bandbreite
+	\item Leistungsüberwachung durch folgende Datenquellen:
+		\begin{itemize}
+		\item Reaktion der Benutzer
+		\item Eigene Tests (Durchsatzmessungen, Latenzmessungen, Messungen wiederholen )
+		\item Ausgaben der Geräte (Geschwindigkeit, Latenz, Paketverlust)
+		\end{itemize}
+	\end{enumerate}
+\textbf{Diese Maßnahmen lassen sich nicht immer umsetzen!}
+
+\subsection{Beispiele für die Priorisierung}
+\begin{center}
+	\includegraphics[width=15cm]{img/prio.png}
+\end{center}
+
+\subsection{Strategien}
+Für jedes Interface sind verschiedene Strategien möglich. 	
+\subsubsection{FIFO (First In First Out) Queuing}
+	\begin{itemize}
+	\item Abarbeitung nach der Reihenfolge des Eintreffens
+	\item Vorteil: Einfach zu implementieren und zu modellieren
+	\item Nachteile:
+		\begin{itemize}
+		\item Nur eine Serviceklasse möglich, erlaubt keinerlei QoS. 
+		\item Keine Priorisierung von Paketen gegenüber anderen. 
+		\end{itemize}
+	\end{itemize}
+
+\subsubsection{Weighted Fair Queuing (WFQ)}
+	\begin{itemize}
+	\item Mehrere Queues mit fairem Multiplexing
+	\item Aufteilen der Bandbreite nach Gewichtung. 
+	\item Keine Queue „verhungert“,  weil die anderen Queues eine hohe Last haben. 
+	\item Bewertung
+		\begin{itemize}
+		\item Korrekte Zuordnung von Gewichten ist oft schwierig.  
+		\item Datenstrom soll nicht höhere Gewichtung anfordern können als erforderlich.
+		\item Keine \glqq Leer-Reservation\grqq – sobald eine Queue leer wird, wird dessen Bandbreite für die anderen Queues genutzt. 
+		\end{itemize}
+	\end{itemize}
+\subsubsection{Priority Queuing - Prioritätswarteschlangen}
+	\begin{itemize}
+	\item Mehrere Queues mit Priorisierung
+	\item Zuweisung der gesamten Bandbreite an jeweils höchstpriorisierte Queue (bis diese leer ist)
+	\item Wichtiger Verkehr erhält stets genügend Bandbreite, kann allerdings hierdurch weniger wichtigen Verkehr (dauerhaft) blockieren. 
+	\item Ermöglichen die Bevorzugung einzelner Übertragungen
+	\item Weniger wichtige Übertragungen werden eventuell verdrängt
+	\item Bewertung
+		\begin{itemize}
+		\item Einfach zu implementieren
+		\item Die Blockierung weniger wichtigen Verkehrs kann problematisch sein.
+		\item Verfahren ist sinnvoll, wenn höchstpriorisierter Verkehr die geringste Datenmenge anliefert und die zugehörige Queue immer wieder geleert wird.
+		\end{itemize}
+	\end{itemize}
+\subsubsection{Custom / Class Based Queuing (CBQ)}
+	\begin{itemize}
+	\item Mehrere Queues mit unterschiedlichen Prioritäten. 
+	\item Datagramme werden entsprechend ihrer Priorität / TOS in die Queues eingereiht. 
+	\item Benutzer gibt explizit die Aufteilung der Bandbreite an. 
+	\item Angabe als Anzahl Bytes, die zu übertragen sind, bevor die 
+	nächste Queue gewechselt wird (transmission window size). 
+	\end{itemize}
+\subsubsection{Random Early Detection / Discard (RED)}
+	\begin{itemize}
+	\item Lässt  an bestimmten Punkten im Netzwerk wird überwacht (bspw. zentraler Router). 
+	\item RED wurde hauptsächlich für TCP-Anwendungen entwickelt. 
+	\item Funktionsweise
+		\begin{itemize}
+		\item Zufällig werden Pakete verworfen, wenn Überlast auftritt.
+		\item Dabei werden Pakete aller Verbindungen gleichermaßen verworfen, damit nicht einzelne Verbindungen \glqq absterben\grqq. 
+		\end{itemize}
+	\item Absenderknoten erkennen verworfenen Pakete 
+		\begin{itemize}
+			\item TCP reduziert Window Size wenn die Verbindungsqualität schlechter wird. 
+			\item Dann wird schrittweise die Datenrate erhöht, bis wieder Überlast auftritt. 
+		\end{itemize}
+	\end{itemize}
+	
+\subsection{QoS Ablauf}	
+\begin{center}
+	\includegraphics[width=10cm]{img/QoSAblauf.png}
+\end{center}
 % 140
-%TODO Quality of Service
 
 \section{Multicast}
 \label{sec:muliticast}
@@ -1299,8 +1402,10 @@ END
 \subsubsection{H.225-0 (RAS)}
 Definiert eine Reihe von Nachrichten für die Registrierung, Zugangssteuerung und Statusübertragung. \\
 (Discovery, Registration, Unregistration, Admission – ARQ (Request) / ACF (Confirm) / ARJ (Reject), Bandwidth Change, Endpoint Location, Disengage, Status)
-\section{World Wide Web und HTTP}
 
+
+
+\section{World Wide Web und HTTP}
 % 220, 230
 %TODO WWW und HTTP [Reserviert für Marc]
 
