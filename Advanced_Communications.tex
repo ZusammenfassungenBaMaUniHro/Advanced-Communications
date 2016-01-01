@@ -1099,6 +1099,8 @@ wird, erzeugt.
 %TODO Ist in Mitschriften genannt worden
 
 \section{Voice over IP}
+% 200, 210
+%TODO Voip
 VoIP ist kostengünstig, da taugliche IP-Geräte verbreitet und auf Grund der hohen Stückzahlen billig zu produzieren sind. Außerdem sind die Betriebskosten gering.\\
 Des Weiteren gibt es eine Vielzahl an Gründen für VoIP: 
 \begin{itemize}
@@ -1197,8 +1199,106 @@ Es ist notwendig, dass neben dem Austausch der reinen Sprachdaten (oder Audio-Vi
 \subsection{Migration}
 Zur Zeit existieren unterschiedliche Telefonnetze, Anbieter und Standards. Deshalb ist eine Umstellung auf VoiIP nicht instantan möglich. Die Umstellung erfordert eine schrittweise Migration: Zeitweiser Parallelbetrieb; Spezielle Telefon-Router zur Kostenoptimierung; Umsetzer zwischen verschiedenen Standards und ein Austausch von Telefonanlagen.
 
-% 200, 210
-%TODO Voip
+\subsection{RTP}
+	\begin{itemize}
+	\item RTP (Real Time Transport Protocol) ist ein Protokoll zum Streaming von Daten. 
+	\item RTP dient der Übertragung von Daten und optional kann RTCP genutzt werden, um Feedback für QoS zu erhalten.
+	\item Basiert auf UDP, Port frei wählbar, default 5004 und 5005. 
+	\end{itemize}	
+	\begin{center}
+		\includegraphics[width=14cm]{img/rtp.png}
+	\end{center}
+	\begin{description}
+	\item[V - Version] 2
+	\item[P - Padding] Gibt an, ob an Ende des Datenpakets Padding-Bytes enthalten sind. Falls gesetzt, enthält das letzte Byte im Payload die Anzahl 	der Padding-Bytes. 
+	\item[X - Extension] Header-Erweiterung vorhanden.
+	\item[CC - SRC-Count] Anzahl der CSRS-Felder
+	\item[M – Marker] Verschiedene Einsatzmöglichkeiten, gemäß RFC1890 bspw. 
+		\glqq Silence im Datenstrom möglich\grqq. 
+	\item[PT – Payload Type] Typ der Daten (G.726-32, GSM, 9 – G.722, QCELP, JPEG Video)
+	\item[Timestamp] Zeitpunkt des ersten Samples. 
+	\item[Synchronization Source ] Normalerweise der Sender der Nachricht, derjenige, der Timestamps setzt. 
+	\item[CSRC] Im Falle, das verschiedene Signale gemischt werden (Mixer, z.B. für Konferenzgespräche), werden die einzelnen Quellen hier aufgeführt. 
+	\end{description}
+	\begin{itemize}
+	\item RTP wird häufig auch als Multicast versendet. RTCP Reports werden dann in der Regel nicht ausgewertet. 
+	\end{itemize}
+	
+\subsection{RTCP}
+	\begin{itemize}
+	\item das RTCP (RealTime Control Protocol)  definiert verschiedene Kontrollnachrichten. Dabei können mehrere Kontrollnachrichten (RTCP Packets) in einem Compound Packet zusammen versendet werden. 
+	\item Sender Report (SR) kann bspw. enthalten:
+		\begin{itemize}
+			\item NTP Timestamp 
+			\item RTP Timestamp 
+			\item Fraction Lost (Anteil der verlorenen Pakete seit dem letzten Report) – in n von 256. 
+			\item Cumulative Number of Packets Lost 
+			\item Interarrival Jitter. 
+			\item Last SR Timestamp. 
+		\end{itemize}
+	\item Receiver Report (RR) enthält bspw. Interarrival Jitter
+	\item Source Description (SDES)
+	\item BYE
+	\item APP (Application Specific Function)
+	\end{itemize}
+
+\subsection{Protkolle zur Übertragung von Steuerungsinformationen}	
+\subsubsection{SIP}	
+	%TODO Verlinken: RFC 2543
+	SIP (Session Initiation Protocol ) dient nicht zur Übertragung multimedialer Daten. Das Protokoll steuert den Aufbau einer Verbindung zwischen Kommunikationspartnern. Die Verbindung wird hierbei über HTTP-ähnliche Nachrichten gesteuert.\\
+	Dabei beteiligte Entitäten sind:
+	\begin{itemize}
+	\item Proxy Server 
+	\item Redirect Server 
+	\item User Agent Server 
+	\item Registrar 
+	\end{itemize}
+	Es kann aus den folgenden Gründen zu Problemen beim Verbindungsaufbau kommen:
+	\begin{itemize}
+	\item \textbf{Überwinden von NAT Gateways} 
+		\begin{itemize}
+		\item Nutzer registrieren sich bei Proxy Servern. 
+		\item Invitations und Requests werden über Proxy Server weitergeleitet. 
+		\item Häufig kennen User Agents ihre IP-Adresse nicht, dann häufig STUN-Server. \\
+		\textit{Ein STUN-Server (\textbf{S}imple \textbf{T}raversal of \textbf{U}DP Through \textbf{N}etwork Address Translators [NATs]) ermöglicht es NAT-Clients (z. B. Computern hinter einer Firewall), die Kommunikation mit einem VoIP-Provider außerhalb des lokalen Netzwerks aufzubauen.}
+		\end{itemize}
+	\item \textbf{Discovery des Kommunikationspartners}
+		\begin{itemize}
+		\item IP Nummern sind untauglich, da veränderlich. 
+		\item Proxy Server enthalten Registrierungsdaten der Nutzer. 
+		\end{itemize}
+	\end{itemize}
+	
+\subsubsection{Erinnerung: ASN.1}	
+	Die Abstract Syntax Notation One ist eine Beschreibungssprache zur Definition von Datenstrukturen sowie Festlegungen zur Umsetzung von Datenstrukturen und Elementen in ein netzeinheitliches Format.
+	\begin{verbatim}
+FooProtocol DEFINITIONS ::= BEGIN 
+    FooQuestion ::= SEQUENCE { 
+        trackingNumber INTEGER, 
+        question       IA5String 
+    } 
+    FooAnswer ::= SEQUENCE { 
+        questionNumber INTEGER, 
+        answer         BOOLEAN 
+    } 
+END 
+	\end{verbatim}
+	
+\subsubsection{H.323}	
+	\begin{itemize}
+	\item Bei H.323 handelt es sich um einen übergeordneter Signalisierungsstandard für Multimedia-Dienste, inkl. VoIP. Die Beschreibung erfolgt in ASN.1.
+	\item Der Standard definiert eine Reihe von Protokollen für die Steuerung von multimedialer Kommunikation.
+		\begin{description}
+		\item[H.225.0] - Registration, Admission, and Status (RAS)
+		\item[H.245] -  Steuerung, beschreibt Nachrichten zum Öffnen und Schließen logischer Kanäle für Audio, Video und Daten. 
+		\end{description}
+	\item Es werden außerdem eigene Codecs definiert (H.261, H.263, H264 - letzterer für HD DVD und Blu-Ray)
+	\item H.323 ist Transport-Protokoll-unabhängig
+	\end{itemize}
+	
+\subsubsection{H.225-0 (RAS)}
+Definiert eine Reihe von Nachrichten für die Registrierung, Zugangssteuerung und Statusübertragung. \\
+(Discovery, Registration, Unregistration, Admission – ARQ (Request) / ACF (Confirm) / ARJ (Reject), Bandwidth Change, Endpoint Location, Disengage, Status)
 \section{World Wide Web und HTTP}
 
 % 220, 230
