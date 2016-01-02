@@ -1750,6 +1750,55 @@ Die Daten, die in einem P2P-Netzwerk angeboten werden, können durch zwei Mögli
 	\item Dabei bleiben sowohl Dienste-Anbieter als auch Dienste-Client anonym. 
 	\item Tunneln aller Nachrichten über verschiedene Peers. 
 	\end{itemize}
+	
+\subsection{Beispiel BitTorrent Protocol}
+P2P Protokolle stellen besondere Anforderungen an die zugrundeliegenden Algorithmen, damit die Verteilung der Daten vorteilhaft für alle geschieht. 
+
+Das BitTorrent Protocol wurde von BitTorrent, Inc. spezifiziert. Eine Distribution besteht aus:
+	\begin{itemize}
+	\item Web Server – Download der Torrent-Files 
+	\item Metainfo – Torrent-File 
+	\item Tracker – Verwaltet die aktuell angemeldeten Clients 
+	\item Client – Verteilt Teile der Nutzdatei 
+	\end{itemize}
+	
+\subsubsection{Aufbau}	
+Die einzelnen Torrent-Files sind wie folgt aufgebaut:
+	\begin{itemize}
+	\item Strings, denen die Länge vorgestellt wird\\
+	\textit{announce44:http://tpb.tracker.thepiratebay.org/announce}
+	\item Enthält alle Tracker
+	\item Enthält alle \glqq Pieces\grqq
+		\begin{itemize}
+		\item piece$\_$length legt Länge der Teile fest, typisch sind 256KB
+		\item Jedes \glqq Piece\grqq wird durch 20 Zeichen SHA-1repräsentiert. 
+		\end{itemize}
+	\end{itemize}
+	
+\subsubsection{Nachrichtenaustausch}
+Nachrichten zwischen Tracker und Client werden über HTTP GET ausgetauscht:
+	\begin{description}
+	\item[info$\_$hash] - SHA-1 Hash aus dem Metainfo-File wird an Tracker geschickt
+	\item[peer$\_$id] – 20 Zeichen lange zufällige ID, vom Client erzeugt
+	\item[ip] – IP-Adresse oder Name des Clients
+	\item[port] – Port, auf dem der Client arbeitet 
+	\item[uploaded] – Anzahl der hochgeladenen Bytes
+	\item[downloaded] -  Anzahl der heruntergeladenen Bytes
+	\item[left] – Anzahl der Bytes, die Peer noch runterladen muss
+	\item[event] – Optional, wird zum Beispiel zu Beginn und zum Ende gesendet.
+	\end{description}
+	
+\subsubsection{Datenaustausch}
+Der eigentliche Datenaustausch erfolgt dann P2P:
+	\begin{description}
+	\item[Request]  – Piece anfordern
+	\item[Cancel] – Abbruch der Anforderung
+	\item[Choke] – Drosseln des entsprechenden Clients
+	\item[Unchocke] -  Freigabe des Clients (anderer Peer entscheidet, wer download starten darf)
+	\item[Have]  – Gibt an, dass das entsprechende Piece vorhanden ist. 
+	\item[Interested] – Client zeigt Interesse an. 
+	\item[Piece] – enthält das gewünschte \glqq Piece\grqq 
+	\end{description}
 %TODO P2P
 % 240, 250
 
