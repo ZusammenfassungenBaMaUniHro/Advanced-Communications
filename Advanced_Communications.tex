@@ -1054,11 +1054,110 @@ Für jedes Interface sind verschiedene Strategien möglich.
 
 \section{Multicast}
 \label{sec:muliticast}
+Multicasts stellen höhere Anforderungen an Router und es sind zusätzliche Protokolle notwendig.
+\subsection{Motivation}
+Mulitcasts bieten sich dann an, wenn es das Ziel ist, mit so geringem Aufwand wie möglich so viel wie möglich Beteiligte zu erreichen. Wenn es bspw. das Ziel ist, dass mehrere Hörer ein Radioprogramm empfangen gibt es zwei Möglichkeiten:
+	\begin{itemize}
+	\item Möglichkeit A – Daten werden für jeden Empfänger einzeln geschickt. 
+	\item Möglichkeit B – Daten werden möglichst weit nur einmal übertragen und dort, wo sie unterschiedliche Wege gehen müssen, werden sie vervielfacht und verteilt. 
+	\end{itemize}
+Multicasts können als  Möglichkeit zum Sparen von Bandbreite durch Zusammenfassen von Datenübertragungen betrachtet werden.
+	\begin{center}
+		\includegraphics[width=17cm]{img/multicast.png}
+	\end{center}
+
+\subsection{Voraussetzungen}
+	\begin{itemize}
+	\item Für Multicasts werden spezielle \textbf{Router und Routing-Protokolle} benötigt. Diese werden wie üblich durch Berechnung eines Spannbaumes ermittelt. Es kann problematisch werden, wenn mehrere Sender an die Gruppe senden.
+	\item Es ist notwendig die \textbf{Gruppenzugehörigkeit} zu übermitteln. Dazu sind spezielle Protokolle notwendig. Ein Rechner, der sich bei einer Gruppe an- oder abmelden mlchte, teilt dies nur seinem lokalen Router mit. Es wird nur die Gruppenadresse übergeben (keine weiteren Informationen). Anschließend muss der Router sich selbst darum kümmern, woher er die Multicastdaten im Internet bekommt. 
+	\item Es findet eine angepasste Flusskontrolle statt. In der Regel erfolgt keine Neuübertragung bei negativen Bestätigungen. Außerdem ist eine positive Bestätigungen unpraktikabel.
+	\end{itemize}
+
+\subsection{Komplexeres Multicast-Routing}
+Zu komplexeren Formen des Multicastings kann es kommen, wenn mehrere Sender existieren:
+	\begin{center}
+		\includegraphics[width=17cm]{img/komplMultiCast.png}
+	\end{center}
+	\begin{itemize}
+	\item Sendet A an die Gruppe X, muss Paket in die Netze 1 und 2 weitergeleitet werden. 
+	\item Sendet B an die Gruppe X, muss das Paket in die Netze 2 und 3 weitergeleitet werden. 
+	\end{itemize}
+
+\subsection{IGMP}
+IGMP (Internet Group Management Protocol) ist ein Protokoll zur Steuerung von Multicast-Gruppen. IGMP ist im RFC 3376 in der aktuellen Version 3 beschrieben. Mit Hilfe von IGMP teilen Hosts und Router dem Multicast-Router ihre Mitgliedschaft in Multicast-Gruppen mit. Außerdem fragen Router in \glqq ihren\grqq Netzen nach Gruppenmitgliedern.
+%TODO RFC verlinken
+\subsection{Ablauf}
+	\begin{itemize}
+	\item Router sendet allgemeine IGMP Query an seine Interfaces. Zu Beginn ist jeder Router anfangs Querier. Entdeckt ein Router einen Querier mit niedrigerer IP-Adresse, so wird der Router mit der höheren IP-Adresse zum Non-Querier.
+	\item Empfängt ein Host eine Query, startet er einen Timer mit zufälligem Interval zwischen 0 und dem vom Querier vorgegebenen Maximum für jede Gruppe, in der er Mitglied ist. 
+	\item Wenn einer Timer abgelaufen ist, sendet der Host einen Report mit TTL=1 an die Gruppe. 
+	\item Andere Hosts senden dann keine weiteren Reports, da der Router dieses Interface (Netz) bereits \glqq versorgen\grqq wird.
+	\item Empfängt ein Router einen Report, startet er einen Timer für die jeweilige Gruppe. 
+	\item Erneute Reports starten den Timer neu. 
+	\item Solange der Timer nicht abläuft, bleibt die 	Gruppenmitgliedschaft für das jeweilige Interface erhalten. 
+	\item Hosts sollen Anfangs Reports ohne Query senden, um sofort die Mitgliedschaft anzuzeigen. 
+	\end{itemize}
+ 
+\begin{figure}[ht]
+	\centering
+  \includegraphics[width=14cm]{img/igmp.png}
+	\caption{IGMP Ablauf (vollständig für v.1)}
+\end{figure}
+
+\subsection{Nachrichten}
+\textbf{IGMP v.1}
+	\begin{itemize}
+	\item Kennt lediglich die Abonnierung einer Gruppe. 
+	\item Membership Reports. 
+	\end{itemize}
+\textbf{IGMP v.2}
+	\begin{itemize}
+	\item Explizites Verlassen der Gruppe möglich.
+	\item Leave
+	\end{itemize}
+\textbf{IGMP v.3}
+	\begin{itemize}
+	\item Quelle der Multicasts kann angegeben werden. 
+	\end{itemize}		
+	
+\subsection{Paketaufbau}
+\subsubsection{Membership Query}
+	\begin{center}
+		\includegraphics[width=14cm]{img/igmpMQP.png}
+	\end{center}
+	\begin{description}
+	\item[Max Resp Code] Maximum der zufällig zu wählenden Zeit in Zehntelsekunden, bevor ein Report gesendet werden muss. 
+	\item[Group Address] Multicast-Gruppe, auf die sich die Query bezieht. 0, falls es eine allgemeine Query ist. 
+	\item[S] Flag, das den Multicast-Router auffordert, seinen Timer für Queries nicht neu zu starten.
+	\item[QQIC] \glqq Querier's Query Interval Code\grqq - Zeit, nach der der Multicast-Router eine Query absendet. Wird verwendet, um festzustellen, ob der aktuelle Querier im Netz noch aktiv ist. 	
+	\end{description}
+\subsubsection{Membership Reports}
+In Version 3 wird dieses Paket an 224.0.0.22 oder an die entsprechende Multicast-Gruppe gesendet.
+	\begin{center}
+		\includegraphics[width=14cm]{img/igmpMRP.png}
+	\end{center}
+Dabeu enthält der \textbf{Group Record} nähere Informationen zum Report. Insbesondere die Information, ob eine Gruppenmitgliedschaft noch erwünscht ist. 
+	\begin{center}
+		\includegraphics[width=14cm]{img/igmpGR.png}
+	\end{center}
+	\begin{description}
+	\item[RecordType] Umgang mit empfangenen Source Adresse (Multicasts nachfolgender Source Adressen werden empfangen/ignoriert; Hinzufügen/Entfernen von akzeptierten Source Adressen)
+	\item[Source Address] ist ein gültiger Absender eines Multicasts
+	\end{description}
+\subsection{Multicasts und Switches}
+Ein Switch  muss Multicasts an alle Mitglieder der Gruppe weiterleiten. Ein regulärer Switch müsste Multicasts wie Broadcasts behandeln. Um die Netzlast zu reduzieren, wird eine Technik namens \textbf{IGMP Snooping} angewendet. 
+	\begin{itemize}
+	\item Der Switch belauscht (snoop - schnüffeln) den IGMP-Traffic an seinen Ports.
+	\item Switch empfängt IGMP Membership Reports (Pakete auf Layer 3). 
+	\item Switch fügt den Port (im Sinne von Steckdose) zur Multicast-Gruppe hinzu. 
+	\item Nur Ports die einer Multicast-Gruppe beigetreten sind (join) werden in die Forwarding-Table für diese Multicast-Adresse eingetragen. Ports die die Gruppe verlassen (leave) werden aus der Tabelle gelöscht.
+	\end{itemize}
+	
+\subsection{Multicast MAC-Adressen}
+%TODO Was will er uns mit Folie 16 aus 180 sagen??
 % 150, 180
-%TODO Multicast
 
 \section{Zeitsynchronisation}
-
 % 160, 190
 
 \subsection{Notwendigkeit der Zeitsynchronisation}
@@ -1203,7 +1302,6 @@ wird, erzeugt.
 
 \section{Voice over IP}
 % 200, 210
-%TODO Voip
 VoIP ist kostengünstig, da taugliche IP-Geräte verbreitet und auf Grund der hohen Stückzahlen billig zu produzieren sind. Außerdem sind die Betriebskosten gering.\\
 Des Weiteren gibt es eine Vielzahl an Gründen für VoIP: 
 \begin{itemize}
