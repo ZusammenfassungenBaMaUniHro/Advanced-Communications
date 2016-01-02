@@ -1799,17 +1799,62 @@ Der eigentliche Datenaustausch erfolgt dann P2P:
 	\item[Interested] – Client zeigt Interesse an. 
 	\item[Piece] – enthält das gewünschte \glqq Piece\grqq 
 	\end{description}
-%TODO P2P
 % 240, 250
 
 \section{E-Mail}
+\subsection{POP3}
+%TODO RFC verlinken: 1939, 1996 
+Das POP3 (Post Office Protocol - Version 3)
+\subsection{IMAP4}
+%TODO RFC verlinken:  1730, 1994
+Das IMAP4 (Internet Message Access Protocol  - Version 4)
+\subsection{SMTP}
+%TODO RFC verlinken:  821, 1982 
+Das SMTP (Simple Mail Transfer Protocol) ist von der zugrundeliegenden Übertragungsart unabhängig. Es benötigt lediglich einen zuverlässigen, geordneten Datenstream. Zwischen den Kommunikationspartnern (Sender-SMTP und Receiver-SMTP) wird ein Zwei-Wege-Kommunikation-Kanal aufgebaut. Dabei kann der Receiver-SMTP entweder das Ziel oder ein Zwischenglied sein. Vom Sender werden Commands an den Receiver gesendet, dieser antwortet mit Replies. 
+\begin{center}
+	\includegraphics[width=10cm]{img/smtp.png}
+\end{center}
+\subsubsection{Arbeitsweise}
+	\begin{itemize}
+	\item Once the transmission channel is established, the SMTP-sender sends a \textbf{MAIL} command indicating the sender of the mail. 
+	\item If the SMTP-receiver can accept mail it responds with an \textbf{OK} reply.
+	\item The SMTP-sender then sends a \textbf{RCPT} command identifying a recipient of the mail. 
+	\item If the SMTP-receiver can accept mail for that recipient it responds with an \textbf{OK reply}; if not, it responds with a \textbf{reply rejecting} that recipient (but not the whole mail transaction). 
+	\item The SMTP-sender and SMTP-receiver may negotiate several recipients. When the recipients have been negotiated the SMTP-sender sends the mail data, terminating with a special sequence.  
+	\item SMTP Commands:
+	\end{itemize}
+	\begin{verbatim}
+S: MAIL <SP> FROM:<reverse-path> <CRLF> 
+S: RCPT <SP> TO:<forward-path> <CRLF> 
+S: DATA <CRLF> 
+	\end{verbatim}
+
+\subsubsection{Beispiel}	
+	\begin{verbatim}
+S: RCPT TO:<Green@Beta.ARPA> 
+R: 550 No such user here 
+
+S: RCPT TO:<Brown@Beta.ARPA> 
+R: 250 OK 
+
+S: DATA 
+R: 354 Start mail input; end with <CRLF>.<CRLF> 
+
+S: Blah blah blah... 
+S: <CRLF>.<CRLF> 
+R: 250 OK 
+	\end{verbatim}
+
+\subsubsection{Weiterleitung}
+%TODO Hier geht es bei Folie 11 aus 260 weiter
+
 
 % 260
 %TODO Mail
 
 \section{Autokonfiguration}
 
-% 280, 290
+% 270, 280, 290
 %TODO Autoconfiguration
 
 \section{Dateien und Drucken}
