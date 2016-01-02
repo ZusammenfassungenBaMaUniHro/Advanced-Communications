@@ -1675,10 +1675,83 @@ Auf diesen Verbindet er sich dann zur Datenübertragung.
 	\includegraphics[width=7cm]{img/ftp_active}
 	\includegraphics[width=7cm]{img/ftp_passive}	
 \end{center}	
-\section{Peer-to-Peer}
 
-% 240, 250
+
+\section{Peer-to-Peer}
+Der Tausch von Dateien und Streams jeder Art wurde zur Anwendungen des Internets, die die meiste Bandbreite verbraucht (geschätzt bis 75 Prozent). Bekannte P2P-Beispiele sind: \\
+eDonkey, eMule, Gnutella, LimeWire, Napster (bis 2001), Bit-Torrent, FastTrack\\
+
+
+P2P Netze stellen eine Alternative zu zentralisieren Strukturen dar und bringen eine Reihe von Herausforderungen mit sich:
+	\begin{itemize}
+	\item Finden der gesuchten Information
+	\item Geschickte Verteilung der Downloads
+	\item Kein Verlass auf Peers und Verbindungen
+	\item Wie kann die Funktionstüchtigkeit eines P2P Netzwerkes sichergestellt werden?
+	\end{itemize}
+\subsection{Rechtliche Aspekte}
+	\begin{itemize}
+	\item Überwiegende Resistenz gegen staatliche Eingriffe.
+	\item Störungssicherheit durch chaotische Organisation. 
+	\item Zensur von Informationen ist nahezu unmöglich. 
+	\item Legislative \glqq Störungen\grqq – Beschränkung der Macht von Gesetzgebern – Echte P2P Systeme sind von keiner Regierung zu kontrollieren. 
+	\item Urheberrechte wurden in den meisten Ländern verschärft.
+	\item Einführung neuer Straftatbestände.
+	\end{itemize}
+\subsection{Organisation der Daten}
+Einige P2P Netzwerke benutzen \textbf{zentrale Server} (Tracker), an denen sich alle beteiligten Peers anmelden. Andere implementieren \textbf{verteilte Suchstrategien}, um ohne zentralen Server auszukommen. 
+
+\subsection{Suchstrategien}
+\textbf{\glqq Alle\grqq fragen (Broadcast)}
+	\begin{itemize}
+	\item Funktioniert nur in kleinen Domains 
+	\item Zahl der Anfragen steigt mit der Zahl der Peers 
+	\item Je mehr Peers vorhanden sind, desto ungünstiger wird das Verhältnis zwischen Anfragebearbeitung und \glqq eigentlicher\grqq Diensttätigkeit 
+	\end{itemize}
+\textbf{Super Peers}
+	\begin{itemize}
+	\item Einige Peers haben eine Sonderrolle 
+	\item Normale Peers melden sich bei Super Peers an 
+	\item Super Peers kennen weitere Super Peers 
+	\item Anfragen werden an Super Peers gestellt und von diesen verteilt 
+	\end{itemize}
+\textbf{Flooding oder Web Crawling}
+	\begin{itemize}
+	\item Jeder Peer fragt ihm bekannte Peers. 
+	\item Diese leiten die Frage im Nichterfolgsfall weiter. 
+	\item \glqq Verebben\grqq der \glqq Frageflut\grqq nach einer vorgegebenen Anzahl von Peers (TTL). 
+	\item Vermeidung von Kreisen durch Informationen, wer schon gefragt wurde. 
+	\item \textbf{Flooding bekannt aus Verteilte Algorithmen!}
+	\item Im Erfolgsfall wird mit einem Antwortpaket geantwortet, dieses enthält die Netzwerkadresse des Hosts, der die Antwort bereitstellt. Die eigentliche Anfrage erfolgt anschließend über spezielle Anfrage-Pakete.	
+	\end{itemize}
+	
+\subsection{Beschreibung von Informationen}
+Die Daten, die in einem P2P-Netzwerk angeboten werden, können durch zwei Möglichkeiten beschrieben werden:
+	\begin{itemize}
+	\item Eindeutige Kennzeichnung von Informationen, z.B. durch Hash-Werte, IDs etc.
+	\item Umfangreiche Beschreibungen der eigentlichen Informationen mit Meta-Informationen. 
+	\end{itemize}
+\subsection{Eigenschaften von P2P}
+\textbf{Verfügbarkeit} wird gewährleistet durch:
+	\begin{itemize}
+	\item Exzessive Replikation.
+	\item Redundanz der Dienste. 
+	\item Redundanz der Kommunikationspfade.
+	\end{itemize}
+\textbf{Performance} in Hinblick auf 
+	\begin{itemize}
+	\item Den Aufwand eine gestellte Frage zu beantworten
+	\item Den Overhead für die Kommunikation und zur Steuerung
+	\item[$\rightarrow$] Dezentral organisierte P2P-Netzwerke eignen sich nicht für Aufgaben, die in einer vorgegebenen Zeit erfüllt sein sollen
+	\end{itemize}
+\textbf{Anonymität}
+	\begin{itemize}
+	\item Vollständige Anonymität lässt sich mit P2P Technologie relativ einfach erreichen. 
+	\item Dabei bleiben sowohl Dienste-Anbieter als auch Dienste-Client anonym. 
+	\item Tunneln aller Nachrichten über verschiedene Peers. 
+	\end{itemize}
 %TODO P2P
+% 240, 250
 
 \section{E-Mail}
 
