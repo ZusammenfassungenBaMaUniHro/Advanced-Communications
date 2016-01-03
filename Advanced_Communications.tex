@@ -1954,10 +1954,68 @@ Des Weiteren gibt es eine Reihe von Befehlen:
 	\item HELO, QUIT, TURN, HELP, RSET, NOOP		
 	\end{itemize}
 % 260
-%TODO Mail
 
 \section{Autokonfiguration}
+Dieser Abschnitt soll sich mit Technologien zur automatischen Konfiguration von Geräten und Diensten beschäftigen. Die automatische Konfiguration von Geräten kann zentral von einem Server oder dezentral durch Abstimmung zwischen den Geräten erfolgen. Dabei bieten sich zwei Strategien an:
+	\begin{itemize}
+	\item Geräte bieten permanent ihre Dienste an (Advertisements)
+	\item Dienstenutzer fragen nach dem gewünschten Dienst
+	\end{itemize}
+\subsection{Motivation}
+ 	\begin{itemize}
+	\item Wachsende Anzahl vernetzter Geräte
+	\item Mobilität (PDA, Notebook, Handy)
+	\item Vordringen rechnergestützter Systeme in neue Einsatzbereiche (Home/Office Automation)
+	\item Neue Medien und Inhalte
+	\item Vereinfachung der Administration
+	\end{itemize}
+	
+\subsection{Discovery}
+	\begin{enumerate}
+	\item Anfragebasiert
+		\begin{itemize}
+		\item Gerät oder Client fragt in den Raum nach einem Anbieter von Konfiguration oder Diensten. 
+		\item Anbieter lauscht und antwortet auf Anforderung. 
+		\end{itemize}
+	\item Mittels Advertisements 
+		\begin{itemize}
+		\item Anbieter von Diensten oder Konfigurationsdaten macht von sich aus auf sich aufmerksam. 
+		\item Sendet Bekanntmachungen an alle.
+		\item Clients lauschen einige Zeit.
+		\end{itemize}
+	\item Broadcasts / Multicasts für Anfragen in den Raum.
+	\end{enumerate}
+Dies lässt sich \textbf{optimieren}: Broadcasts / Multicasts zum Finden des Konfigurationsservers sind nur einmal notwendig. Danach ist wiederholtes Anfragen beim gefundenen Server möglich. \\
+Ebenso ist eine Konfiguration ohne zentralen Server möglich. Dabei kann es jedoch zu Kollisionen kommen, die erkannt werden müssen.\\
 
+Eine Alternative stellen \textbf{Registries} da: Dienste können bei einem Verzeichnisdienst registriert werden, den der Client bei der Konfiguration sucht. Der Client muss darauf hin nur einmal den gefundenen Verzeichnisdienst nach Diensten fragen.
+
+\subsection{Leases}
+	\begin{itemize}
+	\item Fehler können Abbruch der Kommunikation bewirken. 
+	\item Vergebene Ressourcen würden dann nicht wieder freigegeben, weshalb sie nur auf Zeit vergeben werden.
+	\item Vor Ablauf der Zeit (Lease Time) muss Ressourcen-Reservierung verlängert werden. 
+	\item Nach Ablauf der Lease Time wird Ressource wieder freigegeben. Client muss wissen, dass er die Ressource dann nicht mehr nutzen darf.  
+	\end{itemize}
+	
+	
+\subsection{Geräte-Integration}	
+	\begin{itemize}
+	\item Herstellung der Kommunikation 
+	\item Einstellen von Geräte- und Netzwerkparameter 
+	\item Sicherheit 
+	\item Protokolle: RARP, BOOTP, DHCP, IP-Autoconfiguration, IPv6 
+	\end{itemize}
+	
+\subsection{Dienste-Integration}	
+	\begin{itemize}
+	\item Verfügbarkeit sicherstellen 
+	\item Registrierung
+	\item Sicherheit 
+	\item Protokolle: UPnP, HAVi, SLP, JetSend, Jini 
+	\end{itemize}
+	
+	
 % 270, 280, 290
 %TODO Autoconfiguration
 
