@@ -1802,12 +1802,78 @@ Der eigentliche Datenaustausch erfolgt dann P2P:
 % 240, 250
 
 \section{E-Mail}
+Protokolle zum E-Mail-Versand sind POP3, IMAP und SMTP. Diese bauen auf Transport Transportprotokollen auf, wie 
+	\begin{itemize}
+	\item TCP auf Port 25 mit 7 bit ASCII
+	\item NCP (Netwok Control Program) auf Port 25. \glqq Gibt es überhaupt noch ein laufendes NCP? \grqq
+	\item X.25 könnte direkt benutzt werden, vorgeschlagen wird aber TCP over X.25
+	\end{itemize}
 \subsection{POP3}
 %TODO RFC verlinken: 1939, 1996 
-Das POP3 (Post Office Protocol - Version 3)
+Das POP3 (Post Office Protocol - Version 3) dient zum Abrufen eingehender Mails  und wird typischerweise eingesetzt, wenn direkter Mail-Empfang nicht möglich ist. Dies kann dann eintreten, wenn bspw. keine permanente Verbindung besteht, zu wenig Ressourcen beim Client bzw. Host zur Verfügung stehen oder auch wenn \glqq postlagernde\grqq Mails aberufen werden.\\
+Obwohl POP3 eigentlich unabhängig vom Transport Protkoll ist, ist es nur für TCP auf Port 110 spezifiziert.
+\subsubsection{Arbeitsweise}
+\textbf{Kommandos} bestehen aus einem Schlüsselwort und eventuell aus Argumenten. \textbf{Antworten} bestehen aus Status, Schlüsselwort und eventuell nachfolgenden Informationen 
+\subsection{Zustände und Kommandos des Servers}
+	\begin{description}
+	\item[AUTHORIZATION] - Phase der Authentisierung 
+		\begin{description}
+		\item[USER] - Übergabe des Benutzernames 
+		\item[PASS] - Übergabe des Passworts (nur nach USER) 
+		\item[APOP](Optional) - Übergabe es MD5 Hashes anstatt eines Passworts
+		\item[QUIT] - Schließen der Verbindung 
+		\end{description}
+	\item[TRANSACTION] - Phase der Datenübertragung 
+			\begin{description}
+			\item[LIST]\textbf{$[$msg$]$} - Listet die vorhandenen Nachrichten auf. Zum einfacheren Parsen der Resultate ist das Ergebnis-Format streng vorgeschrieben
+			\item[RETR]\textbf{msg} - Abholen der Nachricht mit der Nummer msg, wobei das Nachrichtenende mit . <CR><LF> gekennzeichet ist.
+			\item[TOP]\textbf{msg n} - Mit diesem optionalen Befehl werden die ersten n Zeilen der Nachricht mit der Nummer msg abgeholt
+			\item[DELE]\textbf{msg} - Löschen der Nachricht mit der Nummer msg 
+			\item[RSET] - Reset des Servers, alle zum Löschen markierten Nachrichten werden demarkiert 
+			\item[STAT] - Liefert die Anzahl der Mails und die Gesamtgröße zurück 
+			\item[UIDL]\textbf{$[$msg$]$} - Gibt für jede bzw. die Nachricht mit der Nummer msg einen Unique Identifier aus 
+			\item[NOOP] - Tue nichts - sinnvoll, um die Session am Leben zu halten 
+			\item[QUIT] - Schließen der Anwendung und Übergang in UPDATE State 
+			\end{description}
+	\item[UPDATE] - Phase beim Beenden und alle zum Löschen markierten Mails werden gelöscht 
+	\end{description}
 \subsection{IMAP4}
 %TODO RFC verlinken:  1730, 1994
-Das IMAP4 (Internet Message Access Protocol  - Version 4)
+Das IMAP4 (Internet Message Access Protocol  - Version 4) ermöglicht, dass Nachrichten auf dem Server verbleiben und dort effektiv verwaltet werden. Das Protokoll ist nur für das Empfangen von Nachrichten zuständig, aber Nachrichten können auch in einzelnen Mailboxen erzeugt werden.
+\subsubsection{Zustände des Servers}
+\begin{center}
+	\includegraphics[width=10cm]{img/imap.png}
+\end{center}
+\subsubsection{AUTHENTICATE}
+Die Anmeldung mittels IMAP4 kann bspw. mittels Challenge Response, wie Kerberos, erfolgen. Alternativ kann der CLient verschiedene Authentisierungsverfahren vorschlagen. Als Ausweg, wenn Authentisierung über Challenge-Response nicht funktioniert, kann ein Login genutzt werden.
+\subsubsection{SELECT}
+Im Zustand \textbf{selected} wurde eine Mailbox ausgewählt. Dieser Zustand wird nach einem erfolgreichen Auswählen betreten. Erreicht wird dieser Zustand mit dem Select-Befehl, der eine Mailbox auswählt. Nachfolgende Kommandos beziehen sich dann auf die selektierte Mailbox.
+\subsubsection{Befehle}
+	\begin{description}
+	\item[EXAMINE] Als Statusanfrage zum Überprüfen einer Mailbox auf ungelesene Mails. \\
+	Laut RFC: \textit{The EXAMINE command is identical to SELECT and returns the same output; however, the selected mailbox is identified as read-only.}
+	\item[CREATE] - Anlegen einer Mailbox
+	\item[RENAME] - Unbenennen einer Mailbox
+	\item[DELETE] - Löschen einer Mailbox 
+	\item[SUBSCRIBE] - Abonnieren einer Mailbox 
+	\item[UNSUBSCRIBE] - Kündigen eines Abonnements
+	\item[LIST path selector] - Anzeige der verfügbaren Mailboxen unterhalb des path gemäß des selectors 
+	\item[SEARCH] - Suche innerhalb von Mailboxen auf dem Server
+	\item[FETCH] - Liefert Nachrichten vom Server durch eine Auswahl nach Bedingungen bzw. Flags. Außerdem können Nachrichtenteile angegeben werden, die man haben möchte.
+	\item[PARTIAL] - Wie FETCH, aber mit Einschränkung der Länge der zu liefernden Teile 
+	\item[STORE] - Ablegen einer Nachricht in einer Mailbox, z.B. nach Änderungen 
+	\item[COPY] - Kopieren einer Nachricht von einer Mailbox in eine andere
+	\item[UID] - Ausgabe eines eindeutigen Identifiers für jede Nachricht
+	\end{description}
+
+\subsubsection{Mögliche Auswahlkriterien}
+	\begin{itemize}
+	\item Ungesehene Mails
+	\item Nach Datum
+	\item Nach Absender
+	\item Nach TAG (\glqq Wichtig\grqq,\glqq Unwichtig\grqq etc.)
+	\end{itemize}
+
 \subsection{SMTP}
 %TODO RFC verlinken:  821, 1982 
 Das SMTP (Simple Mail Transfer Protocol) ist von der zugrundeliegenden Übertragungsart unabhängig. Es benötigt lediglich einen zuverlässigen, geordneten Datenstream. Zwischen den Kommunikationspartnern (Sender-SMTP und Receiver-SMTP) wird ein Zwei-Wege-Kommunikation-Kanal aufgebaut. Dabei kann der Receiver-SMTP entweder das Ziel oder ein Zwischenglied sein. Vom Sender werden Commands an den Receiver gesendet, dieser antwortet mit Replies. 
@@ -1846,9 +1912,47 @@ R: 250 OK
 	\end{verbatim}
 
 \subsubsection{Weiterleitung}
-%TODO Hier geht es bei Folie 11 aus 260 weiter
-
-
+Wenn ein Sender eine Daten an einen Receiver sendet, um sie daraufhin an einen Empfänger weiterzusenden, gibt es zwei Reaktionsmöglichkeiten zum Forwareding:
+	\begin{enumerate}
+	\item  Receiver kennt den Pfad zum Empfänger und übernimmt die Verantwortung für die Zustellung
+		\begin{verbatim}
+		R: 251 User not local; will forward to <forward-path>
+		\end{verbatim}
+	\item  Receiver kennt den Pfad, aber will Mail nicht selbst zustellen
+		\begin{verbatim}
+		R: 551 User not local; please try <forward-path>
+		\end{verbatim}
+	\end{enumerate}
+Was passiert, wenn sich nach Annahme der Mail durch einen Relayer herausstellt, dass Empfänger doch nicht erreichbar ist? Beispielsweise so wie in Möglichkeit 1.
+	\begin{itemize}
+	\item Receiver muss eine Fehlermeldung generieren. 
+	\item Wohin wird diese Fehlermeldung gesendet? 
+	\item Was passiert bei mehrstufigem Forwarding? 
+	\end{itemize}
+Um dies zu Lösen wird beim Forwarding jeweils der Pfad mitaufgenommen. Die Fehlermeldung gelangt auf dem umgekehrten Pfad zurück zum Empfänger. Typischerweise existiert für eine Gruppe von Usern ein Relay Host, der Mails für beliebige Empfänger entgegennimmt und weiterleitet.\\
+Es wird zwischen Zwei Konzepten unterschieden:
+	\begin{itemize}
+	\item Adresse (Wer ist der Empfänger?) 
+	\item Route (Wie gelangt man zum Empfänger?) 
+	\end{itemize}
+Des Weiteren gibt es eine Reihe von Befehlen:
+	\begin{itemize}
+	\item \textbf{VRFY} - Fordert den Server auf eine Adresse zu überprüfen
+	\item \textbf{EXPN} - Dieser Befehl fragt nach einer Namensauflösung. Es werden je nach Berechtigung die Mitglieder einer Mailingliste ausgegeben.
+	\item Nachricht am Terminal des Users ausgeben
+		\begin{verbatim}
+		SEND <SP> FROM:<reverse-path> <CRLF>
+		\end{verbatim}
+	\item Nachricht am Terminal ausgeben oder in die Mailbox legen
+		\begin{verbatim}
+		SOML <SP> FROM:<reverse-path> <CRLF> 
+		\end{verbatim}
+	\item Nachricht am Terminal ausgeben und in die Mailbox legen
+		\begin{verbatim}
+		SAML <SP> FROM:<reverse-path> <CRLF>
+		\end{verbatim}
+	\item HELO, QUIT, TURN, HELP, RSET, NOOP		
+	\end{itemize}
 % 260
 %TODO Mail
 
