@@ -2006,6 +2006,18 @@ Eine Alternative stellen \textbf{Registries} da: Dienste können bei einem Verze
 	\item Sicherheit 
 	\item Protokolle: RARP, BOOTP, DHCP, IP-Autoconfiguration, IPv6 
 	\end{itemize}
+\subsubsection{RARP}
+\subsubsection{BOOTP}
+%TODO RFC Verlinken RFC951
+Ursprünglich war BootP (Bootstrap Protocol) für Diskless Workstations gedacht. Es liefert IP-Adresse und weitere Informationen, wie bspw. die Adresse eines TFTP-Servers. Die Kommunikation erfolgt via UDP.
+
+\begin{center}
+	\includegraphics[width=16cm]{img/rapr.png}
+\end{center}	
+
+
+Ein BootP-Protokoll-Paket enthält neben den selbsterklärenden einleitenden Feldern, die IP-Adress-Informationen von BootP-Client, -Server und Router, sowie die vom BootP-Server vorgeschlagene IP-Adresse für den Client. Darüber hinaus hat das BootP-Frame Datenfelder für den Client-Hardwareadresse, den Server-Host-Namen, den Boot-File-Namen und ein herstellerspezifisches Feld.  
+\subsubsection{DHCP}
 	
 \subsection{Dienste-Integration}	
 	\begin{itemize}
