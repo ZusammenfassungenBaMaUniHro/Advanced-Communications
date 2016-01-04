@@ -2112,6 +2112,76 @@ Ein BootP-Protokoll-Paket enthält die IP-Adress-Informationen von BootP-Client,
 % 270, 280
 
 \section{Dateien und Drucken}
+\subsection{Herausforderungen}
+\textbf{Files}\\
+Das Ziel ist ein Zugriff auf Verzeichnisstrukturen über ein Netzwerk, als wären sie lokal. Wünschenswert hierbei sind: Transaktionskontrolle auf verteilte Ressourcen, Fehlermeldungen, Rechtekontrolle, Sicherheit. \\
+Daten kennzeichnen sich durch den Inhalt der Files und ihre Metadaten (Name, Größe, Datumsangaben, Eigentümer, Rechte, Flags, etc.)\\
+
+
+\noindent\textbf{Drucken}\\
+Hier ist das Ziel das Ansprechen unterschiedlicher Drucker mit unterschiedlichen 
+Druckerprotokollen und im Fehlerfall das Erhalten von Fehlermeldungen.\\
+
+\subsection{Konzepte für Filesysteme}
+\noindent\textbf{Transparenz}\\
+Es sollen sowohl die Anzahl der Server und dort vorhandener Geräte als auch die Verteilung der Dateien auf unterschiedlichen Servern unsichtbar bleiben. Das Client-Programme benötigen keine Kenntnis darüber, ob ein Filesystem lokal oder remote ist. Die Geschwindigkeit des Datenzugriffs ermöglicht die Illusion eines lokalen Filesystems. \\
+
+
+\noindent\textbf{Flash File Systeme}\\
+Eine gleichmäßige Abnutzung durch Verteilung erreichen.\\
+
+\noindent\textbf{Transaktionale Filesysteme }\\
+
+\noindent\textbf{Schnittstelle zum Betriebssystem}\\
+
+\noindent\textbf{Temporäre Filesysteme }\\
+Häufig im RAM realisiert: Schneller, gemeinsamer Zugriff über übliche Dateisystem-Schnittstelle 
+
+\noindent\textbf{Schreibbare Filesysteme für eigentlich nicht schreibbare Medien (Union Mount)}\\
+Bspw. CD-ROM / DVD-ROM mit dynamisch eingeblendetem schreibbarem Bereich. \\
+
+\noindent\textbf{RAID}\\
+
+\noindent\textbf{Komprimierte Filesysteme}\\
+
+\noindent\textbf{Filesysteme mit unterschiedlich schnellen Medien}\\
+
+\subsection{empty}
+\noindent\textbf{Qualitätsfaktoren}\\
+Das Ziel ist ein gering halten der Latenz beim Bedienen von Anfragen:
+	\begin{itemize}
+	\item Lokale Systeme: Laufwerkszugriffe und Verarbeitungsgeschwindigkeit (CPU)
+	\item Zusätzlich bei remote Zugriff: Netzwerklatenz für Anfrage, Netzwerklatenz für Ergebnis, Bandbreite
+	\end{itemize}
+	
+	
+
+\noindent\textbf{Nebenläufigkeit}\\
+Nebenläufigkeit ist bereits bei Mehrbenutzermaschinen lokal notwendig, also eigentlich kein spezifisches Problem von Netzwerk-Dateisystemen. Es besitzt nur eine etwas höhere Komplexität durch zwischengeschaltetes Netzwerkprotokoll. \\
+Des Weiteren ist eine unterschiedliche Granularität von Locks notwendig (File-Systeme, Files, Blocks)\\
+
+
+
+\noindent\textbf{Zugriffssteuerung}\\
+Transparente Umsetzung der lokalen Mechanismen, wie Zugriffsmatrix und ACL.
+
+\subsection{Probleme}
+	\begin{itemize}
+	\item Zeichenkodierung 
+	\item Netzwerkprobleme während offener Transaktionen 
+	\item Timeouts notwendig, um mit Netzwerkproblemen umzugehen 
+	\item Replikation und Fehlertoleranz. 
+	\item Historisierung. 
+	\item Archivierung. 
+	\end{itemize}
+
+\subsection{Protokolle}
+	\begin{itemize}
+	\item NFS 
+	\item SMB / CIFS 
+	\item WebDAV 
+	\item iSCSI 
+	\end{itemize}
 
 % 300, 310
 %TODO Dateien und Drucken
