@@ -512,12 +512,29 @@ Namespace benennt | urn:ip-addr:139.30.3.23
 	\item[Concast]: Viele senden an einen, Nachrichten werden so früh wie möglich zusammengefasst. Verhindert Implosion, Überlastung des Empfängers. Beispielswiese sinnvoll, wenn Fehlermeldungen zusammengefasst werden können. Keine direkte Unterstützung in IP, MAC, Ethernet
 \end{description}
 
-\subsection{ICMPv6 Neighbor Discovery Protocol(NDP)} 
+\subsection{ICMPv6 Neighbor Discovery Protocol (NDP)} 
+%TODO RFC verlinken: RFC4861 (RFC2461) 
 \begin{itemize}
 	\item Dient als Ablösung von ARP
 	\item Mechanismus von IPv6 für Auflösung (Übersetzung) von Netzwerkadressen in Hardwareadressen.
-	%TODO - "Details folgen" -> wo gibt es mehr dazu?? -> Verlinken oder hier einfügen
+	\item Es existieren verschiedene Typen:
+		\begin{itemize}
+		\item Router Solicitation – Type 133 \\
+		Alle Router im selben Netz werden aufgefordert, sich zu melden und senden an Router-Multicast-Adresse 
+		\item Router Advertisement – Type 134 \\
+		Router verkünden Anwesenheit im Netz, periodisch oder als Antwort auf \textit{Router Solicitation} 		
+		\item Neighbor Solicitation – Type 135 \\
+		Zur Auflösung von IPv6-Adressen zu Link-Layer-Adressen. Umgesetzt als Broadcast an Link-Layer-Broadcast-Adressen.
+		\item Neighbor Advertisement – Type 136 
+		\item Redirect – Type 137 \\
+		Router teilt mit, dass es besseren next hop gibt 
+		\end{itemize}
+	
+	
 \end{itemize}
+%290
+
+
 \subsection{Domainverwaltung}
 \begin{itemize}
 	\item Adressierung mit Hilfe von IP-Adressen ist für menschliche Nutzer sehr unpraktisch. Daher werden Namen zur Adressierung verwendet.
@@ -2092,8 +2109,7 @@ Ein BootP-Protokoll-Paket enthält die IP-Adress-Informationen von BootP-Client,
 	 HTTP wird von TCP als Transportschicht spezifiziert. HTTPU und HTTPMU sind Variationen von HTTP via Uni-/Multicast mittels UDP. Diese werden von SSDP und GENA verwendet, bilden aber keinen Ersatz für HTTP über TCP.
 	
 	
-% 270, 280, 290
-%TODO Autoconfiguration
+% 270, 280
 
 \section{Dateien und Drucken}
 
