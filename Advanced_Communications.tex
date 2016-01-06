@@ -2176,11 +2176,72 @@ Transparente Umsetzung der lokalen Mechanismen, wie Zugriffsmatrix und ACL.
 	\end{itemize}
 
 \subsection{Protokolle}
+\subsection{NFS}
+%TODO RFC3530)
+Das NFS (Network File System) ist in Version 4 und unterstützt UDP, TCP und Dateien, die größer als 4GB sind. Eine Authentisierung über IP-Adresse wird unterstützt.\\
 	\begin{itemize}
-	\item NFS 
-	\item SMB / CIFS 
-	\item WebDAV 
-	\item iSCSI 
+	\item \textbf{zustandsbehaftetes Protokoll}
+	\item Kryptografisch abgesichert
+	\item Verteiltes Filesystem, bei dem Zugriffe nicht die Übertragung der gesamten Datei erfordern.
+	\item NFSv4 bietet \textbf{Authentisierung} von Server und Client über 
+	Kerberos 5 – der eigentliche Benutzer wird nicht 
+	authentisiert. 
+	\end{itemize}
+\textbf{Arbeitsweise}
+	\begin{itemize}
+	\item Client meldet sich beim Server an
+	\item Client erhält Client-ID als Lease
+	\item Client kann File Handles anfordern (persistent oder volatile - flüchtig)\\
+	\textit{Für volatile Handles ist nicht garantiert, dass sie gültig und 	persistent für die Dauer der Lebenszeit des Dateisystems auf das Dateisystemobjekt (File, Directory) verweisen. Server kann zu einer beliebigen Zeit entscheiden, dass ein volatile FH ungültig wird. }
+	\item Client führt Dateioperationen auf dem Handle au
+	\end{itemize}
+NFS kann optimiert werden in dem mehreren Requests und Responses zusammengefasst werden. (Beispielsweise LOOKUP, OPEN, READ) Operationen können mit AND oder OR verknüpft werden und die Auswertung erfolgt in vorgegebener Reihenfolge.\\
+
+\noindent Es gibt Procedures (\textit{NULL, COMPOUND})und eine Vielzahl von Operationen (\textit{ACCESS CLOSE, COMMIT, CREATE, GETATTR, LINK, LOCK, LOOKUP, OPEN, PUTFH, REMOVE, READ, READDIR, SAVEFH, SECINFO, WRITE,...})\\
+
+\noindent\textbf{Retransmission}: Server darf Requests über zuverlässige Protokolle (TCP) nicht ignorieren. 
+
+\noindent\textbf{Filehandles}: Server wandelt Filehandles in Repräsentation des lokalen Filesystems um. Nahezu alle RPC Calls benötigen ein Filehandle. Daher erfragt der Client zuerst das Root-Filehandle. Der Server liefert Attribute des FH.\\
+
+\noindent\textbf{File Attributes}: es gibt 3 Gruppen
+	\begin{itemize}
+	\item Mandatory Attributes müssen von jedem Client und Server unterstützt werden.\\
+	Bspw. filetype, change, leaseTimem...
+	\item Recommended Attributes: Client kann jederzeit danach fragen, muss aber damit rechnen, keine Antwort zu erhalten. Server müssen Anfragen korrekt oder nicht beantworten.
+	\item Named Attributes sind nicht im NFS Protokoll vorgesehen, können aber über Strings angefragt werden. 
+	\end{itemize}
+
+\noindent Beim Server \textbf{Pseudo Filesystem}  ersetzt der Server  fehlende Teile im Namespace, die nicht exportiert werden, durch Pseudo FS.\\
+
+\noindent Für das \textbf{Locking} identifiziert sich der Client mit einer Client ID. Wenn Client abstürzt, wird neue Inkarnation des Clients SETCLIENTID aufrufen. Dadurch werden alle alten Leases der alten Inkarnation auf dem Server ungültig.\\
+
+\noindent\textbf{OPEN} ist immer vorgeschrieben, auch wenn keine Operationen oder exklusiver Zugriff gewünscht sind. Vor \textbf{CLOSE} sollen alle Locks freigegeben werden.
+ 
+\subsection{SMB / CIFS}
+Ursprünglich wurde SMB (Server Message Block) für Windows und OS/2 entwickelt. Es ist aber kein Standard-Dokument verfügbar, da einige Features geheimgehalten werden sollen. (Reverse Engineered für Samba Entwicklung)\\
+Umbenennung 1996 von SMB in Common Internet File System (CIFS), neue Features. 
+CIFS baut dabei auf NetBIOS over TCP/IP und SMB auf und bietet neben der Datei- und Druckerfreigabe weitere Dienste wie zum Beispiel den Windows-RPC- und den NT-Domänendienst an. 
+\subsection{WebDAV}
+%TODO RFC4918 
+	\begin{itemize}
+	\item HTTP Extensions for Web Distributed Authoring and Versioning
+	\item Erweiterung von HTTP durch neue Requests. \\
+	(\textbf{COPY, MOVE, LOCK / UNLOCK, DELETE, MKCOL, PROPFIND / PROPPATCH})
+	\item Properties als XML Dokument 
+	\item Datei muss vollständig übertragen werden, dann geändert, dann zurück übertragen. 
+	\end{itemize}
+\subsection{iSCSI}
+%TODO RFC3720 
+Das ISSCSI (Internet Small Computer Systems Interface) benutzt TCP als Transport für SCSI Kommandos (quasi Tunneln)  typischerweise Port 860 und 3260.Das SCSI-Gerät verhält sich für das Client-System Initiator) wie ein lokales Gerät.
+	\begin{itemize}
+	\item Der Initiator (Client) kann entweder aus Software oder Hardware erstellt werden. 
+	\item Target (Server) kann ebenfalls als Software oder Hardware realisiert werden. 
+	\end{itemize}
+Die iSCSI Adressierung erfolgt durch:
+	\begin{itemize}
+	\item Hostname oder IP Adresse 
+	\item Port 
+	\item iSCSI Name
 	\end{itemize}
 
 % 300, 310
