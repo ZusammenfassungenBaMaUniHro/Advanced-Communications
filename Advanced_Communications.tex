@@ -2245,7 +2245,6 @@ Die iSCSI Adressierung erfolgt durch:
 	\end{itemize}
 
 % 300, 310
-%TODO Dateien und Drucken
 
 \section{Telnet, SSH und rlogin}
 %TODO Qualitätskontrolle für den gesamten Abschnitt nötig, Folien geben nicht viel her!
@@ -2279,9 +2278,21 @@ Flusskontrolle über START- und STOP-Zeichen.
 Dimensionen des Ausgabefensters werden übertragen.
 Sicherheit wie telnet, hinzu kommt, dass viele Implementierungen Passwort-Eingabe für einzelne Clients (nach IP-Adresse) abschalten können.
 \section{Extensible Messaging and Presence Protocol (XMPP)}
-
+XMPP ist aus dem Jabber-Protokoll hervorgegangen und wird von diesem als Grundlage genutzt. Google Talk nutzt es ebenfalls.\\
+	\begin{itemize}
+	\item Offener Standard,kostenfrei nutzbar, nicht an einen Hersteller gebunden, freie Libraries 
+	\item Kommunikation Client-Server-Client, nicht direkt Client-Client. 
+	\item Kein zentraler Server notwendig (jeder kann einen Server betreiben), Adressierung ähnlich wie bei E-Mail 
+	\item XMPP-Server sind untereinander verbunden. 
+	\item XMPP basiert auf XML als Steam (der kein vollständiges XML-Dokument enthält)
+	\item TCP Port 5222 
+	\item Übertragung von Binaries über andere Protokolle (http) oder notfalls als base64 (quasi Binary als ASCII) 
+	\item Verbindungen zu anderen Protokollen sind möglich (Translation durch Gateways) 
+	\item XMPP kann über HTTP getunnelt werden - Entweder durch regelmäßige Requests (Polling) oder durch Requests mit stark verzögerter Antwort (Binding) 
+	\item Benutzung von TLS und Simple Authentication and Security Layer (SASL) ist standardisiert
+	\item Fehlermeldungen werden ebenfalls als XML Standard übertragen 
+	\end{itemize}
 % 330
-%TODO XMPP
 
 \section{LDAP}
 
