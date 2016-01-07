@@ -2295,7 +2295,158 @@ XMPP ist aus dem Jabber-Protokoll hervorgegangen und wird von diesem als Grundla
 % 330
 
 \section{LDAP}
+Das Lightweight Directory Access Protocol ist ein Netzwerkprotokoll zur Abfrage und Änderung von Informationen verteilter Verzeichnisdienste.  Es beschreibt die Kommunikation zwischen dem LDAP-Client und dem Verzeichnis-(Directory-)Server. Aus einem solchen Verzeichnis können objektbezogene Daten, wie zum Beispiel Personendaten oder Rechnerkonfigurationen, ausgelesen werden. Die Kommunikation erfolgt auf Basis von Abfragen. $[Wikipedia]$
+\subsection{Structure}
+	\begin{itemize}
+	\item Nutzt einen verbindungsorientierten zuverlässigen Transport: TCP auf Port 389
+	\item Connection Oriented Transport Service (COTS) - mapped LDAP Nachrichten PDU direkt auf T-Data (???)
+	\item Es wird X.500 zur Organisation von Verzeichniseinträgen in einem hierarchischen Namespace genutzt - ermöglicht Suchen.
+	\item Used to access and update information in a directory built on the X.500 model 
+	\item Specification defines message format between client and the server 
+	\item Includes session handling (connect, disconnect etc.) 
+	\end{itemize}
+\noindent\textbf{Information}: Structure of information stored in an LDAP directory.\\
+\noindent\textbf{Naming}: How information is organized and identified.\\
+\noindent\textbf{Functional / Operations }: Describes what operations can be performed on the information stored in an LDAP directory. \\
+\noindent\textbf{Security}: Describes how the information can be protected from unauthorized access.
+  	\begin{center}
+  		\includegraphics[width=10cm]{img/LDAPIS.png}
+  	\end{center}
+Bei der LDAP Informationsspeicherung beschreibt jeder Eintrag ein Objekt einer Klasse
+	\begin{itemize}
+	\item Beispiel Eintrag: \textit{InetOrgPerson(cn, sn, ObjectClass)}
+	\item Beispiel Attribute: \textit{cn (cis), sn (cis), telephoneNumber (tel), ou (cis), owner (dn),jpegPhoto (bin) }
+	\end{itemize}
+(\textit{cn common name, dn distinguished name, sn surname})
+\subsection{Naming}
+Distinguished names consist of sequence of Relative DN \textit{cn=John Smith,ou=Austin,o=IBM,c=US (Leaf 2 Root) } \\
+Ein Directory Information Tree (DIT) folgt einem graphischen oder organisiertem Schema. \\
+Aliases can link non-leaf nodes.\\
 
+\noindent\textbf{Schema:}
+	\begin{itemize}
+	\item Definiert welche Objekt-Klassen erlaubt sind
+	\item Wo diese gespeichert sind
+	\item Welche Attribute sie besitzen bzw. optional sind
+	\item Von welchem Typ/welche Syntax jedes Attribut besitzt
+	\item Das Schema muss für den Client lesbar sein
+	\end{itemize}
+
+\subsection{Functions/Operations}
+Zur Verteilung von strukturierten Informationen in einem Netzwerk (Authentifikation, Registry Informationen)	
+	\begin{itemize}
+	\item Authentifikation(BIND/UNBIND, ABANDON)
+		\begin{itemize}
+		\item BIND-Request includes LDAP version, the name the client wants to bind as, authentication type
+		\item Server responds with a status indication 
+		\item UNBIND: Terminates a protocol session
+		\item ABANDON:  MessageID to abandon
+		\end{itemize}
+	\item Query (Suche, Einträge vergleichen)
+		\begin{itemize}
+		\item Request includes baseObject, Scope, derefAliases, sizeLimit, timeLimit, attrsOnly, Filter, Attributes
+		\item Read and List implemented as searches 
+		\item Compare: similar to search but returns T/F
+		\end{itemize}
+	\item Update (Einträge hinzufügen/löschen, modifizieren)
+	\item Other Requests: Search/modify/delete/change requests can include maximum time limits (and size limits in the case of search). There can be multiple pending requests.
+	\end{itemize}	
+
+\subsection{Client and Server Interaction}
+	\begin{itemize}
+	\item Client establishes session with server (BIND)
+		\begin{itemize}
+		\item Hostname/IP and port number 
+		\item Security(authentication, Encryption/Kerberos supported)
+		\end{itemize}
+	\item Client performs operations ()Read/Update/Search)
+	\item Client ends the session (UNBIND) 
+	\item Client can ABANDON the session 
+	\end{itemize}
+
+
+
+\subsection{Security}
+	\begin{itemize}
+	\item Clear text passwords (version 1)
+	\item KERBEROS version 4 authentication
+	\item SSL
+	\end{itemize}
+
+\subsection{Protocol Model}
+Clients performing protocol operations against servers.
+	\begin{itemize}
+	\item Client sends protocol request to server 
+	\item Server performs operation on directory 
+	\item Server returns response (results/errors)
+	\end{itemize}
+Asynchronous behavior 
+
+\subsection{Search Request Parameters }
+	\begin{itemize}
+	\item base\\
+		\textit{The base is the DN of root of the search. A server typically serves only below some subtree of the global DN namespace.}
+	\item scope 
+			\begin{itemize}
+			\item base – search only the base element. 
+			\item onelevel – search all elements that are children of the base. 
+			\item subtree – search everything in the subtree base
+			\end{itemize}
+	\item size \\
+		\textit{Limit on the number of entries to return from the search. A value of 0 means no limit.}
+	\item time \\	
+		\textit{Limit on number of seconds the search can take. Value of 0 means no limit.}
+	\item attributes \\
+		\textit{A list of attributes that should be returned for each matched entry. NULL mean all attributes. Attribute names are strings.}
+	\item attrsonly \\
+		\textit{a flag that indicates whether values should be returned}
+	\item search$\_$filter  
+			\begin{itemize}
+			\item a search filter that defines the conditions that constitute a match. 
+			\item Filters are text strings. 
+			\item There is an entire RFC that describes the syntax of LDAP filters.\\
+			(RFC 1558 oder 1960 $\rightarrow$ Widerspruch in den Folien) 
+			\end{itemize}
+	\end{itemize}
+\subsection{Search Filters}
+	\begin{itemize}
+	\item Restrict the search to those records that have specific attributes, or those whose attributes have restricted values. 
+	\item You can combine simple filters with boolean $\&$,| and !
+	\end{itemize}
+Beispiele:
+	\begin{itemize}
+	\item objectclass=* \textit{ match all records }
+	\item cn=*dave* \textit{ matches any record with dave in the value of cn }
+	\item ($\&$(cn=*da)(email=*hotmail*)) 
+	\end{itemize}
+\noindent\textbf{Search Reply}
+	\begin{itemize}
+	\item Each search can generate a sequence of Search Response records: \\
+	\textit{Distinguished Name for record, list of attributes, possibly with list of values for each attributem, Result code }
+	\item LDAP includes an extensive error/status reporting facility.
+	\end{itemize}
+\noindent\textbf{LDAP API }
+	\begin{enumerate}
+	\item Open connection with a server
+		\begin{itemize}
+		\item int ldap$\_$bind(...) ->  LDAP$\_$SUCCESS  or ldap$\_$errno
+		\item There are actually a bunch of  ldap$\_$bind functions
+		\item Synchronous calls all end in \textbf{s} - Asyn. without \textbf{s}
+		\end{itemize}
+	\item Authenticate
+			\begin{itemize}
+			\item 
+			\end{itemize}
+	\item Do some searches/modification/deletions
+			\begin{itemize}
+			\item 
+			\end{itemize}
+	\item Close the connection
+			\begin{itemize}
+			\item 
+			\end{itemize}
+	\end{enumerate}
+	
 % 340
 %TODO LDAP
 
