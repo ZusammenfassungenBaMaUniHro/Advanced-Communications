@@ -375,7 +375,7 @@ RFC 1933\cite{rfc1933} schlägt drei Migrationsstrategien vor.
 	Die IPv6-Pakete werden (als Payload) in IPv4-Pakete verpackt und \emph{normal} über das Internet geroutet.
 	\item [Dual Stack]: Auf Hosts und Routern werden sowohl IPv4 als acuh IPv6 eingerichtet.
 	DNS kann A- oder AAAA-Records zurück geben, entsprechender Stack wird dann genutzt.
-	%TODO Hier ist inhaltliche Überprüfung notwendig.
+	%PRÜFEN Hier ist inhaltliche Überprüfung notwendig.
 	Wird häufig mit Automatic Tunneling\footnote{\textquotedblleft IPv6-over-IPv4 tunneling where the IPv4 tunnel endpoint address is determined from the IPv4 address embedded in the IPv4-compatible destination address of the IPv6	packet.\textquotedblright} genutzt.
 	
 	Außerdem besteht die Möglichkeit von \textbf{Assignment of IPv4 Global Addresses to IPv6 Hosts} (AIIH).
@@ -384,7 +384,7 @@ RFC 1933\cite{rfc1933} schlägt drei Migrationsstrategien vor.
 	Ist der Client der Dual-Stack-Hosts und der Server IPv4-only, verlangt der Client für die Dauer der Kommunikation eine	temporäre IPv4 Adresse beim AIIH Server (Kooperation von DNS und DHCPv6).
 	Andernfalls (Client IPv4-only; Server Dual-Stack): DNS verlangt bei DHCPv6 eine temporäre IPv4 Adresse für Dual-Stack Host, welcher mit dieser rekonfiguriert wird.
 	\item [Übersetzung der Header](Header Translation): Hierbei wird die IPv4 Unterstützung auf Systemen entfernt. Die IPv4-Pakete werden in IPv6-Pakete übersetzt; ein Translator übersetzt IP und ICMP Meldungen.
-	%TODO Ist mit den Erweiterungsheadern das Options-Zeugs bei IPv4 gemeint?
+	%FRAGE Ist mit den Erweiterungsheadern das Options-Zeugs bei IPv4 gemeint?
 	Erweiterungsheader werden nicht, oder nur bedingt übersetzt.
 	Probleme entstehen, weil sich einige Felder nicht immer übersetzen lassen und Adressumwandlung Datenbanken-Lookups erfordern.
 \end{description}
@@ -956,9 +956,7 @@ Erhaltung des Backbones bei wegfallenden Verbindungen ist ebenso ein schwieriges
 \end{itemize}
 
 \subsection{Routing-Protokolle}
-%MANETs
-	%AODV
-	%OLSR
+%TODO MANETs
 \section{Quality of Service}
 \label{sec:qos}
 \subsection{Qualitätsparameter}
@@ -1169,8 +1167,7 @@ Ein Switch  muss Multicasts an alle Mitglieder der Gruppe weiterleiten. Ein regu
 	\end{itemize}
 	
 \subsection{Multicast-Adressen}
-%TODO Was will er uns mit Folie 16 aus 180 sagen??
-%CHRISTIAN: klärt das deine Frage?
+%PRÜFEN Klärt das Christians Frage "Was will er uns mit Folie 16 aus 180 sagen??"
 % 150, 180
 Auf der Vermittlungsschicht werden \textbf{Class-D-IP-Adressen} verwendet.
 Diese beginnen mit der Bitfolge \texttt{1110}, die Teilmenge \texttt{224.0.0.0/24} ist für Multicast in lokalen Netzen verfügbar\footnote{Es wird kein Routing-Protokoll benötigt\cite{tanenbaum2003computer}}.
@@ -1533,8 +1530,6 @@ Definiert eine Reihe von Nachrichten für die Registrierung, Zugangssteuerung un
 
 \section{World Wide Web und HTTP}
 % 220, 230
-%TODO WWW und HTTP [Reserviert für Marc]
-
 Durchbruch des Internets erfolgte erst nach dem Erscheinen des ersten graphischen WWW-Browsers (\glqq Mosaic\grqq).
 Dieser ermöglichte erstmals den komfortablen und effizienten Zugriff auf die Ressourcen des Internets.
 Das zuvor \glqq beliebte\grqq{\ }Gopher wurde relativ schnell verdrängt.
@@ -1592,7 +1587,7 @@ Zu Letzterem zählt insbesondere der angeforderte Inhalt, sofern verfügbar.
 In der Statuszeile ist ein \textbf{Statuscode}, bestehend aus drei Ziffern zu finden.
 Diese Statuscodes werden, entsprechend der ersten Ziffer, in fünf Gruppen geordnet:
 \begin{description}
-	%TODO Eventuell übersetzen
+	%OPTIONAL Übersetzen
 	\item[1xx]: Informational - Request received, continuing process
 	\item[2xx]: Success - The action was successfully received, understood, and accepted
 	\item[3xx]: Redirection - Further action must be taken in order to complete the request
@@ -1609,12 +1604,12 @@ Einige dieser Felder können nur bei Anfragen (z.B. User-Agent), einige nur bei 
 Der Client kann beispielsweise in seiner Anfrage angeben, welche Zeichensätze (\emph{Accept-Charset}, z.B. ISO-8859-1) und Codierungen (\emph{Accept-Encoding}, z.B. gzip, compress oder deflate\cite{rfc1950,rfc1951}) er akzeptiert .
 Entsprechend enthält die dann Antwort (im Allgemeinen) die Felder \emph{Content-Encoding} und \emph{Content-Type\footnote{Eigentlich für den MIME-Typ, enthält aber auch den charset.}}
 
-%TODO will hier noch jemand eine Liste mit weiteren Beispielen?
+%FRAGE will hier noch jemand eine Liste mit weiteren Beispielen?
 
 
 %\subsubsection{Caching}
 
-%TODO HTTP Caching optional
+%OPTIONAL HTTP Caching optional
 
 \subsection{HTTP/2}
 
@@ -1656,7 +1651,7 @@ Der prinzipielle Ablauf ist wie folgt:
 \subsubsection{Steuersignale und Return Codes}
 Steuersignale werden im Klartext vom Client an den Server gesendet.
 %\begin{multicols}{2}
-%TODO Multicols wieder aktivieren?
+%FRAGE Multicols wieder aktivieren?
 \begin{description}
 	\item [USER] (User Name) - Eingabe einer UserID für den Server.
 	\item [PASS] (Password) - Passwort an den Server senden.
@@ -2251,7 +2246,7 @@ Die iSCSI Adressierung erfolgt durch:
 % 300, 310
 
 \section{Telnet, SSH und rlogin}
-%TODO Qualitätskontrolle für den gesamten Abschnitt nötig, Folien geben nicht viel her!
+%PRÜFEN Qualitätskontrolle für den gesamten Abschnitt nötig, Folien geben nicht viel her!
 % 320
 \subsection{Telnet}
 Telnet wird genutzt, um eine allgemeine, bidirektionale, 8-bit-orientierte Kommunikation zu ermöglichen und so mit entfernten Terminalen und terminal-orientierten Prozessen zu kommunizieren.
