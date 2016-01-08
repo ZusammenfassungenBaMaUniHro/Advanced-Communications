@@ -516,7 +516,7 @@ Namespace benennt | urn:ip-addr:139.30.3.23
 %TODO RFC verlinken: RFC4861 (RFC2461) 
 \begin{itemize}
 	\item Dient als Ablösung von ARP
-	\item Mechanismus von IPv6 für Auflösung (Übersetzung) von Netzwerkadressen in Hardwareadressen.
+	\item Mechanismus von IPv6 für Auflösung (Übersetzung) von Netzwerkadressen in Hardwareadressen\cite{rfc4861}.
 	\item Es existieren verschiedene Typen:
 		\begin{itemize}
 		\item Router Solicitation – Type 133 \\
@@ -1101,8 +1101,7 @@ Zu komplexeren Formen des Multicastings kann es kommen, wenn mehrere Sender exis
 	\end{itemize}
 
 \subsection{IGMP}
-IGMP (Internet Group Management Protocol) ist ein Protokoll zur Steuerung von Multicast-Gruppen. IGMP ist im RFC 3376 in der aktuellen Version 3 beschrieben. Mit Hilfe von IGMP teilen Hosts und Router dem Multicast-Router ihre Mitgliedschaft in Multicast-Gruppen mit. Außerdem fragen Router in \glqq ihren\grqq Netzen nach Gruppenmitgliedern.
-%TODO RFC verlinken
+IGMP (Internet Group Management Protocol) ist ein Protokoll zur Steuerung von Multicast-Gruppen. IGMP ist im RFC 3376\cite{rfc3376} in der aktuellen Version 3 beschrieben. Mit Hilfe von IGMP teilen Hosts und Router dem Multicast-Router ihre Mitgliedschaft in Multicast-Gruppen mit. Außerdem fragen Router in \glqq ihren\grqq Netzen nach Gruppenmitgliedern.
 \subsection{Ablauf}
 	\begin{itemize}
 	\item Router sendet allgemeine IGMP Query an seine Interfaces. Zu Beginn ist jeder Router anfangs Querier. Entdeckt ein Router einen Querier mit niedrigerer IP-Adresse, so wird der Router mit der höheren IP-Adresse zum Non-Querier.
