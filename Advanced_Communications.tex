@@ -1168,10 +1168,24 @@ Ein Switch  muss Multicasts an alle Mitglieder der Gruppe weiterleiten. Ein regu
 	\item Nur Ports die einer Multicast-Gruppe beigetreten sind (join) werden in die Forwarding-Table für diese Multicast-Adresse eingetragen. Ports die die Gruppe verlassen (leave) werden aus der Tabelle gelöscht.
 	\end{itemize}
 	
-\subsection{Multicast MAC-Adressen}
+\subsection{Multicast-Adressen}
 %TODO Was will er uns mit Folie 16 aus 180 sagen??
+%CHRISTIAN: klärt das deine Frage?
 % 150, 180
+Auf der Vermittlungsschicht werden \textbf{Class-D-IP-Adressen} verwendet.
+Diese beginnen mit der Bitfolge \texttt{1110}, die Teilmenge \texttt{224.0.0.0/24} ist für Multicast in lokalen Netzen verfügbar\footnote{Es wird kein Routing-Protokoll benötigt\cite{tanenbaum2003computer}}.
+Jede Adresse stellt dabei eine Multicast-Gruppe dar, folglich sind $2^{28} \approx 250$ Mio. Gruppen möglich.
 
+Bei lokaler Kommunikation via Ethernet werden besondere \textbf{Multicast-MAC-Adressen} verwendet.
+Diese beginnen mit der festen Bytefolge \texttt{01005E} (3 Byte).
+Das vierte Byte beginnt mit dem Bit \texttt{0}.
+Die übrigen 23 Bit werden von den 23 untersten Bits der Multicast-Adresse übernommen.
+5 Bits aus der Multicast-Gruppe können dabei nicht im Ethernet-Frame abgebildet werden.
+\begin{figure}[ht]
+	\centering
+\includegraphics[width=15cm]{img/multicast_adressen}
+\caption{Die Multicast-Adressen 236.208.213.215 und 232.208.213.215 werden auf dieselbe Mac-Adresse abgebildet.}
+\end{figure}
 \section{Zeitsynchronisation}
 % 160, 190
 
