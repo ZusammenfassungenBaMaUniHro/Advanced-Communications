@@ -513,7 +513,6 @@ Namespace benennt | urn:ip-addr:139.30.3.23
 \end{description}
 
 \subsection{ICMPv6 Neighbor Discovery Protocol (NDP)} 
-%TODO RFC verlinken: RFC4861 (RFC2461) 
 \begin{itemize}
 	\item Dient als Ablösung von ARP
 	\item Mechanismus von IPv6 für Auflösung (Übersetzung) von Netzwerkadressen in Hardwareadressen\cite{rfc4861}.
@@ -1461,8 +1460,7 @@ Zur Zeit existieren unterschiedliche Telefonnetze, Anbieter und Standards. Desha
 
 \subsection{Protkolle zur Übertragung von Steuerungsinformationen}	
 \subsubsection{SIP}	
-	%TODO Verlinken: RFC 2543
-	SIP (Session Initiation Protocol ) dient nicht zur Übertragung multimedialer Daten. Das Protokoll steuert den Aufbau einer Verbindung zwischen Kommunikationspartnern. Die Verbindung wird hierbei über HTTP-ähnliche Nachrichten gesteuert.\\
+	SIP (Session Initiation Protocol)\cite{rfc2543} dient nicht zur Übertragung multimedialer Daten. Das Protokoll steuert den Aufbau einer Verbindung zwischen Kommunikationspartnern. Die Verbindung wird hierbei über HTTP-ähnliche Nachrichten gesteuert.\\
 	Dabei beteiligte Entitäten sind:
 	\begin{itemize}
 	\item Proxy Server 
@@ -1825,8 +1823,7 @@ Protokolle zum E-Mail-Versand sind POP3, IMAP und SMTP. Diese bauen auf Transpor
 	\item X.25 könnte direkt benutzt werden, vorgeschlagen wird aber TCP over X.25
 	\end{itemize}
 \subsection{POP3}
-%TODO RFC verlinken: 1939, 1996 
-Das POP3 (Post Office Protocol - Version 3) dient zum Abrufen eingehender Mails  und wird typischerweise eingesetzt, wenn direkter Mail-Empfang nicht möglich ist. Dies kann dann eintreten, wenn bspw. keine permanente Verbindung besteht, zu wenig Ressourcen beim Client bzw. Host zur Verfügung stehen oder auch wenn \glqq postlagernde\grqq Mails aberufen werden.\\
+Das POP3 (Post Office Protocol - Version 3)\cite{rfc1939} dient zum Abrufen eingehender Mails  und wird typischerweise eingesetzt, wenn direkter Mail-Empfang nicht möglich ist. Dies kann dann eintreten, wenn bspw. keine permanente Verbindung besteht, zu wenig Ressourcen beim Client bzw. Host zur Verfügung stehen oder auch wenn \glqq postlagernde\grqq Mails aberufen werden.\\
 Obwohl POP3 eigentlich unabhängig vom Transport Protkoll ist, ist es nur für TCP auf Port 110 spezifiziert.
 \subsubsection{Arbeitsweise}
 \textbf{Kommandos} bestehen aus einem Schlüsselwort und eventuell aus Argumenten. \textbf{Antworten} bestehen aus Status, Schlüsselwort und eventuell nachfolgenden Informationen 
