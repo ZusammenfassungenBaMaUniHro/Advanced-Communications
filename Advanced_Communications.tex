@@ -1851,8 +1851,7 @@ Obwohl POP3 eigentlich unabhängig vom Transport Protkoll ist, ist es nur für T
 	\item[UPDATE] - Phase beim Beenden und alle zum Löschen markierten Mails werden gelöscht 
 	\end{description}
 \subsection{IMAP4}
-%TODO RFC verlinken:  1730, 1994
-Das IMAP4 (Internet Message Access Protocol  - Version 4) ermöglicht, dass Nachrichten auf dem Server verbleiben und dort effektiv verwaltet werden. Das Protokoll ist nur für das Empfangen von Nachrichten zuständig, aber Nachrichten können auch in einzelnen Mailboxen erzeugt werden.
+Das IMAP4\cite{rfc1730} (Internet Message Access Protocol  - Version 4) ermöglicht, dass Nachrichten auf dem Server verbleiben und dort effektiv verwaltet werden. Das Protokoll ist nur für das Empfangen von Nachrichten zuständig, aber Nachrichten können auch in einzelnen Mailboxen erzeugt werden.
 \subsubsection{Zustände des Servers}
 \begin{center}
 	\includegraphics[width=10cm]{img/imap.png}
@@ -1888,8 +1887,8 @@ Im Zustand \textbf{selected} wurde eine Mailbox ausgewählt. Dieser Zustand wird
 	\end{itemize}
 
 \subsection{SMTP}
-%TODO RFC verlinken:  821, 1982 
-Das SMTP (Simple Mail Transfer Protocol) ist von der zugrundeliegenden Übertragungsart unabhängig. Es benötigt lediglich einen zuverlässigen, geordneten Datenstream. Zwischen den Kommunikationspartnern (Sender-SMTP und Receiver-SMTP) wird ein Zwei-Wege-Kommunikation-Kanal aufgebaut. Dabei kann der Receiver-SMTP entweder das Ziel oder ein Zwischenglied sein. Vom Sender werden Commands an den Receiver gesendet, dieser antwortet mit Replies. 
+
+Das SMTP (Simple Mail Transfer Protocol)\cite{rfc821} ist von der zugrundeliegenden Übertragungsart unabhängig. Es benötigt lediglich einen zuverlässigen, geordneten Datenstream. Zwischen den Kommunikationspartnern (Sender-SMTP und Receiver-SMTP) wird ein Zwei-Wege-Kommunikation-Kanal aufgebaut. Dabei kann der Receiver-SMTP entweder das Ziel oder ein Zwischenglied sein. Vom Sender werden Commands an den Receiver gesendet, dieser antwortet mit Replies. 
 \begin{center}
 	\includegraphics[width=10cm]{img/smtp.png}
 \end{center}
@@ -2023,15 +2022,13 @@ Eine Alternative stellen \textbf{Registries} da: Dienste können bei einem Verze
 
 
 \subsubsection{BOOTP}
-%TODO RFC Verlinken RFC951
-Ursprünglich war BootP (Bootstrap Protocol) für Diskless Workstations gedacht. Es liefert IP-Adresse und weitere Informationen, wie bspw. die Adresse eines TFTP-Servers. Die Kommunikation erfolgt via UDP.
+Ursprünglich war BootP (Bootstrap Protocol) \cite{rfc951} für Diskless Workstations gedacht. Es liefert IP-Adresse und weitere Informationen, wie bspw. die Adresse eines TFTP-Servers. Die Kommunikation erfolgt via UDP.
 
 Ein BootP-Protokoll-Paket enthält die IP-Adress-Informationen von BootP-Client, -Server und Router, sowie die vom BootP-Server vorgeschlagene IP-Adresse für den Client. Darüber hinaus hat das BootP-Frame Datenfelder für den Client-Hardwareadresse, den Server-Host-Namen, den Boot-File-Namen und ein herstellerspezifisches Feld.  
 
 
 \subsubsection{DHCP}
-%TODO RFC verlinken RFC 2131 (1541), RFC 2132 (1533) 
-	Das DHCP (Dynamic Host Configuration Protocol) wird zur  Übertragung von Konfigurationsparametern zu Knoten in TCP/IP-Netzen verwendet. DHCP ist abwärtskompatibel zu BOOTP.\\
+	Das DHCP (Dynamic Host Configuration Protocol) \cite{rfc2131,rfc2132} wird zur  Übertragung von Konfigurationsparametern zu Knoten in TCP/IP-Netzen verwendet. DHCP ist abwärtskompatibel zu BOOTP.\\
 	
 	DHCP wird zur automatische Vergabe von IP-Adressen verwendet - und damit mehr als nur eine statische Zuordnung. Es erfolgt eine temporäre (dynamische) Zuweisung der Adressen, was DHCP zu einem aufwändigerem Protokoll macht. \\
 	Es gibt verschiedene Nachrichtentypen:
@@ -2173,8 +2170,7 @@ Transparente Umsetzung der lokalen Mechanismen, wie Zugriffsmatrix und ACL.
 
 \subsection{Protokolle}
 \subsection{NFS}
-%TODO RFC3530)
-Das NFS (Network File System) ist in Version 4 und unterstützt UDP, TCP und Dateien, die größer als 4GB sind. Eine Authentisierung über IP-Adresse wird unterstützt.\\
+Das NFS (Network File System) \cite{rfc3530} ist in Version 4 und unterstützt UDP, TCP und Dateien, die größer als 4GB sind. Eine Authentisierung über IP-Adresse wird unterstützt.\\
 	\begin{itemize}
 	\item \textbf{zustandsbehaftetes Protokoll}
 	\item Kryptografisch abgesichert
@@ -2218,17 +2214,15 @@ Ursprünglich wurde SMB (Server Message Block) für Windows und OS/2 entwickelt.
 Umbenennung 1996 von SMB in Common Internet File System (CIFS), neue Features. 
 CIFS baut dabei auf NetBIOS over TCP/IP und SMB auf und bietet neben der Datei- und Druckerfreigabe weitere Dienste wie zum Beispiel den Windows-RPC- und den NT-Domänendienst an. 
 \subsection{WebDAV}
-%TODO RFC4918 
 	\begin{itemize}
-	\item HTTP Extensions for Web Distributed Authoring and Versioning
+	\item HTTP Extensions for Web Distributed Authoring and Versioning \cite{rfc4918}
 	\item Erweiterung von HTTP durch neue Requests. \\
 	(\textbf{COPY, MOVE, LOCK / UNLOCK, DELETE, MKCOL, PROPFIND / PROPPATCH})
 	\item Properties als XML Dokument 
 	\item Datei muss vollständig übertragen werden, dann geändert, dann zurück übertragen. 
 	\end{itemize}
 \subsection{iSCSI}
-%TODO RFC3720 
-Das ISSCSI (Internet Small Computer Systems Interface) benutzt TCP als Transport für SCSI Kommandos (quasi Tunneln)  typischerweise Port 860 und 3260.Das SCSI-Gerät verhält sich für das Client-System Initiator) wie ein lokales Gerät.
+Das ISSCSI (Internet Small Computer Systems Interface)\cite{rfc3720} benutzt TCP als Transport für SCSI Kommandos (quasi Tunneln)  typischerweise Port 860 und 3260.Das SCSI-Gerät verhält sich für das Client-System Initiator) wie ein lokales Gerät.
 	\begin{itemize}
 	\item Der Initiator (Client) kann entweder aus Software oder Hardware erstellt werden. 
 	\item Target (Server) kann ebenfalls als Software oder Hardware realisiert werden. 
