@@ -2438,21 +2438,56 @@ Beispiele:
 			\item 
 			\end{itemize}
 	\item Do some searches/modification/deletions
-			\begin{itemize}
-			\item 
-			\end{itemize}
 	\item Close the connection
-			\begin{itemize}
-			\item 
-			\end{itemize}
 	\end{enumerate}
 	
 % 340
-%TODO LDAP
 
 \section{Authentication Protocols}
+Authentifikation ist der Prozess, bei dem versucht wird die Identität von jemanden nachzuweisen. Authentifikation ist ein wichtiger Bestandteil für Login-/Zugriffs-Prozesse, Security-Protokolle oder das Web of Trust.
 
-% 350
+\subsection{Prinzipien}
+Es gibt eine Vielzahl von Protkollen, die unverschlüsselte Passwörter verwenden: sogenannte Plain-Text-Passwörter.\\
+\textit{Telnet, FTP, POP3(teilweise, auch wenn MD5 als replay-anfällige Alternative möglich ist), IMAP4 (teilweise)}
+
+\subsubsection{Wissensbasiert} 
+Es muss eine gemeinsame geheime Information dem Authentifizierenden gezeigt werden.\\ \textbf{Probleme}: ein zu schwach gewähltes Passwort (Wörterbuch-Angriff, Brute-Force), der Nutzer vergisst sein Passwort oder das Passwort wurde kompromittiert.\\
+\textbf{Beispiele}: PIN, Passwort, key phrase, personal information
+
+\subsubsection{Besitzbasiert} 
+Es muss über das Netzwerk nachgewiesen werden, dass jemand den Nachweis besitzt. Es muss eine geheime Information innerhalb des Tokens sein. Diese darf jedoch nicht über das Netzwerk übertragen, sondern nachgewiesen werden. \\
+\textbf{Probleme}: Der Nutzer kann das Token verlieren oder jemand anderes kopiert es sich.\\
+\textbf{Beispiele}: SmartCard / SIM card, credit card, key, RFID token, phone, transponder, PC, DRM module (inside audio player, TV set etc.) 
+
+\subsubsection{Biometrisch} 
+Biometrische Eigentschaften können nicht vergessen, gestolen, belauscht oder gelernt werden. Der Umgang kann mit unter kompliziert sein. Üblicherweise ist dies die einzige Möglichkeit eine Person an ein Gerät zu binden. Alle anderen Verfahren können von jemand anderem ausgeführt werden.
+ Retina, Iris, finger print, DNA, voice, signature
+ 
+\subsubsection{Zwei-Faktor-Authentifizierung}
+Erhöht die Sicherheit um ein weiteres, wenn zwei Verfahren kombiniert werden, auch bekannt als \glqq strong authentication\grqq
+
+
+\subsection{Probleme}
+	\begin{itemize}
+	\item Wie kann man sich sicher gegenüber jemandem ausweisen, der sich selbst nicht ausgewiesen hat? \\
+	Es könnte ein Man-in-the-middle Angriff sein, Replay-Attaken müssen verhindert werden, weshalb eine gegenseitige Authentifikation notwendig ist.
+	\item Wie kann man sich durch Wissen oder Besitz authentifizieren, ohne das eigentliche shared secret zu übertragen.
+	\end{itemize}
+Es gibt standardisierten Protokollen für eine Vielzahl von Anwendungen.
+\subsection{Angriffe}
+\noindent\textbf{Man in the middle}\\
+Es befindet sich jemand zwischen zwei Kommunikationspartnern und wirkt für alle wie das Gegenüber. Es ist ein vertrauenswürdiger Dritter von Nöten, um solche Angriffe zu verhindern.\\
+
+\noindent\textbf{Replay}\\
+Bei diesem Angriff zeichnet der Angreifer eine verschlüsselte Authentifikations-Nachricht auf. Um Zugriff zu erhalten, spielt er sie erneut ab. Es ist notwendig für jede Authentifikations-Nachricht einen einzigartigen Wert zu verwenden. Idealer Weise ist dieser nur einmal nutzbar.\\
+
+\noindent\textbf{Denial of service}\\
+Hierbei handelt es sich gewisser Maßen um einen Akt des Vandalismus. Jemand verursacht die Kommunikation zwischen Server und Client zu stören bzw. zu blockieren. Dieser Angriff ist meist schwer zu vereiteln.
+
+
+\subsection{Challenge-Response}
+Dieses Verfahren ermöglicht es, dass das Wissen über ein geteiltes Geheimnis bewiesen werden kann, ohne dass es versendet werden muss. Dadurch sollen Replay-Angriffe verhindert werden.
+% 350 - 12
 %TODO Authentication Protocols
 
 \section{Simple Network Management Protocol}
