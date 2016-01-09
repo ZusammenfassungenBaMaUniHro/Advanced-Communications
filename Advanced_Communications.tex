@@ -2591,8 +2591,38 @@ Dieses Verfahren ermöglicht es, dass das Wissen über ein geteiltes Geheimnis b
 \section{Simple Network Management Protocol}
 
 % 360
-%TODO SNMP 
+%PRÜFEN SNMP 
 
+SNMP ermöglicht das Verwalten und Überwachen von Netzwerkressourcen.
+Wichtige Teilnehmer sind \textbf{Agenten} und \textbf{Manager}.
+Agenten sind Applikationen, die auf Netzwerkteilnehmern (Hosts, Router, Drucker etc.) laufen und Informationen über Konfiguration und Status verwalten.
+Manager kontaktieren Agenten um Informationen abzufragen oder zu verändern.
+
+Datenobjekte (z.B. \emph{Tonerstand Cyan}) werden als Object Identifier (OID) bezeichnet.
+Diese sind baumartig-hierarchisch geordnet und können entsprechend auf zwei Weisen dargestellt werden:
+Zum einen numerisch, etwa \texttt{1.3.6.1.2.1.4.6.} und zum anderen als Zeichenkette \texttt{iso.org.dod.internet.mgmt.mib-2.ip.ipForwDatagrams}.
+Eine OID entspricht dabei einem Knoten im Baum.
+\textbf{Management Information Bases} (MIB) sind Textdateien, welche diese Objekte beschreiben.
+Sie werden häufig von Software eingelesen, um dem Nutzer weitere Informationen zur Verfügung zu stellen oder bekannte OIDs anzuzeigen.
+
+Manager und Agenten kommunizieren über das SNMP.
+Agenten lauschen auf UDP-Port 161.
+An diesen senden Manager eine Anfrage (\texttt{get-request}) und erhalten eine Antwort (\texttt{get-respond}).
+Über einen \textbf{SNMP-Walk} kann eine Reihe von aufeinanderfolgenden OIDs abgefragt werden (\texttt{get-next-request}).
+Modifikationen können mit (\texttt{set-request}) vorgenommen werden.
+
+Ebenfalls kann die Kommunikation vom Agenten initiiert werden.
+Bei bestimmten Ereignissen (z.B. Tonerfüllstand $<$ 10\% oder Last auf Switch $>$ 95\%) sendet der Agent eine Nachricht an den Manager (UDP-Port 162).
+Dieses Verfahren wird \textbf{SNMP-Trap} genannt.
+
+Der \textbf{Paketaufbau} für Get/Set-Nachrichten ist relativ simpel gehalten.
+Sie beginnen mit der Versionsnummer und der Community.
+Die Communities stellen eine Art Passwort dar und werden im Klartext übermittelt.
+Häufig akzeptieren viele Geräte \texttt{public} als Standard-Community.
+SNMPv3 hat Verbesserungen der Sicherheit adressiert.
+
+Es folgt eine \textbf{SNMP PDU}.
+Wesentliche Bestandteile hierbei sind der Type (z.B. v1Get, v2Get etc), eine einmalige Request ID und eine Folge von Objekt-Wert-Paaren, die angefragt werden.
 \section{Mac-Sublayer}
 
 % 365
@@ -3040,6 +3070,7 @@ Dieses Verfahren ermöglicht es, dass das Wissen über ein geteiltes Geheimnis b
 \newglossaryentry{ssh}{name=SSH,description={Secure Shell}}
 \newglossaryentry{nvt}{name=NVT,description={Network Virtual Terminal}}
 \newglossaryentry{rsa}{name=RSA,description={Rivest, Shamir und Adleman}}
+\newglossaryentry{pdu}{name=PDU,description={Packet Data Unit}}
 
 \newpage
 \addcontentsline{toc}{section}{Glossar}
