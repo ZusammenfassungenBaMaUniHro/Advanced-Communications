@@ -440,12 +440,34 @@ Zum Aufbau einer Verbindung wird der \textbf{3-Way-Handshake} durchgeführt:
 \end{enumerate}
 Ein Timeout findet typischerweise nach 75 Sekunden statt. Zum Abbau der Verbindung genügt das Senden und Quittieren eines FIN.
 
-\subsubsection{Sliding Window}
-%TODO Sliding Window
-\subsubsection{Nagel-Algorithmus}
-%TODO Nagel Algortihsmus
+\subsubsection{Sliding Window \& Nagle-Algorithmus}
+%PRÜFEN Sliding Window & Nagle Algorithmus
+
+\textbf{Hinweis:} Konnte in den Folien hierzu nix groß finden, Infos stammen aus dem Tanenbaum\footnote{Das Kapitel heißt in der deutschen Fassung ernsthaft \emph{TCP-Schiebefenster}. Barbaren!}\cite{tanenbaum2003computer}.
+
+Die Flusskontrolle von TCP funktioniert im Groben folgendermaßen:
+Nach Erhalt der Daten quittiert der Empfänger das letzte Empfangene Segment im \texttt{ACK}-Feld.
+Empfängt er beispielsweise eine 2kB große Nachricht mit den Segmenten 0 - 2048, sendet er \texttt{ACK=2048}.
+Gleichzeitig ermöglicht das \textbf{Window Size} (WIN) Feld eine Angabe, wie viele Segmente der Empfänger noch annehmen kann, etwa weil er nur einen begrenzt großen Puffer hat, der erst gelesen und geleert werden muss.
+
+Bei \texttt{WIN=0} wird dem Sender signalisiert, dass der Puffer des Empfängers voll ist und keine Daten empfangen werden können.
+Ausnahmen sind hier priorisierte Nachrichten und \emph{window probes}\footnote{Fenstersondieranfragen}.
+Letztere fordern den Empfänger dazu auf, wiederholt das nächste erwartete Byte und die Fenstergröße zu übermitteln, um Deadlocks vorzubeugen.
+
+Es muss nicht zwingend jedes TCP-Segment einzeln bestätigt werden.
+Anwendungen, wie Telnet oder SSH etwa, könnten für jeden Tastaturanschlag ein einzelnes Segment verschicken, was eigentlich zu bestätigen ist.
+Stattdessen werden hier häufig \text{verzögerte Bestätigungen} eingesetzt.
+Dabei kann bis zu 500ms auf weitere eintreffende Daten gewartet werden, die dann gleich mitbestätigt werden.
+
+Da der durch viele kurze Pakete erzeugte Overhead die Effizienz der Kommunikation negativ beeinflusst, wird häufig der \textbf{Nagle-Algorithmus} eingesetzt.
+Hierbei wird, wenn die Daten vom Sender byteweise kommen, immer nur das erste Byte gesendet und die nachfolgenden Nachrichten im Puffer gehalten.
+Wird das erste Byte bestätigt, so werden alle sich im Puffer befindlichen Daten gesendet.
+So werden viele kleine Daten in großen Segmenten zusammengefasst.
+Aufgrund der Verzögerung kann diese Technik auch unerwünschte Folgen haben, etwa bei Spielen oder Konsolenanwendungen.
+
 
 \subsection{SCTP}
+%PRÜFEN SCTP
 Das \textbf{Stream Control Transmission Protocol}\cite{rfc4960} ist ein zuverlässiges (Reihenfolge, Duplikate, Veränderungen, Fehlende Daten) Transportprotokoll für Unicast-Kommunikation.
 Es arbeitet nachrichten-orientiert, die Nachrichten\footnote{Auch als Chunks bezeichnet} haben eine interne Struktur.
 SCTP ermöglicht multi-streaming, Daten können in parallelen Streams übertragen werden.
