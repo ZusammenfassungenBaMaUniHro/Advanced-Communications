@@ -446,10 +446,11 @@ Ein Timeout findet typischerweise nach 75 Sekunden statt. Zum Abbau der Verbindu
 %TODO Nagel Algortihsmus
 
 \subsection{SCTP}
-%TODO SCTP
 Das \textbf{Stream Control Transmission Protocol}\cite{rfc4960} ist ein zuverlässiges (Reihenfolge, Duplikate, Veränderungen, Fehlende Daten) Transportprotokoll für Unicast-Kommunikation.
 Es arbeitet nachrichten-orientiert, die Nachrichten\footnote{Auch als Chunks bezeichnet} haben eine interne Struktur.
-SCTP ermöglicht multi-streaming, Daten können in parallelen Streams übertragen werden. Streams werden einzeln nummeriert (Retransmits müssen nur für den jeweiligen Stream erfolgen).
+SCTP ermöglicht multi-streaming, Daten können in parallelen Streams übertragen werden.
+Dies ist beispielsweise dann hilfreich, wenn Websiten mit mehreren Ressourcen übertragen werden.
+Streams werden einzeln nummeriert (Retransmits müssen nur für den jeweiligen Stream erfolgen).
 Daten-Chunks können einzeln bestätigt werden. (\textbf{Selective ACK})
 Retransmits nur für fehlende Pakete.
 
@@ -465,13 +466,66 @@ Offensichtlich können hierbei die Nachrichten unterschiedliche Pfade nutzen.
 \subsubsection{Paketaufbau}
 Ein allgemeines Paket besteht aus einem \textbf{Common Header} und mehreren nummerierten \textbf{Chunks}.
 Der Header besteht aus \textbf{Source-} und \textbf{Destinationport}, einem \textbf{Verification Tag} und einer \textbf{Checksum}.
-Das Verification Tag wird vom Empfänger genutzt, um den Sender des Pakets zu validieren.
+Chunks bestehen aus einem \textbf{Typen}, einer Reihe von \textbf{Flags}, einem \textbf{Längenfeld}, sowie dem \textbf{Wert (Value)}.
+Letzteres setzt sich, je nach Chunk-Type, aus mehreren Feldern zusammen.
+Weiter unten wird zur Veranschaulichung ein Payload Data Chunk beschrieben.
+
+Der Typ des Chunks wird durch das 8-Bit lange Type-Feld bestimmt.
+Dafür sind die Werte 0-254 verfügbar.
+Wert 255 ist für eine zukünftige Erweiterung des Feldes reserviert.
+Im Folgenden einige Beispiele für Typenfelder.
+Weitere Werte sind verfügbar oder bereits reserviert.
+\begin{multicols}{2}
+	\begin{enumerate}
+		\setcounter{enumi}{-1}
+		\item Payload Data \texttt{DATA}
+		\item Initiation \texttt{INIT}
+		\item Initiation Acknowledgement \texttt{INIT ACK}
+		\item Selective Acknowledgement \texttt{SACK}[sic!]
+		\item Heartbeat Request \texttt{HEARTBEAT}
+		\item Heartbeat Acknowledgement \texttt{HEARTBEAT ACK}
+		\item Abort \texttt{ABORT}
+		\item Shutdown \texttt{SHUTDOWN}
+		\item Shutdown Acknowledgement \texttt{SHUTDOWNACK}
+		\item Operation Error \texttt{ERROR}
+		\item State Cookie \texttt{COOKIE ECHO}
+		\setcounter{enumi}{13}
+		\item Shutdown Complete \texttt{SHUTDOWN COMPLETE}
+	\end{enumerate}
+\end{multicols}
+
+
+Das \textbf{Verification Tag} im Header wird vom Empfänger genutzt, um den Sender des Pakets zu validieren.
 Es entspricht dem Wert des Initiate Tag\footnote{Das Initiate Tag ist ein Feld im \texttt{INIT Chunk}.}.
 \textbf{Ausnahmen:} Beinhaltet das Paket einen \texttt{INIT Chunk}, ist das Verification Tag Null.
-Wenn ein Paket einen \texttt{SHUTDOWN COMPLETE Chunk}, 
+Wenn ein Paket einen \texttt{SHUTDOWN COMPLETE Chunk} enthält, bei dem das T-Bit gesetzt ist, so wird das Verification Tag vom \texttt{SHITDOWN ACK chunk} kopiert.
+Zu guter Letzt wird das Verification Tag eines \texttt{ABORT chunks} vom ABORT-verursachenden Paket übernommen.
+
+\textbf{Payload Data} Chunks sollen im Folgenden kurz besprochen werden.
+Sie haben den Type-Wert 0.
+Im Flag-Feld sind die letzten 3 Bits von besonderem Interesse, gefolgt vom Längen-Feld.
+Die Flags haben haben die folgende Bedeutung:
+\begin{description}
+	\item[U] | Ist das \emph{Unordered} Bit gesetzt, wird die Stream Sequence Number ignoriert.
+	Das bedeutet, dass empfangene Chunks, ohne vorher sortiert zu werden, an den darüberliegenden Layer weitergereicht werden.
+	Ist eine Nachricht fragmentiert, so wird dieses Bit bei jedem Fragment gesetzt.
+	\item[B] | Das \emph{Beginning} fragment Bit gibt an, dass es sich um das erste Fragment einer Nachricht handelt
+	\item[E] | Das \emph{Ending} fragment Bit gibt an, dass es sich um das letzte Fragment einer Nachricht handelt.
+\end{description}
+Das Value-Feld ist beim DATA Chunk wie folgt aufgebaut:
+\begin{description}
+	\item[Transmission Sequence Number (TSN)] | enthält einen Wert zwischen 0 und $2^{32}-1$.
+	Sie identifiziert einen Chunk und wird zur Bestätigung des Erhalts genutzt.
+	Nach erreichen des maximalen Wert beginnt die Nummerierung wieder bei 0.
+	\item {Stream Identifier S} | identifiziert den Stream, zu dem der Chunk gehört.
+	Dies ist notwendig, wenn parallele Streams versendet werden.
+	\item {Payload Protocol Identifier} | identifiziert das genutzte Protokoll.
+	Das Feld wird von SCTP selbst nicht genutzt, sondern nur an höhere Schichten weitergereicht, beziehungsweise von Zwischenstationen interpretiert.
+	\item {User Data} | enthält letztendlich die zu transportierenden Daten.
+\end{description}
+
 
 \section{Adressierung}
-
 % 030
 \subsection{MAC-Adressen}
 
