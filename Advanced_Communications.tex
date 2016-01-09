@@ -402,10 +402,7 @@ Der Header enthält 4 Felder (je 16 Bit): Quellport, Zielport, Datagram-Länge u
 TCP ist ebenfalls ein Layer-4-Protokoll.\cite{rfc793}
 Es garantiert eine Ankunft der Pakete in korrekter Reihenfolge.
 Clienten sehen die Verbindung als bidirektionalen Datenstrom, tatsächlich findet die Kommunikation über Pakete statt. Die Kommunikation erfolgt durch TCP zustandsbehaftet.
-
-\subsection{SCTP}
-
-%TODO SCTP
+TCP arbeitet byte-orientiert.
 
 \subsubsection{Paketstruktur}
 
@@ -447,6 +444,32 @@ Ein Timeout findet typischerweise nach 75 Sekunden statt. Zum Abbau der Verbindu
 %TODO Sliding Window
 \subsubsection{Nagel-Algorithmus}
 %TODO Nagel Algortihsmus
+
+\subsection{SCTP}
+%TODO SCTP
+Das \textbf{Stream Control Transmission Protocol}\cite{rfc4960} ist ein zuverlässiges (Reihenfolge, Duplikate, Veränderungen, Fehlende Daten) Transportprotokoll für Unicast-Kommunikation.
+Es arbeitet nachrichten-orientiert, die Nachrichten\footnote{Auch als Chunks bezeichnet} haben eine interne Struktur.
+SCTP ermöglicht multi-streaming, Daten können in parallelen Streams übertragen werden. Streams werden einzeln nummeriert (Retransmits müssen nur für den jeweiligen Stream erfolgen).
+Daten-Chunks können einzeln bestätigt werden. (\textbf{Selective ACK})
+Retransmits nur für fehlende Pakete.
+
+Es bietet \textbf{Schutz gegen SYN Flooding} (Cookie-Mechanismus) - Anfrager bekommt Cookie und muss das nachfolgend wieder vorweisen, dies bedeutet keinen Ressourcenverbrauch beim Server:
+Der Server speichert dazu bei einer Verbindungsanfrage (\texttt{INITPaket}) keine Zustandsinformationen, sondern schickt diese in Form eines Cookies (\texttt{INIT-ACK-Paket}) an den Client.
+Der Client muss dieses Cookie in seine Antwort (\texttt{COOKIEECHO}-Paket) einfügen und wird damit vom Server als zum Verbindungsaufbau berechtigt erkannt.
+Eine Bestätigung geschieht durch ein \texttt{COOKIE-ACK}-Paket.
+
+SCTP ermöglich \textbf{Multi homing}.
+Dabei haben beide Kommunikationspartner eine primäre und potentiell mehrere sekundäre (IP-)Adressen.
+Auf diese Weise ist es möglich, eine stabile Verbindung aufrecht zu erhalten, auch wenn ein Interface inaktiv wird.
+Offensichtlich können hierbei die Nachrichten unterschiedliche Pfade nutzen.
+\subsubsection{Paketaufbau}
+Ein allgemeines Paket besteht aus einem \textbf{Common Header} und mehreren nummerierten \textbf{Chunks}.
+Der Header besteht aus \textbf{Source-} und \textbf{Destinationport}, einem \textbf{Verification Tag} und einer \textbf{Checksum}.
+Das Verification Tag wird vom Empfänger genutzt, um den Sender des Pakets zu validieren.
+Es entspricht dem Wert des Initiate Tag\footnote{Das Initiate Tag ist ein Feld im \texttt{INIT Chunk}.}.
+\textbf{Ausnahmen:} Beinhaltet das Paket einen \texttt{INIT Chunk}, ist das Verification Tag Null.
+Wenn ein Paket einen \texttt{SHUTDOWN COMPLETE Chunk}, 
+
 \section{Adressierung}
 
 % 030
