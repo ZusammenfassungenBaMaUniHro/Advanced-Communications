@@ -2664,8 +2664,6 @@ EAP spezifiziert ein Authentifikations-Framework - keinen konkreten Mechanismus.
 \subsubsection{SSO}
 Single Sign-on (SSO) bedeutet, dass ein Benutzer nach einer einmaligen Authentifizierung an einem Arbeitsplatz auf alle Rechner und Dienste, für die er lokal berechtigt (autorisiert) ist, am selben Arbeitsplatz zugreifen kann, ohne sich jedes Mal neu anmelden zu müssen. 
 % 350 - 12
-%TODO Authentication Protocols
-
 
 \section{Simple Network Management Protocol}
 
@@ -2702,8 +2700,101 @@ SNMPv3 hat Verbesserungen der Sicherheit adressiert.
 
 Es folgt eine \textbf{SNMP PDU}.
 Wesentliche Bestandteile hierbei sind der Type (z.B. v1Get, v2Get etc), eine einmalige Request ID und eine Folge von Objekt-Wert-Paaren, die angefragt werden.
-\section{Mac-Sublayer}
+\section{Data Link Layer - MAC Sublayer}
+In diesem Abschnitt werden verschiedene Konzepte zum Medienzugriff beschrieben:
+\textbf{Kollisionsbehaftete Verfahren}
+	\begin{itemize}
+	\item Unkoordinierter (zufälliger) Zugriff auf das Medium 
+	\item Kollision muss erkannt und behandelt werden		
+	\end{itemize} 
+\textbf{Kollisionsfreie Verfahren}
+	\begin{itemize}
+	\item Koordinierter Zugriff (Steuerung des Zugriffs durch dezentralisiertes oder dezentrales Verfahren) 
+	\end{itemize}
+	
+\textbf{Zufälliger Medienzugriff}
+Kann auftreten, wenn 
+	\begin{itemize}
+	\item ein gemeinsames Medium genutzt wird (mehr als zwei Stationen teilen sich einen Übertragungskanal). 
+	\item keine zentrale Steuerung des Medienzugriffs erfolgt, keine Abstimmng mit anderen Stationen 
+	\item Keine Reservierung stattfindet
+\end{itemize}
+Beispiele: Ethernet LAN, WLAN, Bluetooth
 
+\subsection{Pure Aloha}
+Wurde 1970 für  Funknetze an der Universität Hawaii entwickelt  um folgendes Grundproblem zu lösen: gemeinsamer Übertragungskanal (Luft), Stationen senden unkoordiniert Frames gleicher Länge aus Aussendung dauert immer eine konstante Frame-Zeit) und Kollisionen werden von allen Stationen erkannt.
+\subsubsection{Ablauf}
+	\begin{itemize}
+	\item Wahrscheinlichkeit p wird für alle Stationen fest vorgegeben 
+	\item Immer wenn genug Daten für ein Frame vorliegen, wird das Frame unverzüglich gesendet 
+	\item Kollisionen sind möglich, dann wird der aktuelle Frame noch vollständig gesendet:
+		\begin{enumerate}
+		\item Station ermittelt ermittelt Zufallszahl k aus [0,1]
+		\item Wenn k $<=$ wird Frame sofort neu gesendet, sonst wird eine Frame-Zeit gewartet (mit Wahrscheinlichkeit p wird Frame gesendet, mit Wahrscheinlichkeit (1-p) wird eine Frame-Zeit gewartet 
+		\item Falls gewartet wurde, GOTO 1. 
+		\end{enumerate}
+	\item Die Wartezeit muss zufällig verteilt sein 
+	\end{itemize}	
+
+\begin{figure}[ht]
+	\centering
+  \includegraphics[width=12cm]{img/pure1.png}
+	\caption{Station 2 sendet zum Zeitpunkt $t_0$  einen Frame. T ist die Frame-Zeit. Kollisionen, wenn andere Stationen im Zeitraum [$t_0–T$, $t_0+T$] mit dem Senden beginnen}
+\end{figure}
+
+\subsubsection{Erste Bewertung}
+Es handelt sich um eine \textbf{einfache} Implementation. Jede Station kann die volle Kanalkapazität nutzen, solange nur sie allein Daten zu senden hat. Aber dir Auslastung des Kanals ist schlecht wegen \textbf{Retransmits} wegen Kollisionen und \textbf{Wartezeiten} nach Kollisionen.
+\subsubsection{Auslastung}
+Ein Frame wird genau dann erfolgreich übertragen, wenn: 
+	\begin{itemize}
+	\item Eine Station im Zeitraum [$t_0,t_0+T$] sendet (Wahrscheinlichkeit hierfür beträgt p) und 
+	\item Keine von N–1 Stationen im Zeitraum [$t_0,t_0+T$] sendet (Wahrscheinlichkeit ist $(1–p)^{N–1}$ ) und 
+	\item Keine von N–1 Stationen im Zeitraum [$t_0-T,t_0$] sendet (Wahrscheinlichkeit ist $(1–p)^{N–1}$ )
+	\end{itemize}
+Daraus folgt Wahrscheinlichkeit für erfolgreiche Übertragung eines Frames 
+	\begin{itemize}
+	\item einer ausgewählten Station: $p*(1–p)^{N–1}*(1–p)^{N–1} = p*(1–p)^{2*(N–1)}$
+	\item einer beliebigen aus N Stationen: $N*p*(1–p)^{2*(N–1)}$
+	\end{itemize}
+Optimalen Kanalsauslastung: 0,184
+
+
+\subsection{Slotted Aloha}
+Änderungen gegenüber Pure Aloha
+	\begin{itemize}
+	\item Zeit ist in Slots eingeteilt 
+	\item Die Dauer eines Slots entspricht genau der Frame-Zeit 
+	\item Übertragungen beginnen immer an Anfang eines Slots 
+	\item Uhren der Stationen sind synchronisiert (alle Stationen nutzen die gleiche Slot-Einteilung), z.B. durch Aussendungen des Zeitsignals auf separatem Kanal 
+	\end{itemize}
+Die Kollisionsbehandlung ist wie bei Pure Aloha. Der Ablauf ist anders: Sobald genügend Daten für einen Frame vorliegen, wird der Frame unverzüglich zu Beginn des nächsten Slots gesendet.
+\begin{figure}[ht]
+	\centering
+  \includegraphics[width=14cm]{img/slotted1.png}
+\end{figure}
+
+\subsubsection{Erste Bewertung}
+Es ist notwendig den Ablauf zu synchronisieren. Durch Synchronisation wird jedoch ein besserer Nutzungsgrad gegenüber Pure Aloha erreicht.
+
+\subsubsection{Auslastung}
+Angenommen wird eine hohe Anzahl Stationen N. Jede Station sendet Frames unabhängig von den vorangegangenen Frames. Alle Stationen senden Frames unabhängig voneinander.\\
+Ein Frames wird genau dann erfolgreich übertragen, wenn: Eine Station sendet (Wahrscheinlichkeit hierfür beträgt p) und Gleichzeitig N–1 Stationen nicht senden (Wahrscheinlichkeit hierfür beträgt $(1–p)^{N–1}$) .\\
+Daraus folgt Wahrscheinlichkeit für erfolgreiche Übertragung eines Frames 
+	\begin{itemize}
+	\item einer ausgewählten Station: $p*(1–p)^{N–1}$
+	\item einer beliebigen aus N Stationen: $N*p*(1–p)^{N–1}$
+	\end{itemize}
+Optimalen Kanalsauslastung: 0,368
+
+\subsection{Auswertung}
+Wenn viele Stationen ein gemeinsames Medium nutzen, gilt: 
+	\begin{itemize}
+	\item Pure Aloha kann einen Kanal nur zu ca. 18$\%$ auslasten. 
+	\item Slotted Aloha kann einen Kanal zu ca. 37$\%$ auslasten. 	
+	\end{itemize}
+Beide Raten sind nicht befriedigend. Suche nach Verbesserungen: Viele Kollisionen (aber nicht alle) ließen sich verhindern, wenn vor dem Beginn einer Aussendung überprüft würde, ob der Kanal frei ist. 
+
+\subsection{CSMA}
 % 365
 %TODO Mac-Sublayer
 
