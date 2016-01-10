@@ -2542,7 +2542,10 @@ Beispiele:
 % 340
 
 \section{Authentication Protocols}
-Authentifikation ist der Prozess, bei dem versucht wird die Identität von jemanden nachzuweisen. Authentifikation ist ein wichtiger Bestandteil für Login-/Zugriffs-Prozesse, Security-Protokolle oder das Web of Trust.
+Authentifikation ist der Prozess, bei dem versucht wird die Identität von jemanden nachzuweisen. Authentifikation ist ein wichtiger Bestandteil für Login-/Zugriffs-Prozesse, Security-Protokolle oder das Web of Trust.\\
+
+
+\noindent Methoden zur Authentifikation sind Kerberos, RADIUS, PAP / CHAP / EAP 
 
 \subsection{Prinzipien}
 Es gibt eine Vielzahl von Protkollen, die unverschlüsselte Passwörter verwenden: sogenannte Plain-Text-Passwörter.\\
@@ -2585,6 +2588,62 @@ Hierbei handelt es sich gewisser Maßen um einen Akt des Vandalismus. Jemand ver
 
 \subsection{Challenge-Response}
 Dieses Verfahren ermöglicht es, dass das Wissen über ein geteiltes Geheimnis bewiesen werden kann, ohne dass es versendet werden muss. Dadurch sollen Replay-Angriffe verhindert werden.
+	\begin{center}
+		\includegraphics[width=10cm]{img/challResp.png}
+	\end{center}
+
+\subsection{Kerberos}	
+%TODO RFC RFC4120 (v.5)
+	\begin{itemize}
+	\item Kerberos ist ein computer network authentication protocol
+	\item Ermöglicht eine Kommunikation über ein unsicheres Netzwerk, bei dem die Identität des Gegenüber auf sichere Art und Weise bewiesen werden kann.
+	\item Die Entwickler legten den Fokus auf das Client-Server-Model und realisierten eine \textbf{gegenseitige} Authentifikation.
+	\item Kerberos ist abgesichert gegen Lauschen und replay attacks.
+	\item Kerberos basiert auf dem Vergeben von Tickets. Ein solches Ticket repräsentiert ein bestimmtes Recht.
+	\item Kommunikationsinstanzen:
+		\begin{itemize}
+		\item Client
+		\item Authentication server (AS)\\
+		\textit{Keeps long-term shared secrets}
+		\item Ticket granting server (TGS)\\
+		\textit{Issues tickets for service servers, when client presents a valid ticket from authentication server.}
+		\item Service server (SS)\\
+		\textit{Performs application tasks.}
+		\end{itemize}
+	\end{itemize}
+
+
+\begin{figure}[ht]
+	\centering
+  \includegraphics[width=8cm]{img/kerberos.png}
+	\caption{Kerberos Ablauf (von oben nach unten) - Wikipedia}
+\end{figure}
+%TODO Es ist die Frage, ob hier noch mehr ins Detail gegangen werden soll - Folie 18-21
+
+\subsection{RADIUS}
+RADIUS (Remote Authentication Dial In User Service) wird wie Kerberos zur Authentifikation, Authorisation und zum Accounting von Netzwerk-Ressourcen benutzt. Es wird verwendet für DSL, wireless und VPN. Ein RADIUS Server ist außerdem in der Lage Accounting-Informationen zu sammeln - genauso wie Zugriffsaufzeichnungen und die transportierten Daten.\\
+
+\noindent Kommunikationsinstanzen
+	\begin{itemize}
+	\item Client
+	\item Network access server (NAS) – Server that runs an application or gateway. 
+	\item RADIUS server – Server that keeps the user data base. 
+	\end{itemize}
+	
+	\begin{enumerate}
+	\item \textbf{Authentifikation}: Der Cleint erfragt Zugriff auf eine Netzwerk Ressource via NAS. Der NAS sendet den RADIUS access request zu einem RADIUS Server. Es können verschiedene Authentifikationsschemata verwendet werden (PAP, CHAP, EAP
+	\item \textbf{Authorisation}: Der RADIUS Server überprüft den Client Account (bspw. via LDAP) antwortet:
+		\begin{itemize}
+		\item Access Accept (eventually limited for a certain time or period). 
+		\item Access Reject 
+		\item Access Challenge (requesting additional information). 
+		\end{itemize}
+	\item Accounting: Nachdem der NAS Zugriff gewährt hat, informiert er den RADIUS Server darüber \glqq accounting start\grqq. Während der Verbindung kann der NAS \glqq interim accounting records\grqq versenden. Zum Schluss wird \glqq accounting stop\grqq an den RADIUS Server gesendet. Die Nachricht kann noch Zusatzinformationen enthalten.
+	\end{enumerate}
+
+\subsection{CHAP}
+%TODO RFC 1994
+
 % 350 - 12
 %TODO Authentication Protocols
 
