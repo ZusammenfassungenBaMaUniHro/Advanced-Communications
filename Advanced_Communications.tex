@@ -2640,12 +2640,32 @@ RADIUS (Remote Authentication Dial In User Service) wird wie Kerberos zur Authen
 		\end{itemize}
 	\item Accounting: Nachdem der NAS Zugriff gewährt hat, informiert er den RADIUS Server darüber \glqq accounting start\grqq. Während der Verbindung kann der NAS \glqq interim accounting records\grqq versenden. Zum Schluss wird \glqq accounting stop\grqq an den RADIUS Server gesendet. Die Nachricht kann noch Zusatzinformationen enthalten.
 	\end{enumerate}
-
-\subsection{CHAP}
+\subsection{PPP}
+PPP (Point-to-Point Protocol) ist auf der Sicherungsschicht in der Internetprotokollfamilie angesiedelt. Im folgenden Sind Protokolle zuzr Authentifikation beschrieben, die für PPP eingesetzt werden.
+\subsubsection{CHAP}
 %TODO RFC 1994
+Das Challenge Handshake Authentication Protocol (CHAP) ist ein Authentifizierungsprotokoll, das im Rahmen von PPP eingesetzt wird. 
+	\begin{itemize}
+	\item Ein Client initiiert eine Verbindung zu einem Einwahlserver, und dieser verlangt eine Authentifizierung mittels CHAP. 
+	\item Dabei wird ein zufälliger Wert (die Challenge) an den Client übertragen, der sich authentifizieren muss.
+	\item Der Client bildet aus der Zufallszahl und dem Passwort einen Hashwert mittels einer Hashfunktion (MD5, SHA-1, SHA-256) und überträgt diesen an den Einwahlserver.
+	\item Der Einwahlserver errechnet ebenfalls einen Hashwert aus der Zufallszahl und dem bei ihm (im Klartext) hinterlegten Passwort. Wenn dieser mit dem vom zu authentifizierenden Rechner gesendeten Wert übereinstimmt, ist die Authentifizierung erfolgreich.
+	\item In einem zufälligen Abstand sendet der Einwahlserver erneut einen zufälligen Wert (die Challenge) an den Client, und die Schritte 1–3 werden wiederholt.
+	\end{itemize}
 
+\subsubsection{PAP}
+Das Password Authentication Protocol (PAP) ist ein Verfahren zur Authentifizierung über PPP und ist in RFC 1334 beschrieben. %TODO RFC verlinken
+Bei PAP wird das Passwort für die Authentifizierung unverschlüsselt zusammen mit der Benutzerkennung übertragen. Der Client sendet den Nutzernamen und das Passwort. Der Server antwortet mit ack bzw. nak.
+
+\subsubsection{EAP}
+Das Extensible Authentication Protocol (EAP) ist ein  allgemeines Authentifizierungsprotokoll, das unterschiedliche Authentisierungsverfahren unterstützt wie z. B. Username/Password (RADIUS), Digitales Zertifikat, SIM-Karte. EAP wird oft für die Zugriffskontrolle in WLANs genutzt.\\
+EAP spezifiziert ein Authentifikations-Framework - keinen konkreten Mechanismus. Es definiert \glqq nur\grqq das Nachrichtenformat.
+
+\subsubsection{SSO}
+Single Sign-on (SSO) bedeutet, dass ein Benutzer nach einer einmaligen Authentifizierung an einem Arbeitsplatz auf alle Rechner und Dienste, für die er lokal berechtigt (autorisiert) ist, am selben Arbeitsplatz zugreifen kann, ohne sich jedes Mal neu anmelden zu müssen. 
 % 350 - 12
 %TODO Authentication Protocols
+
 
 \section{Simple Network Management Protocol}
 
