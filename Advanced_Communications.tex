@@ -2795,7 +2795,63 @@ Wenn viele Stationen ein gemeinsames Medium nutzen, gilt:
 Beide Raten sind nicht befriedigend. Suche nach Verbesserungen: Viele Kollisionen (aber nicht alle) ließen sich verhindern, wenn vor dem Beginn einer Aussendung überprüft würde, ob der Kanal frei ist. 
 
 \subsection{CSMA}
-% 365
+Der \textbf{Ablauf} von Carrier Sense Multiple Access (CSMA):
+	\begin{itemize}
+	\item Sendewillige Station prüft, ob Kanal frei ist. 
+	\item Wenn Kanal frei ist, wird Paket gesendet, aber nicht notwendigerweise sofort (Erklärung folgt). 
+	\item Wenn Kanal belegt ist, kommen verschiedene Methoden zur Anwendung (Erklärung folgt). 
+	\item Es kann zur Kollision kommen, wenn:
+		\begin{itemize}
+		\item Zwei Stationen gleichzeitig beginnen, zu senden (weil sie z.B. gewartet haben, bis Kanal frei ist). 
+		\item Zwei Stationen kurz hintereinander mit dem Senden beginnen, aber durch die Signallaufzeit (Ausbreitungsgeschwindigkeit ist endlich) die andere Aussendung noch nicht "`angekommen"' ist (bisher bei Beschreibung von Aloha nicht berücksichtigt). 
+		\end{itemize}
+	\end{itemize}
+Die Ausbreitung von Frames im Netzwerk kann so dargestellt werden:
+	\begin{figure}[ht]
+	\centering
+	\includegraphics[width=10cm]{img/csma.png}
+	\end{figure}
+	
+	
+\noindent Grundsätzlich gibt es drei verschiedene \textbf{Methoden} für den Ablauf:
+\subsubsection{1-persistent CSMA}	
+	\begin{itemize}
+	\item \textbf{Verhalten, wenn Kanal frei ist}: Sofortiges Aussenden
+	\item \textbf{Verhalten, wenn Kanal belegt ist}: Warten, bis Kanal frei ist, dann sofortiges Aussenden,da es auf jeden Fall zur Kollision kommt, wenn mindestens zwei Stationen warten (beide senden wieder zum gleichen Zeitpunkt).
+	\item \textbf{Verhalten bei Kollision}: Grundsätzlich wie bei Aloha, aber mit sich ändernder Wahrscheinlichkeit – siehe Backoff-Verfahren. 
+	\end{itemize}
+\subsubsection{Nonpersistent CSMA}	
+	\begin{itemize}		
+	\item \textbf{Verhalten, wenn Kanal frei ist}: Sofortiges Aussenden	
+	\item \textbf{Verhalten, wenn Kanal belegt ist}: Zufällige Zeitspanne warten, dann Prüfung, ob Kanal frei ist. Bestimmung der zufälligen Zeit, wie bei Aloha. 	
+	\item \textbf{Verhalten bei Kollision}: Grundsätzlich wie bei Aloha, aber mit sich ändernder Wahrscheinlichkeit – siehe Backoff-Verfahren. 	
+	\end{itemize}	
+\subsubsection{p-persistent CSMA}		
+	\begin{itemize}	
+	\item \textbf{Verhalten, wenn Kanal frei ist}:
+		\begin{itemize}
+		\item Senden mit Wahrscheinlichkeit p. 
+		\item Mit Wahrscheinlichkeit (1-p) wird nicht gesendet, sondern gewartet. Wartezeit entspricht Übertragungsdauer zwischen den beiden entferntesten Stationen im Netz. 
+		\item Bei nächster Überprüfung kann daher sicher die Aussendung einer anderen Station erkannt werden. 
+		\end{itemize}	
+	\item \textbf{Verhalten, wenn Kanal belegt ist}: Auf freien Kanal warten.  	
+	\item \textbf{Verhalten bei Kollision}: Grundsätzlich wie bei Aloha, aber mit sich ändernder Wahrscheinlichkeit – siehe Backoff-Verfahren. 	
+	\end{itemize}
+	
+\subsection{Ethernet - Verhalten bei Kollision}	
+Die Kollisionserkennung erfolgt mit \textit{Carrier Sense Multiple Access / Collision detection}(CSMA/CD) und kann anhand des erhöhten Signalpegels erkannt werden. Bei einer Kollision wird Aussendung sofort abgebrochen und ein 48bit langes Jam-Signal (10101010 10101010 10101010) ausgesendet. Anschließend wird eine zufällige Zeit gewartet.\\
+Durch das Abbrechen bei der Detektion einer Kollision kann Zeit gewonnen werden (Vergleich CSMA vs CSMA/CD).\\
+Ist ein Frame zu kurz, kann auf Grund der Signallaufzeiten nicht immer zuverlässig eine Kollision erkannt werden. Jedoch ist eine Kollisionserkennung  notwendig, damit Aussendung wiederholt werden kann. Dabei ist die minimale Framelänge ist so zu dimensionieren, dass die maximale Round Trip Time (RTT) nicht unterschritten wird. Die maximale RTT hängt von der maximalen Ausbreitung des Mediums ab. \\
+\textit{Eventuell Auffüllen von Frames – Erinnerung: Padding bei IEEE 802.3 Ethernet Frames, minimale Framelänge 64bit. Achtung, Hubs / Repeater gehen in die Zeit mit ein.}\\
+\textbf{Erinnerung RoundTripTime:} Die minimale Übertragungsdauer eines Frames muss das doppelte der maximalen Laufzeit eines Signal zwischen den beiden entferntesten Stationen im Netz betragen – daher RTT. 
+	
+	
+	
+	
+	
+	
+	
+	% 365
 %TODO Mac-Sublayer
 
 \section{Mobile Netzwerke}
