@@ -2881,29 +2881,30 @@ Bei der Carrier Sense Multiple Access / Collision Avoidance (CSMA/CA) soll eine 
 \section{Mobile Netzwerke}
 % 370, 380, 390, 400
 %TODO Mobile Netzwerke
+\subsection{Allgemeines}
 Dieser Abschnitt soll Besonderheiten bei der drahtlosen Kommunikation darlegen und entsprechende Protokolle vorstellen.\\
-Grundsätzlich muss unterschieden werden zwischen kabellos und mobil. Es gibt unterschiedliche Anforderungen aus den beiden Aspekten "`Funk"' und "`Mobilfunk"'.
-	\begin{itemize}
-	\item Funk: Störungen, Hidden Stations, Sicherheit 
-	\item Mobil Wechsel von Funkzellen, Routing 
-	\end{itemize}
+Grundsätzlich muss unterschieden werden zwischen kabellos und mobil. Es gibt unterschiedliche Anforderungen aus den beiden Aspekten \textbf{Funk} und \textbf{Mobilfunk}.
+	\begin{description}
+	\item [Funk] | Störungen, Hidden Stations, Sicherheit 
+	\item [Mobil] | Wechsel von Funkzellen, Routing 
+	\end{description}
 Unter \textbf{Assoziierung} versteht man, dass eine Station sich die Base Station aussucht, die sie am besten empfangen kann oder wählt nach einer Liste. \\
 Ein \textbf{Handoff} kann von der Station oder der Base Station initiiert werden. Entweder sucht die Station sich den stärksten "`Sender"' (WLAN im passive scanning mode) oder die Base Station übergibt die Station an den nächsten Nachbarn (GSM).
 
-\subsection{Relevante Technologien}
+\subsubsection{Relevante Technologien}
 
 	\begin{figure}[h]
 	\centering
 	\includegraphics[width=11cm]{img/mobilTech.png}
 	\end{figure}	
 	
-\subsection{Geräte und Verbindungen}
+\subsubsection{Geräte und Verbindungen}
 	\begin{itemize}
 	\item Wireless Host – kann mobil sein oder nicht.  
 	\item Wireless Link – Verbindung mit bestimmten Eigenschaften, wie Datenrate und Reichweite.  
 	\item Base Station – Verbindet drahtloses Netzwerk mit kabelgebundenen Netzwerken. Koordiniert häufig die Stationen in ihrem Bereich. 
 	\end{itemize}	
-\subsection{Charakteristika}
+\subsubsection{Charakteristika}
 	\begin{itemize}
 	\item Hosts, die mit einer Base Station assoziiert sind, arbeiten in einem Modus, den man häufig \textbf{Infrastruktur-Modus} nennt.
 	\item Ohne Base Station spricht man häufig vom \textbf{Ad-hoc-Modus}. 
@@ -2929,7 +2930,7 @@ Ein \textbf{Handoff} kann von der Station oder der Base Station initiiert werden
 	\item Mehrwegeausbreitung. 
 	\end{itemize}
 
-\subsection{SNR-BNR}
+\subsubsection{SNR-BNR}
 Die SNR (Signal-Noise-Ratio) und BNR (Bit-Error-Rate) geben einen Aufschluss über die technische Qualität eines Nutzsignals.
 	\begin{itemize}
 	\item Bei konstantem SNR bewirkt der Einsatz eine höhere Bitübertragungsrate eine höhere BER. 
@@ -2938,7 +2939,24 @@ Die SNR (Signal-Noise-Ratio) und BNR (Bit-Error-Rate) geben einen Aufschluss üb
 	\end{itemize}
 
 
+\subsubsection{Hidden Station Problem}
+%MARC
 
+\subsubsection{Assoziierung und Handoffs}
+%MARC
+
+\subsubsection{Anforderungen}
+%CHRISTIAN
+%OPTIONAL Rest von 370?
+
+\subsection{IEEE 802.11 | WLAN}
+%MARC
+
+\subsection{Bluetooth}
+%CHRISTIAN
+
+\subsection{Mobile IP}
+%TODO Mobile IP
 \section{Thomas Fragestunde}
 \subsection{08.04}
 	\begin{itemize}
