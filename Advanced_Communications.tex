@@ -2879,7 +2879,57 @@ Bei der Carrier Sense Multiple Access / Collision Avoidance (CSMA/CA) soll eine 
 % 365
 
 \section{Mobile Netzwerke}
+Dieser Abschnitt soll Besonderheiten bei der drahtlosen Kommunikation darlegen und entsprechende Protokolle vorstellen.\\
+Grundsätzlich muss unterschieden werden zwischen kabellos und mobil. Es gibt unterschiedliche Anforderungen aus den beiden Aspekten "`Funk"' und "`Mobilfunk"'.
+	\begin{itemize}
+	\item Funk: Störungen, Hidden Stations, Sicherheit 
+	\item Mobil Wechsel von Funkzellen, Routing 
+	\end{itemize}
+Unter \textbf{Assoziierung} versteht man, dass eine Station sich die Base Station aussucht, die sie am besten empfangen kann oder wählt nach einer Liste. \\
+Ein \textbf{Handoff} kann von der Station oder der Base Station initiiert werden. Entweder sucht die Station sich den stärksten "`Sender"' (WLAN im passive scanning mode) oder die Base Station übergibt die Station an den nächsten Nachbarn (GSM).
 
+\subsection{Relevante Technologien}
+
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=11cm]{img/mobilTech.png}
+	\end{figure}	
+	
+\noindent Geräte und Verbindungen:
+	\begin{itemize}
+	\item Wireless Host – kann mobil sein oder nicht.  
+	\item Wireless Link – Verbindung mit bestimmten Eigenschaften, wie Datenrate und Reichweite.  
+	\item Base Station – Verbindet drahtloses Netzwerk mit kabelgebundenen Netzwerken. Koordiniert häufig die 2Stationen in ihrem Bereich. 
+	\end{itemize}	
+\subsection{Charakteristika}
+\textbf{von drahtlosen Netzwerken:}
+	\begin{itemize}
+	\item Hosts, die mit einer Base Station assoziiert sind, arbeiten in einem Modus, den man häufig \textbf{"`Infrastruktur-Modus"'} nennt.
+	\item Ohne Base Station spricht man häufig vom \textbf{"`Ad-hoc-Modus"'}. 
+	\item Den Wechsel von einer Base Station zu einer anderen nennt man \textbf{"`Handoff"'}.
+	\item Single-hop, infrastructure-based \\
+	\textit{(WLAN mit Access Points, UMTS)}
+	\item Single-hop, infrastructure-less \\
+	\textit{(Bluetooth, WLAN im  ad-hoc Modus)}
+	\item Multi-hop, infrastructure-based \\
+	\textit{(Wireless Mesh Networks, Sensor Networks )}
+	\item Multi-hop, infrastructure-less\\
+	\textit{(Mobile ad-hoc networks (MANET), Vehicular ad-hoc networks (VANET))}
+	\end{itemize}
+\textbf{von Links(?)}
+	\begin{itemize}
+	\item Abnahme der Signalfeldstärke mit der Entfernung. 
+	\item Interferenzen von anderen Stationen und anderen Quellen. 
+	\item Mehrwegeausbreitung. 
+	\end{itemize}
+
+\subsection{SNR-BNR}
+Die SNR (Signal-Noise-Ratio) und BNR (Bit-Error-Rate) geben einen Aufschluss über die technische Qualität eines Nutzsignals.
+	\begin{itemize}
+	\item Bei konstantem SNR bewirkt der Einsatz eine höhere Bitübertragungsrate eine höhere BER. 
+	\item Bei konstantem Modulationsverfahren bewirkt ein höheres SNR eine geringere BER. 
+	\item Anpassung des Modulationsverfahrens kann genutzt werden, um sich an die Kanalbedingungen anzupassen. 
+	\end{itemize}
 % 370, 380, 390, 400
 %TODO Mobile Netzwerke
 
