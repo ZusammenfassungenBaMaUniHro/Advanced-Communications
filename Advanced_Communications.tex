@@ -2970,14 +2970,72 @@ Vom Mobilfunkanbieter:
 	\item Netzstruktur (Wie die einzelnen Sendemasten angebunden bzw. strukturiert sind)
 	\item Umbrella Zellen (Decken weites Gebiet über mehrere normale Zellen hinweg ab)
 	\end{itemize}
-%CHRISTIAN
-%OPTIONAL Rest von 370?
 
 \subsection{IEEE 802.11 | WLAN}
 %MARC
 
 \subsection{Bluetooth}
-%CHRISTIAN
+Wie Bluetooth (IEEE 802.15.1) angewendet wird, wird in sogenannten \textbf{Profilen} beschrieben:
+	\begin{itemize}
+	\item Sprachübertragung (z.B. Headsets oder Freisprecheinrichtungen) 
+	\item Fernsteuerung und Ersatz für serielle Verbindungen 
+	\item Personal Area Networks (z.B. Telefon und Rechner) 
+	\end{itemize}
+	
+\noindent Abhängig von der Version können verschiedene \textbf{Übertragungsraten} erreicht werden:
+	\begin{itemize}
+	\item 1Mbit/s (Version 1)
+	\item 3Mbit/s (Version 2)
+	\item 24Mbit/s (Version 3)
+	\end{itemize}
+
+\noindent Eine \textbf{Fehlerkorrektur} findet beim Empfänger statt, mithilfe einer 1/3- und 2/3-FEC-Blockcodierung. Des Weiteren ermöglicht ARQ (Automatic Repeat Request), Fehlererkennung beim Empfänger. Bei Fehlern wird das entsprechende Paket neu angefordert. Gewöhnlicherweise geschieht dies durch die Übertragung von ACK/NAK Signalen. Gegebenenfalls wird eine gestörte Nachricht solange erneut übertragen, bis sie den Empfänger ohne Fehler erreicht hat.
+
+\subsubsection{Reichweite}
+	\begin{table}[h]
+	\centering
+	\label{my-label}
+		\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{Klasse} & \textbf{Max-Leistung} & \textbf{Reichweite im Freien} \\ 
+		\hline
+		Klasse 1 & 100mW 20 dBm & ca. 100m\\ \hline
+		Klasse 2 & 2,5 mW 4 dBm & ca. 50m   \\ 		\hline
+		Klasse 3 & 1 mW 0 dBm & ca. 10m   \\ 		\hline
+		\end{tabular}
+	\caption{Reichweite von Bluetooth}
+	\end{table}
+	
+\subsubsection{Sicherheit}	
+	\begin{itemize}
+	\item \textbf{Modus 1:} (Non-Secure Mode): Keine Sicherheitsmechanismen. Die Geräte wechseln nur fortlaufend die Frequenz, um das Abhören zu erschweren. 
+	\item \textbf{Modus 2:} (Service-Level Enforced Security): Dienste können auf dem Application Layer Sicherheitsmechanismen durchzusetzen. Dienste können offen sein, nur eine Authentifizierung vorsehen oder noch zusätzlich eine Autorisierung erfordern. 
+	\item \textbf{Modus 3:} (Link-Level Enforced Security): Authentifizierung  beim Verbindungsaufbau auf dem Link Layer. Optionale Verschlüsselung. 
+	\end{itemize}
+	
+\subsubsection{Frequenzsprünge}	
+Um Robustheit gegenüber Störungen zu erreichen, wird ein Frequenzsprungverfahren eingesetzt. So wirken sich schmalbandige Störungen nicht auf andere Kanäle aus. Fehlerkorrektur ermöglicht dann korrekten Empfang.\\
+Das Frequenzband wird in 79 verschiedene Frequenzstufen im 1-MHz-Abstand eingeteilt. Es erfolgen bis zu 1600 Frequenzwechsel pro Sekunde. Das Muster ist im Protokoll vorgegeben.
+
+\subsubsection{Energiesparen}
+	\begin{itemize}
+	\item \textbf{HOLD-Modus:} Asynchrone Abwesenheit - Ein Slave kann mitteilen, dass er ab einem gewissen Zeitpunkt für z.B. 500 ms nicht zuhört. Master adressiert dann den Slave für die angegebene Zeit nicht und der Slave hört nicht auf Master-Pakete. 
+	\item \textbf{SNIFF-Modus:} Slave oder Master teilt mit, dass er z.B. nur noch alle 500 ms für einige Slots zuhört. 
+	\item \textbf{PARK-Modus:} Gerät bleibt mit Frequenzsprüngen synchronisiert, sendet aber nicht. 
+	\end{itemize}
+
+\subsubsection{Netztopologien}
+Ein Piconet ist ein Personal Area Network von Endgeräten, die sich über Bluetooth verbunden haben. Ein solches Netzwerk kann (theorethisch) bis zu 256 Teilnehmer mit einer 8-bit Adresse adressieren. Jedoch werden max. 8 Geräte durch eine 3-bit lange AMA (ActiveMemberAddress) identifiziert. Die übrigen Geräte müssen sich in einem passiven Modus befinden.\\
+Ein Piconet besteht aus einem Master und bis zu sieben weiteren  Teilnehmern (Slave). Der Master steuert die Kommunikation und vergibt Sendeslots an die Slaves (Zeitmultiplexverfahren). \\
+Ein Bluetooth-Gerät kann in bis 10 weiteren Piconets angemeldet sein. Bei der Zusammenfassung von mehreren Piconetzen spricht man von einem Scatternetz. Es können maximal 10 komplett volle Piconets in einem Scatternet zusammengeschlossen werden. 
+
+\subsubsection{Architektur}
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=14cm]{img/arch.png}
+	\end{figure}	
+\textit{(Bei Interesse zum Protokoll: Baseband-Folien anschauen)}
+%390
 
 \subsection{Mobile IP}
 %TODO Mobile IP
