@@ -2845,14 +2845,38 @@ Ist ein Frame zu kurz, kann auf Grund der Signallaufzeiten nicht immer zuverläs
 \textit{Eventuell Auffüllen von Frames – Erinnerung: Padding bei IEEE 802.3 Ethernet Frames, minimale Framelänge 64bit. Achtung, Hubs / Repeater gehen in die Zeit mit ein.}\\
 \textbf{Erinnerung RoundTripTime:} Die minimale Übertragungsdauer eines Frames muss das doppelte der maximalen Laufzeit eines Signal zwischen den beiden entferntesten Stationen im Netz betragen – daher RTT. 
 	
+	\begin{figure}[ht]
+	\centering
+	\includegraphics[width=11cm]{img/ethernetKollision.png}
+	\end{figure}	
 	
+\subsection{Backoff-Verfahren}	
+Nach Abbruch der Übertragung wegen einer erkannten Kollision würde es zu einer neuen Kollision kommen, wenn die beteiligten Stationen unmittelbar wieder mit dem Senden beginnen würden. Deshalb müssen die Stationen eine unterschiedliche lange Pause einlegen (so geschieht es auch bei Aloha über Wahrscheinlichkeit). 	\\
+
+\noindent Das \textbf{Binary Exponential Backoff}: \\
+Die Konfliktparteien wählen eine zufällige ganze Zahl \textbf{z}
+ aus dem Intervall 0,$2^i$-1 (das sog. Contention Window), 
+wobei i die Anzahl der bereits aufgetretenen Kollisionen dieser Station für das aktuelle Frame ist. Die Aussendung erfolgt nach z Slot Times. 
+
+Bei Ethernet ist das Binary Exponential Backoff auf $2^{10}$  Möglichkeiten und 
+maximal 16 Versuche begrenzt.  	
+
+\subsection{CSMA/CA}
+Bei der Carrier Sense Multiple Access / Collision Avoidance (CSMA/CA) soll eine Vermeidung von Kollisionen durch p-persistent Verfahren erreicht werden. (Es wird bei Vorhandensein von Daten mit Wahrscheinlichkeit p gesendet). Kollisionen können nicht völlig ausgeschlossen werden, jedoch muss der korrekter Empfang immer bestätigt werden, da Kollision vom Sender eventuell nicht bemerkt wird. \\
+
+\noindent Häufig mit \textbf{RTS / CTS} (Ready-to-send / clear-to-send) kombiniert, wenn Hidden-Station-Problem zunimmt. Nicht immer lässt sich sicherstellen, dass alle Stationen die Aussendungen aller anderen Stationen empfangen können. Bei Funknetzen kann es daher zum Hidden-Station-Problem kommen. 
+
+\noindent Ablauf bei RTS / CTS
+	\begin{itemize}
+	\item Sendewillige Station sendet RTS Frame aus. 
+	\item Adressierte Station sendet beim Empfang des RTS Frames ein CTS Frame. 
+	\item Alle Stationen in der Nähe, die RTS oder CTS empfangen sollen anschließend für die Dauer eines Datenframes nicht senden. \\
+	\textit{RTS und CTS Frames enthalten eine Größenangabe für die Menge an Daten, die gesendet werden sollen. }
 	
-	
-	
-	
-	
-	% 365
-%TODO Mac-Sublayer
+	\end{itemize}
+
+
+% 365
 
 \section{Mobile Netzwerke}
 
