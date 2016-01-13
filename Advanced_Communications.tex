@@ -2882,8 +2882,47 @@ Bei der Carrier Sense Multiple Access / Collision Avoidance (CSMA/CA) soll eine 
 
 % 370, 380, 390, 400
 %TODO Mobile Netzwerke
+Begriff \emph{Mobilfunk} setzt sich zusammen aus den Aspekten:
+%OPTIONAL Einrückung der Listen
+\begin{description}
+	\item[Mobil] \begin{itemize}
+		\item Wechsel von Funkzellen
+		\item Routing
+	\end{itemize}
+	\item [Funk] \begin{itemize}
+		\item Störungen
+		\item Hidden Stations
+		\item Sicherheit
+	\end{itemize}
+\end{description}
 
+\subsection{Geräte und Verbindungen, Charakteristiken}
+\begin{description}
+	\item[Wireles Host] | kann mobil sein oder nicht
+	\item[Wireless Link] | Verbindung mit bestimmten Eigenschaften, wie Datenrate und Reichweite
+	\item[Base Station] | Verbindet drahtloses Netzwerk mit kabelgebundenen Netzwerken.
+	Koordiniert häufig die Stationen in ihrem Bereich
+\end{description}
+\begin{itemize}
+	\renewcommand{\labelitemi}{$\Rightarrow$}
+	\item Hosts, die mit einer Base Station assoziiert sind, arbeiten in einem Modus, den man häufig ßtextbf{Infrastruktur-Modus} nennt.
+	\item Ohne Base Station spricht man häufig vom \textbf{Ad-hoc-Modus}.
+	\item Den Wechsel von einer Base Station zu einer anderen nennt man \textbf{Handjob}.
+\end{itemize}
 
+\begin{table}[h]
+	\centering
+	\label{my-label}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		& \textbf{Single-Hop}                   & \textbf{Multi-Hop}                      \\ \hline
+		\textbf{Infrastructure-based} & 802.11 (WLAN) mit Access Points; UMTS & Wireless Mesh Networks; Sensor Networks \\ \hline
+		\textbf{Infrastructure-less}  & Bluetooth; 802.11 im Ad-Hoc-Modus     & MANETs;VANETs                             \\ \hline
+	\end{tabular}
+		\caption{Arten Drahtloser Netzwerke}
+\end{table}
+
+%TODO Grafik Technologien 370-5
 \section{Thomas Fragestunde}
 \subsection{08.04}
 	\begin{itemize}
@@ -3321,6 +3360,8 @@ Bei der Carrier Sense Multiple Access / Collision Avoidance (CSMA/CA) soll eine 
 \newglossaryentry{nvt}{name=NVT,description={Network Virtual Terminal}}
 \newglossaryentry{rsa}{name=RSA,description={Rivest, Shamir und Adleman}}
 \newglossaryentry{pdu}{name=PDU,description={Packet Data Unit}}
+\newglossaryentry{manet}{name=MANET,description={Mobile ad-hoc network}}
+\newglossaryentry{vanet}{name=VANET,description={Vehicular ad-hoc network}}
 
 \newpage
 \addcontentsline{toc}{section}{Glossar}
