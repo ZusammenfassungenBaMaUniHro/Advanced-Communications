@@ -2951,7 +2951,7 @@ Die SNR (Signal-Noise-Ratio) und BNR (Bit-Error-Rate) geben einen Aufschluss üb
 
 \subsection{IEEE 802.11 | WLAN}
 %MARC
-\subsection{Unterstandards}
+\subsubsection{Unterstandards}
 \begin{table}[h]
 	\centering
 	
@@ -2967,6 +2967,46 @@ Die SNR (Signal-Noise-Ratio) und BNR (Bit-Error-Rate) geben einen Aufschluss üb
 	\caption{Unterstandards 802.11 a,b,g und n}
 \end{table}
 
+\subsubsection{Kanäle und Assoziierung}
+\begin{itemize}
+	\item Administrator vergibt Service Set Identifier (SSID) für alle	Access Points.
+	\item Kanalzuordnung pro AP fest durch Admin oder dynamisch durch Software (zentral oder auf AP).
+	\item Station muss sich mit genau einem AP assoziieren.
+	\item APs senden zu diesem Zweck regelmäßig Beacon Frames aus, die die SSID und die MAC-Adresse des APs enthalten.
+Beacon Frames werden so gesendet, dass sie auch von älteren Stationen (ältere Standards) noch empfangen werden können.
+\end{itemize}
+\textbf{Assoziation: } Station sucht sich die Base Station aus, die sie am besten
+empfangen kann oder nach einer Liste.
+Beim \textbf{aktiven Scannen} sendet die Station einen \emph{Probe Request} aus und bekommt von den APs in der Nähe einen \emph{Probe Response}.
+Anschließend wird mit einem AP eine Verbindung via \emph{Association-Request-Response} verhandelt.
+Diese Variante verkürzt die Zeit zum Scannen und wird daher häufig beim Kanalwechsel durchgeführt.
+Im Gegensatz dazu steht das \textbf{passive Scanning}, welches in einigen Ländern vorgeschrieben wird, wenn nicht alle Kanäle nutzbar sind.
+Hierbei senden APs regelmäßig \emph{Beacons} aus, die Station handelt danach wieder mit \emph{Association-Request-Response} eine Verbindung aus.
+
+\subsubsection{Authentisierung}
+%TODO Irgendwo sollen hier noch Details zu stehen, 380-9
+\begin{itemize}
+	\item PSK
+	\item EAP
+	\item PEAP
+\end{itemize}
+
+\subsubsection{Link-Layer}
+802.11 nutzt \textbf{CSMA/CA} (Collision Avoidance)
+\begin{enumerate}
+	\item Station hört Kanal ab, wenn frei, wartet Station eine	kurz Zeit (Distributed Inter-frame Space – DIFS).
+	\item Falls besetzt, wird Exponential Backoff Zeit gesetzt. Falls Kanal frei wird, wird entsprechend lange gewartet. Falls Kanal besetzt, bleibt der Timer gestoppt, bis Kanal frei wird.
+	\item Aussendung des gesamten Frames.
+	\item Warten, bis ACK ankommt. Falls nicht, wieder Schritt 2.
+\end{enumerate}
+%\begin{itemize}
+%	\item CSMA – Station wartet, bis Kanal frei ist.
+%	\item CA – Vermeidung von Kollisionen durch verschiedene Wartezeiten bei der Aussendung und RTS/CTS.
+%	\item Im Gegensatz zu Ethernet (802.3) erfolgt keine Kollisionserkennung und demnach auch kein Abbruch der Aussendung.
+%\end{itemize}
+
+Verlustwahrscheinlichkeit ist bei WLAN entscheidend höher als bei Kabelverbindungen.
+Daher wird bereits auf dem Link-Layer ein Retransmit-Mechanismus benötigt.
 \subsection{Bluetooth}
 %CHRISTIAN
 
