@@ -398,7 +398,6 @@ Die Adressierung geschieht über Ports (16 Bit).
 Der Header enthält 4 Felder (je 16 Bit): Quellport, Zielport, Datagram-Länge und eine Checksumme.
 
 \subsection{Transmission Control Protocol}
- %TODO TCP Slow start wird bei HTTP erwähnt, hier nochmal kurz erklären?
 TCP ist ebenfalls ein Layer-4-Protokoll.\cite{rfc793}
 Es garantiert eine Ankunft der Pakete in korrekter Reihenfolge.
 Clienten sehen die Verbindung als bidirektionalen Datenstrom, tatsächlich findet die Kommunikation über Pakete statt. Die Kommunikation erfolgt durch TCP zustandsbehaftet.
@@ -465,6 +464,20 @@ Wird das erste Byte bestätigt, so werden alle sich im Puffer befindlichen Daten
 So werden viele kleine Daten in großen Segmenten zusammengefasst.
 Aufgrund der Verzögerung kann diese Technik auch unerwünschte Folgen haben, etwa bei Spielen oder Konsolenanwendungen.
 
+\subsubsection{TCP-Slow-Start}
+%Prüfen TCP Slow Start
+Die Geschwindigkeit der Datenübertragung zwischen Sender und Empfänger muss zuvor ausgehandelt werden.
+TCP verwaltet das Congestion Window (Überlastungsfenster, cwnd), welches angibt, wie viele Bytes der Sender zeitgleich im Netz haben kann.
+Kann der Empfänger etwa noch 64 kb puffern (Window Size, siehe letzter Abschnitt), das Überlastungsfenster beträgt allerdings nur 32 kb (etwa, weil langsame Teilstrecken vorhanden sind), so können eben nur 32 kb versendet werden.
+
+Zur Ermittlung des CWNDs wird der Slow-Start-Algorithmus angewandt.
+Dieser sendet eine exponentiell wachsende Anzahl $n$ von Segmenten (1,2,4,8...) an den Empfänger.
+Der Sender erwartet $n$ ACKs, erhöht die Größe des CWNDs entsprechend und versendet die nächste Gruppe von Paketen.
+Dies wird fortgesetzt bis die \emph{Slow-Start-Threshold} erreicht ist.
+Die exponentielle Phase ist beendet und die Anzahl der zu Übertragenden Segmente wird linear erhöht, bis die vom Empfänger festgelegte Fenstergröße (Window Size) erreicht und das Überlastungsfenster ermittelt ist.
+
+Findet in der exponentiellen Phase ein Timeout statt (ACKs erreichen den Sender erst nach einer bestimmten Zeit), startet das Verfahren erneut mit einer geringeren \emph{Slow-Start-Threshold}.
+Das Verfahren ist auch als \textbf{Jacobson-Algorithmus} bekannt.
 
 \subsection{SCTP}
 %PRÜFEN SCTP
