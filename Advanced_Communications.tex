@@ -227,11 +227,23 @@ Die Ausnahme ist hierbei, wenn der Port des Empfängers nicht bekannt ist.
 Anhand der empfangenen Frames lernt ein Switch, wo sich Geräte befinden.
 
 \subsubsection{Realisierungsmöglichkeiten}
+%PRÜFEN Switches - Realisierungsmöglichkeiten
+Im Groben existieren drei Realisierungsmöglichkeiten für Switches:
+\begin{description}
+	\item[Shared Memory] | Alle Schnittstellen kommunizieren über einen zentralen Speicher.
+	Genutzt wird ein einfacher interner Rechnerbus.
+	Diese Realisierungsart ist sehr Preisgünstig.
+	\item[Common Bus] | Schnittstellen verfügen über lokalen Speicher und gemeinsamen Bus.
+	Bus ist in der Regel schneller getaktet als die externen Schnittstellen 	(Zeitmultiplex) oder erlaubt als so genannte Backplane mehrere 	parallele Verbindungen (Raummultiplex)
+	\item[Crosspoint Matrix] | Schnittstellen verfügen über lokalen Speicher.
+	Die Kommunikation zwischen den Ports findet über \emph{spontan} geschaltete Verdrahtungen statt.
+\end{description}
+\begin{center}
+	\includegraphics[width=8cm]{img/crosspoint_matrix}
+\end{center}
 
-%TODO Switches - Realisierungsmöglichkeiten
 
 \subsubsection{Cut-Through und Store-and-Forward}
-
 Beim \textbf{Cut-Through} (auch \emph{On The Fly Forwarding}) werden Pakete sofort nach Empfang der Empfängeradresse auf dem entsprechenden Port weitergeleitet, sofern dieser Frei ist.
 Diese Methode ist sehr schnell (Verzögerung ca. 40$\mu$s), leitet jedoch gegebenenfalls auch fehlerhafte Frames weiter, da CRC umgangen wird.
 
