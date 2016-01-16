@@ -2880,6 +2880,7 @@ Bei der Carrier Sense Multiple Access / Collision Avoidance (CSMA/CA) soll eine 
 
 \section{Mobile Netzwerke}
 % 370, 380, 390, 400
+%PRÜFUEN: Mobile Netzwerke
 \subsection{Allgemeines}
 Dieser Abschnitt soll Besonderheiten bei der drahtlosen Kommunikation darlegen und entsprechende Protokolle vorstellen.\\
 Grundsätzlich muss unterschieden werden zwischen kabellos und mobil. Es gibt unterschiedliche Anforderungen aus den beiden Aspekten \textbf{Funk} und \textbf{Mobilfunk}.
@@ -2907,7 +2908,7 @@ Ein \textbf{Handoff} kann von der Station oder der Base Station initiiert werden
 	
 	\begin{table}[h]
 		\centering
-		\label{my-label}
+		\label{tab:mobile_characteristics}
 		\begin{tabular}{|l|l|l|}
 			\hline
 			& \textbf{Single-Hop}                   & \textbf{Multi-Hop}                      \\ \hline
@@ -2968,7 +2969,7 @@ Vom Mobilfunkanbieter:
 \begin{table}[h]
 	\centering
 	
-	\label{my-label}
+	\label{tab:wlan_substandards}
 	\begin{tabular}{|l|l|l|l|l|}
 		\hline
 		\textbf{802.11} & \textbf{Jahr} & \textbf{Übertragungsgeschwindigkeit} & \textbf{Frequenzbereich} & \textbf{Sonstiges} \\ \hline
@@ -3018,7 +3019,49 @@ Hierbei senden APs regelmäßig \emph{Beacons} aus, die Station handelt danach w
 %\end{itemize}
 
 Verlustwahrscheinlichkeit ist bei WLAN entscheidend höher als bei Kabelverbindungen.
-Daher wird bereits auf dem Link-Layer ein Retransmit-Mechanismus benötigt.
+Daher wird bereits auf dem Link-Layer ein Retransmit-Mechanismus benötigt:
+\begin{itemize}
+	\item Station sendet Frame, Ziel wartet Short Inter-frame Spacing (SIFS) und sendet ACK (wenn Frame	CRC in Ordnung).
+	\item Falls ACK ausbleibt, wird erneut gesendet. Maximale Anzahl von Versuchen ist vorgegeben.
+\end{itemize}
+\subsubsection{Flusskontrolle mit RTS \& CTS}
+\begin{itemize}
+	\item Sendewillige Station sendet RTS (Ready to send)
+	Frame aus.
+	\item Empfänger sendet CTS (Clear to send) aus.
+	\item CTS verordnet allen Stationen außer der sendewilligen Station \emph{Funkstille}.
+	\item RTS und CTS enthalten die Sendedauer für das Daten-Frame.
+\end{itemize}
+\textbf{Anmerkung: }Typischerweise wird RTS/CTS nur für längere Frames verwendet.
+
+\subsubsection{Frameaufbau}
+\begin{description}
+	\item[Frame Control] | Enthält Protokollversion (00), Typ (00 Verwaltung, 01 Steuerung, 10 Daten, 11 reserviert) und Untertyp (für Typ 00 z.B. 0000 Association Request, 1000 Beacon, 1011 RTS, 1100 CTS, Nutzerdaten (Typ 10) haben Untertyp 0000).
+	Weitere Felder sind vorhanden, aber in den Folien nicht erklärt.
+	\item[Duration] | Gibt an, wie lange der Frame und die dazugehörende ACK den Kanal belegen werden.
+	Angabe in ms.
+	\item[Empfänger-MAC-Adresse] | Laut Folien wohl Adresse des Access Points.
+	\item[Sender-MAC-Adresse] 
+	\item[Router-MAC-Adresse] | In den Folien: \emph{MAC-Adresse des Routers für das BSS}.
+	Im Tanenbaum: \emph{[...] aber wofür ist die dritte Adresse? Vergessen Sie nicht, dass der Zugangspunkt einfach eine Schaltstelle für Rahmen ist, die sich zwischen einem Client und einem anderen Punkt des Netzes bewegen, vielleicht ein entfernter Client oder ein Internetportal. Die dritte Adresse benennt diesen entfernten Endpunkt.}
+	\item[Seq Control] | Nummerierung, um Duplikate zu entdecken.
+	\item[IBBS] (im ad Hoc Mode) | 4. MAC-Adresse, \emph{For an IBSS, the BSSID is a locally administered MAC address generated from a 48-bit random number.}\cite{wiki:Serviceset}.
+	Wird im Tanenbaum gar nicht genannt.
+	\item[Payload] | Bis zu 2312 Byte lang
+	\item[CRC] 
+\end{description}
+\textbf{Hinweis:} Felder scheinen so ein bisschen variabel zu sein, je nach Art des Frames:
+\begin{description}
+	\item[ACK]: Frame Control | Duration | Receiver Address | CRC
+	\item[RTS]: Frame Control | Duration | Receiver Address | Transmitter Adress | CRC
+	\item[CTS]: Frame Control | Duration | Receiver Address | CRC
+\end{description}
+\subsubsection{Uhrensynchronisation}
+\begin{itemize}
+	\item Beacon-Signale innerhalb der BSS dienen zur Zeitsynchronisation.
+	\item Beacons werden immer zur vorgegebenen Zeit ausgesendet, außer, wenn das Medium besetzt ist.
+	Nachfolgende Beacons dann wieder zur erwarteten Zeit.
+\end{itemize}
 \subsection{Bluetooth}
 Wie Bluetooth (IEEE 802.15.1) angewendet wird, wird in sogenannten \textbf{Profilen} beschrieben:
 	\begin{itemize}
@@ -3039,7 +3082,7 @@ Wie Bluetooth (IEEE 802.15.1) angewendet wird, wird in sogenannten \textbf{Profi
 \subsubsection{Reichweite}
 	\begin{table}[h]
 	\centering
-	\label{my-label}
+	\label{tab:bluetooth_range}
 		\begin{tabular}{|l|l|l|}
 		\hline
 		\textbf{Klasse} & \textbf{Max-Leistung} & \textbf{Reichweite im Freien} \\ 
