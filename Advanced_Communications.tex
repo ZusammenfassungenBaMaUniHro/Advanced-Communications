@@ -2997,7 +2997,6 @@ Im Gegensatz dazu steht das \textbf{passive Scanning}, welches in einigen Lände
 Hierbei senden APs regelmäßig \emph{Beacons} aus, die Station handelt danach wieder mit \emph{Association-Request-Response} eine Verbindung aus.
 
 \subsubsection{Authentisierung}
-%TODO Irgendwo sollen hier noch Details zu stehen, 380-9
 \begin{itemize}
 	\item PSK
 	\item EAP
@@ -3084,7 +3083,42 @@ Ein Bluetooth-Gerät kann in bis 10 weiteren Piconets angemeldet sein. Bei der Z
 %390
 
 \subsection{Mobile IP}
-%TODO Mobile IP - 400
+%TODO RFC Verlinken
+	\begin{itemize}
+	\item Protokoll zur Unterstützung von mobilen Nutzern (RFC 5944 für IPv4). 
+	\item Mobiler Nutzer soll so in ein entferntes Netzwerk eingebunden werden, als wäre er "`zuhause"'. Die Benutzer von mobilen Geräten sollen ein Wechsel von einem Rechnernetz in ein anderes ermöglicht werden. Dabei soll aber gleichzeitig eine feste IP-Adresse erhalten bleiben.
+	\item Ausgangssituation:
+		\begin{itemize}
+		\item Mit einer eindeutige IP-Adresse wird die Zugehörigkeit zu einem bestimmten Subnetz deutlich gemacht.
+		\item Verlässt ein Gerät das bisherige Netz, muss es eine neue topologisch korrekte IP-Adresse erhalten
+		\item DHCP unterstützt die Mobilität, indem es die automatische Konfiguration neu angeschlossener Rechner ermöglicht. ABER: neue IP-Adresse
+		\item DNS ermöglicht das Mapping eines logischen Namens auf eine IP-Adresse, jedoch dauert es eine Weile, bis sich Änderungen im Netz verbreitet haben. 
+		\end{itemize}
+	\item Agents leiten Datenverkehr entsprechend des Aufenthaltsorts des mobilen Nutzers um. 
+	\item Kontrollnachrichten zwischen Agents. 
+		\begin{itemize}
+		\item Home Agent befindet sich im eigenen "`Heimat"'-Netzwerk.
+		\item Foreign Agent im besuchten Netzwerk. 
+		\item Corresponding Agent routet Daten entsprechend. 
+		\end{itemize}
+	\item Begrifflichkeiten:
+		\begin{description}
+		\item[Heimatnetz]: Das Subnetz, für das der Mobilrechner ursprünglich konfiguriert wurde
+		\item[Fremdnetz]: Das Teilnetz, in dem sich der Mobilrechner aktuell aufhält.
+		\item[Heimatagent]: ist ein Knoten im Heimatnetz, an dem sich ein Mobilrechner registriert, sofern er sich in einem Fremdnetz befindet. Er soll an den Mobilrechner adressierte Pakete abfangen und an ihn weiterleiten.
+		\item[Fremdagenten]: Wechselt der Mobilrechner in ein Fremdnetz, muss er sich hier anmelden.
+		\item[Heimatadresse]: IP-Adresse des Mobilrechners im Heimatnetz. Wird auch beim Wechsel in ein anderes Netz beibehalten. 
+		\item[Care-of-Adresse]: ist die topologisch korrekte IP-Adresse, unter der ein Mobilrechner in einem Fremdnetz erreichbar ist. Sie entspricht normalerweise einer IP-Adresse des Fremdagenten, bei dem sich der Mobilrechner zuvor angemeldet hat.
+		\end{description}
+	\item Es gibt verschiedene Betriebsmodi (Mit/Ohne Foreign Agent )
+	\item (Ablauf) - Die gegenüber IP entwickelten Protokollerweiterungen umfassen im Wesentlichen drei Mechanismen:
+		\begin{itemize}
+		\item \textbf{Agent Discovery}: Advertisements kündigen Home und Foreign Agent an. Ermöglicht es dem Mobilrechner, potenzielle Agenten aufzufinden.
+		\item \textbf{Registration}: Mobile Node und / oder Foreign Agent registrieren sich beim Home Agent.  Ermöglicht es dem Mobilrechner, seinen Heimatagenten über seine Care-of-Adresse zu informieren.
+		\item \textbf{Indirect Routing}: Pakete werden zum Mobile Node geroutet. Gesteuert durch Home Agent. Pakete müssen verpackt werden (Encapsulation wie beim Tunnelling). 
+		\end{itemize}
+	\end{itemize}
+%400
 
 
 \section{Thomas Fragestunde}
