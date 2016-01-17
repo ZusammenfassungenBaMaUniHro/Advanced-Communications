@@ -1159,7 +1159,8 @@ Es verwendet \textbf{Distance Vector Routing}, die einzige Metrik sind dabei Hop
 Ein Router, der mit RIP arbeitet, verwaltet in seiner Routing-Tabelle die besten bekannten Distanzen zu allen bekannten Zielen.
 Initial sind alle direkten Nachbarrouter (mit einer Entfernung von 1) bekannt.
 Periodisch werden diese um Übermittlung der aktuellen Routing-Tabelle gebeten und die eigene Routing-Tabelle entsprechend auf den neuesten Stand gebracht.
-Die Geräte lauschen dabei auf UDP Port 520.
+Dazu wird die Multicast-Adresse 224.0.0.9 (in v1 noch Broadcast) genutzt.
+Die Geräte lauschen auf UDP Port 520.
 
 Weitere Regelungen (z.B. zur Vermeidung des Count-to-Infinity-Problems, Abschnitt \ref{subsubsec:count-to-infinity}):
 \begin{itemize}
@@ -1176,6 +1177,35 @@ Jeder RIP Entry enthält einen \textbf{Adress family identifier} (?), die \textb
 Bei RIPv2 können gibt es außerdem RIP-Entries mit Subnetzmaske (enthalten zusätzlich die Subnetzmaske und den Next Hop; diese stehen in den in v1 mit Nullen aufgefüllten Feldern) und einen RIP-Entry mit Authentifizierung (enthält 16 Byte-Eintrag, also wohl eine MD5).
 
 \subsubsection{OSPF}
+%OPTIONAL RFC 2740
+\textbf{Open Shortest Path First} ist ein \emph{Interior Gateway Protocol}.
+Im Gegensatz zu RIP handelt es sich um ein \textbf{Link State Protocol}.
+Jeder Router berechnet aufgrund der ihm zur Verfügung stehenden Informationen selbstständig die kürzesten Wege zu den bekannten Zielen (Shortest Path Tree).
+
+Die Link State Database (LSDB) wird periodisch zwischen allen Routern ausgetauscht (Multicast 224.0.0.5 und 224.0.0.6).
+Dabei werden unterschiedliche Nachrichtentypen zum Erkennen von Links und zum Austausch der LSDB benutzt.
+Netze werden zu Areas\footnote{Laut Wikipedia scheint das Areakonzept verdammt wichtig zu sein, wird in den Folien aber kaum erläutert.} zusammengefasst.
+Area 0 ist Backbone, sonstige Areas repräsentieren andere Teilbereiche.
+Ein durch OSPF verwaltetes Autonomes System enthält typischerweise mehrere Areas.
+Das Backbone Area hat die ArealID 0.0.0.0 und ist mit allen anderen Areas verbunden.
+Informationen über erreichbare Netze werden als \textbf{Link State Advertisements} unter den Routern ausgetauscht.
+
+\frqq Das \textbf{Hello-Protokoll} ist in Open Shortest Path First für den Netzwerkbetrieb ein integraler Bestandteil des gesamten Routingprozesses. Es ist verantwortlich für:
+\begin{multicols}{2}
+\begin{itemize}
+	\item Senden von Keepalives in bestimmten Intervallen (damit wird bestätigt, ob die Route noch besteht)
+	\item Zur Entdeckung eines Nachbarn
+	\item Aushandlung der Parameter
+	\item Wahl eines Designated Routers (DR) und des Backup-DRs
+\end{itemize}
+\end{multicols}
+Alle ankommenden Hello-Pakete werden auf die Area ID und anderen Parametern geprüft. Wenn diese mit den lokalen Einstellungen übereinstimmen, wird dieser Router als Nachbar eingetragen.\flqq\cite{wiki:ospf}
+\begin{figure}[ht]
+\begin{center}
+	\includegraphics[width=8cm]{img/ospf_packet}
+	\caption{Ein OSPFv2-Paket}
+\end{center}
+\end{figure}
 \subsubsection{BGP}
 \subsubsection{OLSR und AODV}
 
