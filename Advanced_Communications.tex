@@ -1148,7 +1148,7 @@ Erhaltung des Backbones bei wegfallenden Verbindungen ist ebenso ein schwieriges
 %TODO Routing Protokolle
 %OPTIONAL Routing-Protokolle vor MANETs kopieren
 Routing-Protokolle werden grob in \textbf{Interdomain-} (Interior Gateway Protocols, IGPs) und \textbf{Intradomain-}Routing-Protokolle (Exterior Gateway Protocols, EGPs) unterteilt.
-IGPs werden innerhalb eines Netzwerkes (z.B. innerhalb der Uni) genutzt.
+IGPs werden innerhalb eines Netzwerkes (\emph{autonome Systeme}, z.B. innerhalb der Uni) genutzt.
 Um Nachrichten zwischen diesen Netzen, die jeweils unterschiedliche Routing-Protokolle (mit unterschiedlichen Metriken und Verfahren) zu Routen, werden EGPs benötigt.
 \subsubsection{RIP}
 %PRÜFEN RIP
@@ -1186,26 +1186,124 @@ Die Link State Database (LSDB) wird periodisch zwischen allen Routern ausgetausc
 Dabei werden unterschiedliche Nachrichtentypen zum Erkennen von Links und zum Austausch der LSDB benutzt.
 Netze werden zu Areas\footnote{Laut Wikipedia scheint das Areakonzept verdammt wichtig zu sein, wird in den Folien aber kaum erläutert.} zusammengefasst.
 Area 0 ist Backbone, sonstige Areas repräsentieren andere Teilbereiche.
-Ein durch OSPF verwaltetes Autonomes System enthält typischerweise mehrere Areas.
+Ein durch OSPF verwaltetes autonomes System enthält typischerweise mehrere Areas.
 Das Backbone Area hat die ArealID 0.0.0.0 und ist mit allen anderen Areas verbunden.
 Informationen über erreichbare Netze werden als \textbf{Link State Advertisements} unter den Routern ausgetauscht.
 
+%Allgemeiner Paketaufbau
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=8cm]{img/ospf_packet}
+		\includegraphics[width=8cm]{img/ospfv3_packet}
+		\caption{Links: OSPFv2 Paket | Rechts: OSPFv3 Paket}
+	\end{center}
+\end{figure}
+
+\begin{description}
+	\item [Router ID] | Absender der Nachricht.
+	Wird als einzige Möglichkeit zur Identifikation von benachbarten Routern verwendet – IP-Adressen werden dazu in OSPFv3 nicht mehr verwendet.
+	\item [Area ID] | Beschreibt die Area, für die das jeweilige Paket Informationen enthält.
+	Die meisten OSPF-Pakete legen nur einen \emph{Hop} zurück, sonstige Pakete enthalten die Backbone Area ID 0.
+	\item [Type] | \begin{enumerate}
+		\item 	Hello – zum Entdecken / Discovery der Nachbarn.
+		\item Database Description – Beschreiben die LSDB.
+		\item Link State Request – Anforderung einzelner Teile der LSDB, falls Router meint, seine Informationen wären veraltet.
+		\item Link State Update – Flooding von Link Advertisements.
+		\item Link State Acknowledgment Packet – Bestätigung für ein Link State Update.
+	\end{enumerate}
+\end{description}
+
+\textbf{Unterschiede bei OSPFv3:} Wegfall der Authentication, da diese von IPv6
+bereitgestellt wird.
+Instance ID ermöglicht, mehrere OSPF-Instanzen über den selben Link (im selben Netz) zu verwenden.
+
+%OPTIONAL Entscheiden, welche Bilder bleiben/weg sollen
+%Hello-Pakete
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=8cm]{img/ospfv3_hello}
+		\caption{OSPFv3-Hello-Paket}
+	\end{center}
+\end{figure}
+
 \frqq Das \textbf{Hello-Protokoll} ist in Open Shortest Path First für den Netzwerkbetrieb ein integraler Bestandteil des gesamten Routingprozesses. Es ist verantwortlich für:
 \begin{multicols}{2}
-\begin{itemize}
-	\item Senden von Keepalives in bestimmten Intervallen (damit wird bestätigt, ob die Route noch besteht)
-	\item Zur Entdeckung eines Nachbarn
-	\item Aushandlung der Parameter
-	\item Wahl eines Designated Routers (DR) und des Backup-DRs
-\end{itemize}
+	\begin{itemize}
+		\item Senden von Keepalives in bestimmten Intervallen (damit wird bestätigt, ob die Route noch besteht)
+		\item Zur Entdeckung eines Nachbarn
+		\item Aushandlung der Parameter
+		\item Wahl eines Designated Routers (DR) und des Backup-DRs
+	\end{itemize}
 \end{multicols}
 Alle ankommenden Hello-Pakete werden auf die Area ID und anderen Parametern geprüft. Wenn diese mit den lokalen Einstellungen übereinstimmen, wird dieser Router als Nachbar eingetragen.\flqq\cite{wiki:ospf}
+
+\begin{description}
+	\item[Interface ID] | Identifikation des Interfaces, auf dem der Router das Hello-Paket sendet.
+	\item[Rtr Pri] | Priorität bei der Wahl zum (Backup) Designated Router.
+	\item[Options] | Fähigkeiten des Routers (z.B. Multicastfähigkeit, IPv6-Fähigkeit).
+	\item[Hello Interval] | Anzahl der Sekunden zwischen Hello Packets, die dieser
+		Router versendet.
+	\item[Router Dead Interval] | Anzahl der Sekunden bis zur \emph{Todeserklärung}, nachdem dieser Router keine \emph{Hello}-Pakete mehr versendet hat.
+	\item[Designated Router] | ID des Designated Routers (Default Router) aus Sicht des Senders für diesen Link (Subnetz).
+	\item[Neighbor] | Router IDs aller Nachbarn, von dem dieser Router kürzlich
+		Hello-Pakete empfangen hat.
+\end{description}
+
+
+% Database Description Packet
+\textbf{Database Description Packet:}
 \begin{figure}[h]
-\begin{center}
-	\includegraphics[width=8cm]{img/ospf_packet}
-	\caption{Ein OSPFv2-Paket}
-\end{center}
+	\begin{center}
+		\includegraphics[width=8cm]{img/ospf_dbp}
+		\includegraphics[width=8cm]{img/ospf_ls_header}
+		\caption{Links: OSPFv3-Database Description Packet | Rechts: OSPFv3-Link State Advertisement Header}
+	\end{center}
 \end{figure}
+
+\begin{description}
+	\item [I] | Init
+	\item [M] | More
+	\item [MS] | Master Slave
+	\item [DD Sequence Number] | Sequenznummer der zu einer Datenbank Beschreibung gehörenden Pakete (wird jeweils um 1 inkrementiert).
+\end{description}
+
+
+% lsa header
+\textbf{Link State Advertisement Header:}
+\begin{description}
+	\item[LS Age] | Zeit in Sekunden, seit Ausgabe des LSAs.
+	\item [LS Type] |
+	\begin{itemize}
+		\item  Unter anderem Scope des LSAs
+	
+	\begin{itemize}
+		\item Link-Local Scoping. Flooding nur im eigenen Link (Subnetz).
+		\item Area Scoping. Flooding in der eigenen Area.
+		\item AS Scoping. Flooding im gesamten Autonomen System.
+	\end{itemize}
+	\item Zusätzlich Funktion des LSAs: 
+	Router-LSA, Network-LSA, Inter-Area-Prefix-LSA, Inter-Area-Router-LSA, AS-External-LSA, Group-membership-LSA,Link-LSA, Intra-Area-Prefix-LSA
+	\end{itemize}
+	\item [W] | Wildcard Multicast Receiver – Router empfängt alle Multicast-Pakete.
+	\item [V] | Virtual Link Endpoint – Router ist Endpunkt einer \emph{Transitstrecke} durch diese Area.
+	\item [E] | External – Router ist Boundary Router für dieses AS.
+	\item [B] | Border – Router ist ist Area Border Router für diese Area.
+	\item [Options] | Fähigkeiten des beschriebenen Routers (siehe oben).
+	\item [Type] | \begin{enumerate}
+		\item Point-to-point connection – zwischen zwei Routern
+		\item Connection to a transit network – Übergang zu einem Transitnetzwerk.
+		\item Reserved
+		\item Virtual link – virtueller Übergang zu einem anderen Router (z.B. Endpunkt eines Tunnels).
+	\end{enumerate}
+
+	\item [Metric] | Kosten für ausgehenden Datenverkehr.
+	\item [Interface ID] | Nummer des Interfaces des jeweiligen Routers, auf den sich die Beschreibung bezieht.
+	\item [Neighbor Interface ID] | Interface ID, des benachbarten Routers, an dem dieser Router angeschlossen ist.
+	\item [Neighbor Router ID] | Nummer des benachbarten Routers, auf den sich dieses LSA bezieht.
+\end{description}
+
 \subsubsection{BGP}
 Das Border Gateway Protocol (BGP) verwaltet eine Liste mit Prefixen (Netzwerken), um Routing zwischen Autonomen Systemen (AS) zu ermöglichen. BGP war die Voraussetzung für ein dezentrales Internet und den Wegfall eines zentralen Backbones.\\
 BGP muss nicht direkt vom Router gesprochen werden, ein spezieller Host (Speaker) im AS kann die Aufgabe übernehmen. Falls mehrere "`Speaker"' vorhanden sind, ist Synchronsierung notwendig.\\
