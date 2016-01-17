@@ -338,7 +338,7 @@ Subnetze dienen zur Aufspaltung von Netzen in Teile, um diese besser handhaben z
 Die auffälligste Änderung von IPv4 zu IPv6 ist die vergrößerte Adressgröße (128 Bit).
 Damit ergeben sich $3,4 \cdot 10^{38}$ Adressen.
 IP - Adressen werden im Hexadezimalsystem zu je acht Word-Gruppen á 2 Bytes dargestellt.
-Verkürzte Darstellung möglich durch Verzicht auf „Nullen“ in einer Gruppe (einmal je Adresse).
+Verkürzte Darstellung möglich durch Verzicht auf "`Nullen"' in einer Gruppe (einmal je Adresse).
 Es existieren IPv4-kompatible Adressen und die CIDR-Darstellung für Subnetze bleibt erhalten.
 Weiterhin wurde die Anzahl der Felder im Header reduziert und (optionale) Erweiterungsheader hinzugefügt.
 Wichtige Felder sind:
@@ -346,7 +346,7 @@ Wichtige Felder sind:
 \begin{description}
 	\item [Traffic Class]: \begin{itemize}
 		\item 0 uncharakterisierter Verkehr
-		\item 1 „Füllmaterial", z.B. Newsgroups
+		\item 1 "`Füllmaterial", z.B. Newsgroups
 		\item 2 zeitunkritischer Verkehr, z.B. EMail
 		\item 3 reserviert
 		\item 4 Mengendaten, z.B. FTP, NFS
@@ -670,7 +670,7 @@ Namespace benennt | urn:ip-addr:139.30.3.23
 		\item NIC verwaltet die Top-Level Domain.
 		\item Die Verwaltung der unteren Ebenen wird entsprechend verteilt.
 	\end{itemize}
-	\item Wird die Verantwortung für eine Zone delegiert, dann ist die entsprechende „Person“ für diese Zone verantwortlich (Zerlegung der Aufgabe in kleinere Teilaufgaben).
+	\item Wird die Verantwortung für eine Zone delegiert, dann ist die entsprechende "`Person"' für diese Zone verantwortlich (Zerlegung der Aufgabe in kleinere Teilaufgaben).
 	\begin{itemize}
 		\item Zuordnung von Namen und IP-Adressen.
 		\item Betrieb von Primary Name Server und mindestens ein Secondary Name Server.
@@ -838,7 +838,7 @@ Servers erstellt
 Domain zu liefern, lädt die Domain-Datenbank von einem Primary Server und aktualisiert sie bei Bedarf
 \item[Caching-only Server]: Verfügt über keine eigenen Domain-Informationen.
 Fragt bei dem für die Domain zuständigen Primary oder Secondary Server nach und speichert die Antwort zwischen.
-Ist zur Beantwortung von Anfragen zu einer Domain „nicht autorisiert“ (kann die Genauigkeit und Aktualität nicht gewährleisten)
+Ist zur Beantwortung von Anfragen zu einer Domain "`nicht autorisiert"' (kann die Genauigkeit und Aktualität nicht gewährleisten)
 \item[Slave	Server]: Reicht alle Anfragen, die er selbst nicht aus seinem eigenen Cache beantworten kann, an eine zuvor festgelegte Liste von anderen Servern (Forwarders) weiter.
 Forwarders fragen ihrerseits den zuständigen Server und speichern Ergebnis zwischen (Caching)
 \end{description}
@@ -999,7 +999,7 @@ Alle optimalen Routen von den Knoten zu einem bestimmten Ziel (Senke), bilden ei
 
 \subsection{Algorithmen}
 \textbf{Eingabe:} Graph G des Netzes, wobei jeder Knoten im Graphen einen Router und jede Kante eine Übertragungsleitung darstellt.\\
-\textbf{Problemstellung:} Finde für einen Startknoten $s$ und einen Endknoten $e$ eines gewichteten Graphen $G = (V,E)$“ und der Kostenfunktion $k(E)$, einen Weg zwischen $s$ und $e$ mit minimalen Kosten bezüglich k.
+\textbf{Problemstellung:} Finde für einen Startknoten $s$ und einen Endknoten $e$ eines gewichteten Graphen $G = (V,E)$"' und der Kostenfunktion $k(E)$, einen Weg zwischen $s$ und $e$ mit minimalen Kosten bezüglich k.
 \subsubsection{Dijkstra-Algorithmus und Link-State-Routing}
 Dijkstra arbeitet nur für nichtnegative Kantengewichte korrekt. 
 Die Zeitkomplexität\footnote{Abhängig von Kantenzahl $m$ und Knotenzahl $n$} beträgt $\mathcal{O}(n^2)$, bei der Verwendung eines Fibbonacci-Heaps kann diese auf $\mathcal{O}(m + n \log{n})$ verbessert werden.
@@ -1137,7 +1137,7 @@ Erhaltung des Backbones bei wegfallenden Verbindungen ist ebenso ein schwieriges
 	\item Alle Knoten kennen ihre Position z.B. GPS bei mobilen Knoten
 	\item Verschiedene Varianten
 	\begin{itemize}
-		\item 	Wahl des Knotens, der am nächsten an der „Luftlinie“ liegt.
+		\item 	Wahl des Knotens, der am nächsten an der "`Luftlinie"' liegt.
 		\item Wahl des Nachbarknotens, der möglichst nahe am Ziel liegt.
 		\item Wahl des Knotens, der in möglichst derselben Richtung wie das Ziel liegt.
 	\end{itemize}
@@ -1318,7 +1318,7 @@ Für jedes Interface sind verschiedene Strategien möglich.
 	\begin{itemize}
 	\item Mehrere Queues mit fairem Multiplexing
 	\item Aufteilen der Bandbreite nach Gewichtung. 
-	\item Keine Queue „verhungert“,  weil die anderen Queues eine hohe Last haben. 
+	\item Keine Queue "`verhungert"',  weil die anderen Queues eine hohe Last haben. 
 	\item Bewertung
 		\begin{itemize}
 		\item Korrekte Zuordnung von Gewichten ist oft schwierig.  
@@ -1617,7 +1617,7 @@ Weitere Felder werden aus dem Request übernommen.
 \subsection{Regeln}
 ICMP-Fehler-Nachrichten werden nie als Folge auf
 \begin{itemize}
-\item  eine ICMP Fehlermeldung („Teufelskreislauf“) erzeugt.
+\item  eine ICMP Fehlermeldung ("`Teufelskreislauf"') erzeugt.
 \item  ein Datagram, das an eine IP Broadcast Adresse oder eine IP
 Multicast - Adresse (class D) gesendet wird, erzeugt.
 \item  ein Datagram, welches als Link - Layer Broadcast gesendet
@@ -1647,7 +1647,7 @@ Wichtige Aspekte sind die Digitalisierung der Sprache (Bandbreite, Gesprächsqua
 \subsection{Digitalisierung}
 Zur Digitalisierung der Sprache bestehen verschiedene Möglichkeiten:
 \begin{itemize}
-	\item Zählverfahren - „Hochzählen“ um jeweils einen Spannungsschritt und Vergleichen mit dem Input.
+	\item Zählverfahren - "`Hochzählen"' um jeweils einen Spannungsschritt und Vergleichen mit dem Input.
 	\item Sukzessive Approximation – schrittweise Annäherung der Spannung entsprechend der Bitwertigkeit mittels D-A-Wandler	und Vergleich (Komperator).
 	\item Parallel-Umsetzer – ein Komperator pro möglichem	Eingangswert.	
 \end{itemize}
@@ -1727,7 +1727,7 @@ Es ist notwendig, dass neben dem Austausch der reinen Sprachdaten (oder Audio-Vi
 	\item Konferenzschaltung
 	\item Übergang in andere Netze.
 	\item Ressourcenverwaltung / QoS-Steuerung.
-	\item Abrechnung / Logging / „Vorratsdatenspeicherung“.
+	\item Abrechnung / Logging / "`Vorratsdatenspeicherung"'.
 \end{itemize}
 
 \subsection{Migration}
@@ -2826,6 +2826,46 @@ Dieses Verfahren ermöglicht es, dass das Wissen über ein geteiltes Geheimnis b
   \includegraphics[width=8cm]{img/kerberos.png}
 	\caption{Kerberos Ablauf (von oben nach unten) - Wikipedia}
 \end{figure}
+	\begin{enumerate}
+	\item Schritt 1 Authentifikation: 
+		\begin{itemize}
+		\item Client sends cleartext message to the AS. 
+		\item AS sends a client-TGS session key to the client (encrypted 
+		with the client‘s key, which is usually derived from the 
+		password and stored in the AS). 
+		\item AS sends a "`ticket granting ticket"' to the client (encrypted 
+		with the TGS‘s key). 
+		\item Client decrypts client-TGS session key. 
+		\end{itemize}
+	\item Schritt 2 Authorisierung: 
+		\begin{itemize}
+		\item Client sends "`ticket granting ticket"' (still encrypted with the 
+		TGS‘s key) and an ID of the requested service to the TGS. 
+		\item Client sends "`authenticator"' (client ID and timestamp) to the 
+		TGS using the TGS‘s key. 
+		\item TGS decrypts "`ticket granting ticket"'. 
+		\item TGS sends a "`client to server ticket"' to the client (encrypted 
+		with the service‘s key, contains client ID, validity and client-SS 
+		session key). 
+		\item TGS sends the client-SS session key to the client (encrypted 
+		with the client-TGS session key).
+		\end{itemize}
+	\item Schritt 3 Service Request: 
+		\begin{itemize}
+		\item Client sends "`client to server ticket"' to the SS (still encrypted 
+		with service‘s key). 
+		\item Client send authenticator to the SS (encrypted with the client-
+		SS session key, contains client ID and timestamp). 
+		\item SS decrypts the "`client to server ticket"'. 
+		\item SS sends the timestamp from the client‘s authenticator to the 
+		client (encrypted with the client-SS session key). 
+		\item Client decrypts timestamp and compares with timestamp from 
+		authenticator. If correct, the SS has proven to be authenticated 
+		to the TGS. 
+		"`"'
+		
+		\end{itemize}
+	\end{enumerate}
 %TODO Es ist die Frage, ob hier noch mehr ins Detail gegangen werden soll - Folie 18-21
 
 \subsection{RADIUS}
