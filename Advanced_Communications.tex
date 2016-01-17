@@ -1057,6 +1057,7 @@ Beschreibung Bellmann-Ford-Algorithmus nach \cite{brandstadt1994graphen}:
 
  
 \subsubsection{Count-to-infinity-Problem}
+\label{subsubsec:count-to-infinity}
 \textbf{Hinweis:} Zur Vereinfachung wird in diesem Abschnitt angenommen, dass als Metrik die Anzahl der Hops zum Ziel gewählt wird.\\
 In bestimmten Fällen kann es bei Distance-Vector-Algorithmen dazu kommen, dass das Verfahren nicht konvergiert.
 Dies ist beispielsweise der Fall, wenn ein Router (oder jede Verbindung zu ihm) ausfällt.
@@ -1144,8 +1145,36 @@ Erhaltung des Backbones bei wegfallenden Verbindungen ist ebenso ein schwieriges
 \end{itemize}
 
 \subsection{Routing-Protokolle}
-%TODO
+%TODO Routing Protokolle
+%OPTIONAL Routing-Protokolle vor MANETs kopieren
+Routing-Protokolle werden grob in \textbf{Interdomain-} (Interior Gateway Protocols, IGPs) und \textbf{Intradomain-}Routing-Protokolle (Exterior Gateway Protocols, EGPs) unterteilt.
+IGPs werden innerhalb eines Netzwerkes (z.B. innerhalb der Uni) genutzt.
+Um Nachrichten zwischen diesen Netzen, die jeweils unterschiedliche Routing-Protokolle (mit unterschiedlichen Metriken und Verfahren) zu Routen, werden EGPs benötigt.
 \subsubsection{RIP}
+%PRÜFEN RIP
+%OPTIONAL RFC 1058, 2453, 2080
+Das \textbf{Routing Information Protocol} ist ein einfaches \emph{Interior Gateway Protocol}.
+Es verwendet \textbf{Distance Vector Routing}, die einzige Metrik sind dabei Hops, die maximale Entfernung beträgt dabei 15.
+
+Ein Router, der mit RIP arbeitet, verwaltet in seiner Routing-Tabelle die besten bekannten Distanzen zu allen bekannten Zielen.
+Initial sind alle direkten Nachbarrouter (mit einer Entfernung von 1) bekannt.
+Periodisch werden diese um Übermittlung der aktuellen Routing-Tabelle gebeten und die eigene Routing-Tabelle entsprechend auf den neuesten Stand gebracht.
+Die Geräte lauschen dabei auf UDP Port 520.
+
+Weitere Regelungen (z.B. zur Vermeidung des Count-to-Infinity-Problems, Abschnitt \ref{subsubsec:count-to-infinity}):
+\begin{itemize}
+	\item Alle 30s ein Response
+	\item Im Laufe der Zeit würden sich alle Updates synchronisieren, daher Verwendung eines kleinen zufälliger Offset (maximal 5s)
+	\item Timeout für Routen 180s (Distanz wird dann auf \emph{unendlich} gesetzt).
+	\item Garbage Collection nach 120s (solange werden Routen mit Distanz \emph{unendlich} noch verbreitet).
+\end{itemize}
+RIPv1 verwendete noch kein CIDR, es wurden also keine Informationen über Subnetze versand, was zur Folge hatte, dass alle Netze dieselbe Größe haben mussten.
+Dies wurde erst mit RIPv2 hinzugefügt, ebenso die Möglichkeit der Authentifizierung, allerdings nur mit MD5-Hashes.
+
+Eine RIPv1-Nachricht besteht aus einem\textbf{Command-Feld} (z.B. Request oder Response), der \textbf{Version}, 2 Bytes Nullen (in v2 stehen hier beispielsweise das Route Tag oder der Authentication Type) und 1 bis 25 \textbf{RIP Entries}.
+Jeder RIP Entry enthält einen \textbf{Adress family identifier} (?), die \textbf{Netzadresse}, die \textbf{Distanz}, sowie ganz viele, schwer erklärbare Füll-Nullen.
+Bei RIPv2 können gibt es außerdem RIP-Entries mit Subnetzmaske (enthalten zusätzlich die Subnetzmaske und den Next Hop; diese stehen in den in v1 mit Nullen aufgefüllten Feldern) und einen RIP-Entry mit Authentifizierung (enthält 16 Byte-Eintrag, also wohl eine MD5).
+
 \subsubsection{OSPF}
 \subsubsection{BGP}
 \subsubsection{OLSR und AODV}
