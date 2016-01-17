@@ -1200,15 +1200,67 @@ Informationen über erreichbare Netze werden als \textbf{Link State Advertisemen
 \end{itemize}
 \end{multicols}
 Alle ankommenden Hello-Pakete werden auf die Area ID und anderen Parametern geprüft. Wenn diese mit den lokalen Einstellungen übereinstimmen, wird dieser Router als Nachbar eingetragen.\flqq\cite{wiki:ospf}
-\begin{figure}[ht]
+\begin{figure}[h]
 \begin{center}
 	\includegraphics[width=8cm]{img/ospf_packet}
 	\caption{Ein OSPFv2-Paket}
 \end{center}
 \end{figure}
 \subsubsection{BGP}
-\subsubsection{OLSR und AODV}
+Das Border Gateway Protocol (BGP) verwaltet eine Liste mit Prefixen (Netzwerken), um Routing zwischen Autonomen Systemen (AS) zu ermöglichen. BGP war die Voraussetzung für ein dezentrales Internet und den Wegfall eines zentralen Backbones.\\
+BGP muss nicht direkt vom Router gesprochen werden, ein spezieller Host (Speaker) im AS kann die Aufgabe übernehmen. Falls mehrere "`Speaker"' vorhanden sind, ist Synchronsierung notwendig.\\
 
+\noindent BGP benutzt TCP als Transport Protokoll auf Port 179 und ist verbindungsorientiert und zustandsbehaftet. \\
+\textbf{BGP Pakete}:\\
+Bei der initialen Verbindung werden Routing-Tabellen ausgetauscht (sofern Export Policy dies erlaubt).
+	\begin{itemize}
+	\item Routing Information Bases (RIB) enthält Routen. 
+	\item Adj-RIB-Out Nachrichten werden versendet. 
+	\end{itemize}
+Später werden Routen über Updates aktualisiert.  Ein UPDATE enthält Informationen über eine Route. Ansonsten sendet der BGP Speaker regelmäßig (default alle 
+60s) ein Keep-Alive-Paket. \\
+
+\noindent Der \textbf{Header} enthält:
+	\begin{itemize}
+	\item \textbf{Version} (aktuell 4)
+	\item \textbf{My Autonomous System} (ID des Autonomen Systems des Senders.)
+	\item \textbf{Hold Time} (Zeit in Sekunden (entweder 0 oder mindestens 3s), für die die Information gültig ist. Wird berechnet aus Minimum von eigener Hold Time und Hold Time des Verbindungspartners.)
+	\item \textbf{BGP Identifier} Die ID des Senders, entspricht IP-Adresse des Speakers und wird für alle Interfaces verwendet.
+	\item \textbf{Optional Parameters} Beliebige, nicht im Protokoll festgelegte zusätzliche Parameter, die die Fähigkeit des Routers beschreiben. 
+	\end{itemize}
+
+\noindent Eine BGP UPDATE Nachricht dient zur Übermittlung einer nutzbaren Route oder Übermittlung von nicht länger nutzbaren Routen. Die Nachricht zeigt an, dass es in diesem AS eine Route zu einem bestimmten Ziel gibt. Das AS kann dieses Ziel entweder selbst enthalten oder als Transit anbieten.\\
+Header-Informationen:
+	\begin{itemize}
+	\item \textbf{Withdrawn Routes Length}  - Anzahl der enthaltenen Routen, die zurückgezogen werden sollen. 
+	\item \textbf{Withdrawn Routes} 
+	\item \textbf{Total Path Attribute Length} - Anzahl der Bytes im Path Attribute Feld
+	\item \textbf{Path Attributes} Herkunft der Information, und weitere, beliebig zu definierende Path Attributes sind möglich. 
+	\end{itemize}
+\subsubsection{OLSR}
+Das Optimized Link State Routing (OLSR) ist ein Routing-Protokoll für mobile Ad-Hoc-Netze, das eine an die Anforderungen eines mobilen drahtlosen LANs angepasste Version des Link State Routing darstellt. Es ist dezentral und vollständig verteilt. Da es ein proaktives Protokoll ist:
+	\begin{itemize}
+	\item Routen stehen bei Bedarf sofort zur Verfügung. 
+	\item Routen werden permanent aktualisiert. 
+	\item Topologieerkennung über Hello-Messages. 
+	\item Verbreitung der Topologie-Informationen über TC-Messages Topology Control). 
+	\end{itemize}
+Jeder Knoten lernt seine 1-Hop-Nachbarn über Hello-Messages kennen. Außerdem verbreitet jeder Knoten  Informationen über seine Existenz und die seiner 1-Hop-Nachbarn über Hello-Messages. So kennt folglich jeder Knoten seine 1-Hop-Nachbarn und 2-Hop-Nachbarn. \\
+Es werden spezielle Knoten ((Multipoint-Relays - MPR) ausgewählt. Jeder Knoten wählt MPRs aus seinen 1-Hop-Nachbarn aus, so dass er über diese jeden 2-Hop-Nachbarn erreichen kann. Die Wahl wird in den Hello-Messages geteilt. Lediglich diese MPRs leiten TC-Messages per Broadcast weiter. Auf diese Weise wird der Aufwand für Flooding reduziert und je weniger MPRs es gibt, desto geringer der Aufwand.\\
+
+\noindent Ein OLSR Paket enthält die folgenden interessanten Header-Informationen:
+	\begin{itemize}
+	\item \textbf{Packet Sequence Number}
+	\item \textbf{Message Type} bspw. Hello, TC, MID
+	\item \textbf{Vtime} Gültigkeitsdauer einer Nachricht
+	\item \textbf{Originator Address} Hauptadresse des Absenders
+	\item \textbf{Time To Live}
+	\item \textbf{Hop Count}
+	\item \textbf{Message Sequence Number}
+	\end{itemize}
+	
+\subsubsection{AODV}
+Der Ad-hoc On-demand Distance Vector-Routingalgorithmus (AODV) ist ein Algorithmus zum Weiterleiten von Daten durch ein mobiles Ad-hoc-Netz. Das Protokoll gehört zu den topologiebasierten, reaktiven Routingverfahren, d. h. Routen zu bestimmten Zielen werden erst bei Bedarf ermittelt.
 \section{Quality of Service}
 \label{sec:qos}
 \subsection{Qualitätsparameter}
