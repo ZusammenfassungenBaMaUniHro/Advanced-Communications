@@ -116,15 +116,15 @@ bilden das Internet.
 
 \subsection{Begriffe}
 \begin{description}
-	\item[Jitter] wird als Varianz der Laufzeit von Datenpaketen Bezeichnet.
+	\item[Jitter] wird als Varianz der Laufzeit von Datenpaketen bezeichnet.
 	\item[Latenz] das Zeitintervall, um das ein Ereignis verzögert wird.
 	\item[Datendurchsatz] gibt die Netto-Datenmenge pro Zeit an, die über ein kabelgebundenes oder kabelloses Netz übertragen werden kann. Beim Datendurchsatz werden die reinen Nutzdaten berücksichtigt. Bei der Datenübertragungsrate hingegen werden eventuelle Steuerdaten (englisch: Overhead) mitgerechnet.
 	\item[Datenrate] bezeichnet die digitale Datenmenge, die innerhalb einer Zeiteinheit über einen Übertragungskanal übertragen wird.
-	\item[Routing]  bezeichnet in der Telekommunikation das Festlegen von Wegen für Nachrichtenströme bei der Nachrichtenübermittlung in Rechnernetzen. Insbesondere in paketvermittelten Datennetzen ist hierbei zwischen den beiden verschiedenen Prozessen Routing und Forwarding zu unterscheiden: Das Routing bestimmt den gesamten Weg eines Nachrichtenstroms durch das Netzwerk; das Forwarding beschreibt hingegen den Entscheidungsprozess eines einzelnen Netzknotens, über welchen seiner Nachbarn er eine vorliegende Nachricht weiterleiten soll.
+	\item[Routing]  bezeichnet in der Telekommunikation das Festlegen von Wegen für Nachrichtenströme bei der Nachrichtenübermittlung in Rechnernetzen. Insbesondere in paketvermittelten Datennetzen ist hierbei zwischen den beiden verschiedenen Prozessen des Routings und Forwardings zu unterscheiden: Das Routing bestimmt den gesamten Weg eines Nachrichtenstroms durch das Netzwerk; das Forwarding beschreibt hingegen den Entscheidungsprozess eines einzelnen Netzknotens, über welchen seiner Nachbarn er eine vorliegende Nachricht weiterleiten soll.
 \end{description}
 
 \section{Protokolle}
-Protokolle können als Vorschrift betrachtet werden, wie sich verhalten werden soll. Zur Interaktion wird beschrieben, welches Datenformat und wann etwas geschickt werden darf.
+Protokolle können als Vorschrift betrachtet werden, wie sich verhalten werden soll. Um Interaktion zu ermöglichen, wird beschrieben, wann etwas geschickt werden darf und wie das Datenformat auszusehen hat.
 \subsection{Zustandslose und zustandsbehaftete Protokolle}
 Bei \textbf{zustandslosen Protokollen} wird jede Anfrage in einer eigenständigen Transaktion ausgeführt, es existieren keine Vorbedingungen oder Sitzungsinformationen (UDP, HTTP, TFTP).
 \textbf{Zustandsbehaftete Protokolle} hingegen merken sich den aktuellen Zustand mithilfe einer Sitzung.
@@ -233,7 +233,7 @@ Im Groben existieren drei Realisierungsmöglichkeiten für Switches:
 \begin{description}
 	\item[Shared Memory] | Alle Schnittstellen kommunizieren über einen zentralen Speicher.
 	Genutzt wird ein einfacher interner Rechnerbus.
-	Diese Realisierungsart ist sehr Preisgünstig.
+	Diese Realisierungsart ist sehr preisgünstig.
 	\item[Common Bus] | Schnittstellen verfügen über lokalen Speicher und gemeinsamen Bus.
 	Bus ist in der Regel schneller getaktet als die externen Schnittstellen 	(Zeitmultiplex) oder erlaubt als so genannte Backplane mehrere 	parallele Verbindungen (Raummultiplex)
 	\item[Crosspoint Matrix] | Schnittstellen verfügen über lokalen Speicher.
@@ -245,7 +245,7 @@ Im Groben existieren drei Realisierungsmöglichkeiten für Switches:
 
 
 \subsubsection{Cut-Through und Store-and-Forward}
-Beim \textbf{Cut-Through} (auch \emph{On The Fly Forwarding}) werden Pakete sofort nach Empfang der Empfängeradresse auf dem entsprechenden Port weitergeleitet, sofern dieser Frei ist.
+Beim \textbf{Cut-Through} (auch \emph{On The Fly Forwarding}) werden Pakete sofort nach Empfang der Empfängeradresse auf dem entsprechenden Port weitergeleitet, sofern dieser frei ist.
 Diese Methode ist sehr schnell (Verzögerung ca. 40$\mu$s), leitet jedoch gegebenenfalls auch fehlerhafte Frames weiter, da CRC umgangen wird.
 
 \textbf{Store-and-Forward} hingegen empfängt zuerst den gesamten Frame, prüft diesen und leitet ihn anschließend weiter.
@@ -279,13 +279,11 @@ Erleichtert die Arbeit eines Administrators, da es viele Probleme von physikalis
 \subsubsection{Trunking / Link Aggregation}
 Ermöglicht die Zusammenfassung mehrerer Ports zur Erhöhung des Datensatzes.
 
-\subsection{Asynchronous Transfer Mode}
-
-\subsection{ATM}
+\subsection{Asynchronous Transfer Mode - ATM}
 	\begin{itemize}
 		\item ATM kann als Protokoll für Internettelefonie eingesetzt werden und bietet eine geringe Latenz (von unter 200ms).
-		\item Im Gegensatz zu Ethernet bietet ATM Garantien(!) und besitzt einen geringen Header von 5Byte. Es wird eine Leitung für den Datenstrom geschaltet.
-		
+		\item Im Gegensatz zu Ethernet bietet ATM Garantien(!) und besitzt einen geringen Header von 5 Byte. Es wird eine Leitung für den Datenstrom geschaltet.
+		\item Später mehr
 	\end{itemize}
 
 \subsection{Internet Protocol}
@@ -337,7 +335,7 @@ Subnetze dienen zur Aufspaltung von Netzen in Teile, um diese besser handhaben z
 
 Die auffälligste Änderung von IPv4 zu IPv6 ist die vergrößerte Adressgröße (128 Bit).
 Damit ergeben sich $3,4 \cdot 10^{38}$ Adressen.
-IP - Adressen werden im Hexadezimalsystem zu je acht Word-Gruppen á 2 Bytes dargestellt.
+IP - Adressen werden im Hexadezimalsystem zu je acht Wort-Gruppen á 2 Bytes dargestellt.
 Verkürzte Darstellung möglich durch Verzicht auf "`Nullen"' in einer Gruppe (einmal je Adresse).
 Es existieren IPv4-kompatible Adressen und die CIDR-Darstellung für Subnetze bleibt erhalten.
 Weiterhin wurde die Anzahl der Felder im Header reduziert und (optionale) Erweiterungsheader hinzugefügt.
@@ -347,7 +345,7 @@ Wichtige Felder sind:
 	\item [Traffic Class]: \begin{itemize}
 		\item 0 uncharakterisierter Verkehr
 		\item 1 "`Füllmaterial", z.B. Newsgroups
-		\item 2 zeitunkritischer Verkehr, z.B. EMail
+		\item 2 zeitunkritischer Verkehr, z.B. E-Mail
 		\item 3 reserviert
 		\item 4 Mengendaten, z.B. FTP, NFS
 		\item 5 reserviert
@@ -386,7 +384,7 @@ RFC 1933\cite{rfc1933} schlägt drei Migrationsstrategien vor.
 \begin{description}
 	\item [Tunneling]: Zwischen zwei IPv6-Knoten wird ein virtueller Link aufgebaut.
 	Die IPv6-Pakete werden (als Payload) in IPv4-Pakete verpackt und \emph{normal} über das Internet geroutet.
-	\item [Dual Stack]: Auf Hosts und Routern werden sowohl IPv4 als acuh IPv6 eingerichtet.
+	\item [Dual Stack]: Auf Hosts und Routern werden sowohl IPv4 als auch IPv6 eingerichtet.
 	DNS kann A- oder AAAA-Records zurück geben, entsprechender Stack wird dann genutzt.
 	%PRÜFEN Hier ist inhaltliche Überprüfung notwendig.
 	Wird häufig mit Automatic Tunneling\footnote{\textquotedblleft IPv6-over-IPv4 tunneling where the IPv4 tunnel endpoint address is determined from the IPv4 address embedded in the IPv4-compatible destination address of the IPv6	packet.\textquotedblright} genutzt.
@@ -414,12 +412,11 @@ Der Header enthält 4 Felder (je 16 Bit): Quellport, Zielport, Datagram-Länge u
 TCP ist ebenfalls ein Layer-4-Protokoll.\cite{rfc793}
 Es garantiert eine Ankunft der Pakete in korrekter Reihenfolge.
 Clienten sehen die Verbindung als bidirektionalen Datenstrom, tatsächlich findet die Kommunikation über Pakete statt. Die Kommunikation erfolgt durch TCP zustandsbehaftet.
-TCP arbeitet byte-orientiert.
+TCP arbeitet Byte-orientiert.
 
 \subsubsection{Paketstruktur}
 
-Der Header des TCP-Fragments ist 20 Byte groß.
-Wichtige Felder sind:
+Der Header des TCP-Fragments ist 20 Byte groß. Neben Sender, Empfänger, Länge, Quell- und Zielport, ACK-Nummer und optionalen Options sind wichtige Felder:
 \begin{description}
 	\item [Sequence Number / Acknowledgement Number]: Zerlegung des Datenstroms in nummerierte Blöcke.
 	Größe der Blöcke ist variabel (Nagle Algorithmus).
@@ -486,7 +483,7 @@ Kann der Empfänger etwa noch 64 kb puffern (Window Size, siehe letzter Abschnit
 Zur Ermittlung des CWNDs wird der Slow-Start-Algorithmus angewandt.
 Dieser sendet eine exponentiell wachsende Anzahl $n$ von Segmenten (1,2,4,8...) an den Empfänger.
 Der Sender erwartet $n$ ACKs, erhöht die Größe des CWNDs entsprechend und versendet die nächste Gruppe von Paketen.
-Dies wird fortgesetzt bis die \emph{Slow-Start-Threshold} erreicht ist.
+Dies wird fortgesetzt, bis die \emph{Slow-Start-Threshold} erreicht ist.
 Die exponentielle Phase ist beendet und die Anzahl der zu Übertragenden Segmente wird linear erhöht, bis die vom Empfänger festgelegte Fenstergröße (Window Size) erreicht und das Überlastungsfenster ermittelt ist.
 
 Findet in der exponentiellen Phase ein Timeout statt (ACKs erreichen den Sender erst nach einer bestimmten Zeit), startet das Verfahren erneut mit einer geringeren \emph{Slow-Start-Threshold}.
@@ -497,7 +494,7 @@ Das Verfahren ist auch als \textbf{Jacobson-Algorithmus} bekannt.
 Das \textbf{Stream Control Transmission Protocol}\cite{rfc4960} ist ein zuverlässiges (Reihenfolge, Duplikate, Veränderungen, Fehlende Daten) Transportprotokoll für Unicast-Kommunikation.
 Es arbeitet nachrichten-orientiert, die Nachrichten\footnote{Auch als Chunks bezeichnet} haben eine interne Struktur.
 SCTP ermöglicht multi-streaming, Daten können in parallelen Streams übertragen werden.
-Dies ist beispielsweise dann hilfreich, wenn Websiten mit mehreren Ressourcen übertragen werden.
+Dies ist beispielsweise dann hilfreich, wenn Webseiten mit mehreren Ressourcen übertragen werden.
 Streams werden einzeln nummeriert (Retransmits müssen nur für den jeweiligen Stream erfolgen).
 Daten-Chunks können einzeln bestätigt werden. (\textbf{Selective ACK})
 Retransmits nur für fehlende Pakete.
@@ -589,7 +586,7 @@ Das Value-Feld ist beim DATA Chunk wie folgt aufgebaut:
 
 \subsection{VPI und VCI bei ATM}
 ATM beruht auf Verbindungen, die sowohl fest eingerichtet oder nur für eine bestimmte Zeit geschaltet werden können. Für diesen Zweck wurden Virtual Paths (VPs) und Virtual Channels (VCs) definiert. Jede ATM-Zelle enthält im Header einen Virtual Path Identifier (VPI, 8 bzw. 12 Bit) und einen Virtual Channel Identifer (VCI, 16 Bit).\\
-Ein ATM-Paket besteht aus 5 Byte Headerund 48 Byte Nutzlast. Es gibt zwei Arten von ATM-Paket-Formaten:
+Ein ATM-Paket besteht aus 5 Byte Header und 48 Byte Nutzlast. Es gibt zwei Arten von ATM-Paket-Formaten:
 	\begin{enumerate}
 		\item NNI (Network-Network-Interface)\\
 		Wird von öffentlichen ATM-Netzen verwendet.	
@@ -632,7 +629,7 @@ Namespace benennt | urn:ip-addr:139.30.3.23
 \subsection{*cast} 
 \begin{description}
 	\item[Unicast]: Einer sendet an einen, wie beispielsweise in einer TCP-Verbindung für HTTP. Adressierung durch Angabe des Empfängers.
-	\item[Broadcast]: Einer sendet an alle, wie beispielsweise in ARP oder DHCP. Hierzu werden spezielle Adressen (MAC: FF-FF-FF-FF-FF-FF; IP: höchste Adresse im Subnetz) verwendet. Broadcastbereiche sollten möglichst klein gehalten werden, um möglichst wenig Teilnehmer zu belästigen.
+	\item[Broadcast]: Einer sendet an alle, wie beispielsweise in ARP oder DHCP. Hierzu werden spezielle Adressen (MAC: FF-FF-FF-FF-FF-FF; IP: höchste Adresse im Subnetz) verwendet. Broadcastbereiche sollten klein gehalten werden, um möglichst wenig Teilnehmer zu belästigen.
 	\item[Multicast]: Einer sendet an viele Mitglieder einer Gruppe. Siehe Abschnitt \ref{sec:muliticast}.
 	\item[Concast]: Viele senden an einen, Nachrichten werden so früh wie möglich zusammengefasst. Verhindert Implosion, Überlastung des Empfängers. Beispielswiese sinnvoll, wenn Fehlermeldungen zusammengefasst werden können. Keine direkte Unterstützung in IP, MAC, Ethernet
 \end{description}
@@ -688,7 +685,7 @@ Namespace benennt | urn:ip-addr:139.30.3.23
 
 % Ende 030, 040
 
-ARP wandelt Layer-3-Adressen in Layer-2-Adressen um.
+ARP (Address Resolution Protocol) wandelt Layer-3-Adressen in Layer-2-Adressen um.
 Es beschränkt sich nicht auf das Erfragen von MAC-Adressen zu IP-Adressen, sondern ermöglicht beispielsweise auch ATM ARP, IP over FDDI und IP over Token Ring.
 \begin{itemize}
 	\item Erfragt für gegebene IP-Adresse eine MAC-Adresse.
@@ -748,7 +745,7 @@ IP-Autoconf \cite{rfc3927} ist eine einfache Möglichkeit zur Adresskonfiguratio
 Da ARP nicht kryptografisch abgesichert ist, kann jeder Host auf ARP Requests antworten oder ARP Announcements erzeugen.
 Ziel ist das Umleiten von Datenpaketen.
 Es gibt Programme, die Änderungen der Hardware-Adressen erkennen (z.B. arpwatch).
-Der Administrator muss dann die Ursache überprüfen
+Der Administrator muss dann die Ursache überprüfen.
 
 \subsection{Proxy ARP}
 
@@ -756,7 +753,7 @@ Wird von speziellen Routing-Protokollen verwendet.
 Jeder Nachbar (One-Hop-Neighbor), der auf der Route zum Ziel liegt, beantwortet einen eintreffenden ARP-Request mit seiner Hardware-Adresse.
 Pakete werden so von Host zu Host weitergeleitet
 
-\subsection{Reverse RP}
+\subsection{Reverse ARP}
 
 Erfragt eine IP-Adresse bei bekannter MAC-Adresse und ist nicht unbedingt für die Funktionsfähigkeit von IP über Ethernet notwendig.
 RARP wird in RFC 903 \cite{rfc903} standardisiert.
@@ -783,7 +780,7 @@ Der Name wird dabei aus hierarchischen Domains, getrennt durch Punkte (.) zusamm
 Direkt unter der Wurzel steht hierbei die sogenannte Top-Level-Domain.
 Bei Top-Level-Domains wird zwischen \textbf{länderspezifischen} (ccTLD) und \textbf{generischen} (gTLD) Domains unterschieden.\\
 Länderspezifische, bestehend aus zwei Buchstaben, werden durch lokal verantwortliche Institutionen\footnote{Network Information Centers z.B. DENIC für .de} verwaltet.\\
-Generische werden durch die \textbf{ICANN} oder beauftragte Institutionen vergeben und haben drei oder mehr Buchstaben.Bei der Vergabe gilt das \emph{first come, first serve}-Prinzip.
+Generische werden durch die \textbf{ICANN} oder beauftragte Institutionen vergeben und haben drei oder mehr Buchstaben. Bei der Vergabe gilt das \emph{first come, first serve}-Prinzip.
 
 Für die Namensbildung gelten gewisse Regelungen, z.B. Ziffern 0-9, Bindestriche, Buchstaben, sowie einige ausgewählte lokale Buchstaben. Groß- und Kleinschreibung werden nicht unterschieden. 
 Letztere müssen ASCII-kodierbar sein (ACE)\cite{rfc3490}.
@@ -800,7 +797,7 @@ Folgende Daten sind bei der Domainanmeldung von Interesse:
 	\item [Technische Daten]: z.B. Nameserver
 \end{description}
 
-Hoster tragen oft nicht den Inhaber selbst als Admin-C, sondern sich selbst ein.
+Hoster tragen oft nicht den Inhaber selbst als Admin-C ein, sondern sich selbst.
 Außerdem stellen sie in der Regel den Nameserver zur Verfügung.
 Die Registrierung einer Domain gilt immer für einen bestimmten Zeitraum.
 Ein Wechsel erfordert eine Freigabe beim alten Provider durch Inhaber oder Admin-C.\\
@@ -840,7 +837,7 @@ Domain zu liefern, lädt die Domain-Datenbank von einem Primary Server und aktua
 Fragt bei dem für die Domain zuständigen Primary oder Secondary Server nach und speichert die Antwort zwischen.
 Ist zur Beantwortung von Anfragen zu einer Domain "`nicht autorisiert"' (kann die Genauigkeit und Aktualität nicht gewährleisten)
 \item[Slave	Server]: Reicht alle Anfragen, die er selbst nicht aus seinem eigenen Cache beantworten kann, an eine zuvor festgelegte Liste von anderen Servern (Forwarders) weiter.
-Forwarders fragen ihrerseits den zuständigen Server und speichern Ergebnis zwischen (Caching)
+Forwarders fragen ihrerseits den zuständigen Server und speichern das Ergebnis zwischen (Caching)
 \end{description}
 
 \subsection{Server kennt die Antwort nicht}
@@ -853,12 +850,12 @@ Besitzen verschiedene Header-Informationen um verschiedenes zu kennzeichnen:
 	\begin{itemize}
 	\item Ob es eine Query oder Response ist \textbf{(QR)}
 	\item Welch ein Query-Typ es ist (Standard, iterativ, rekursive)
-	\item Von wem die Query beantwortet werden soll (Server, "`autorative answer"',...)
+	\item Von wem die Query beantwortet werden soll (Server, "`authoritative answer"',...)
 	\end{itemize}
 	
 Es wird außerdem angegeben von welcher Art die Anfrage ist \textbf{(Query Type)}
 	\begin{description}
-	\item[SOA]:  Liefert den Namen der primären Informationsquelle über die Zone des Nameservers, die Email-Adresse des Verwalters, eine eindeutige Seriennummer und verschiedene Flags und Timeouts
+	\item[SOA]:  Liefert den Namen der primären Informationsquelle über die Zone des Nameservers, die E-Mail-Adresse des Verwalters, eine eindeutige Seriennummer und verschiedene Flags und Timeouts
 	\item[A]: Datensatz enthält eine 32 Bit lange IP - Adresse für einen bestimmten Host 
 	\item[MX]: Name des Hosts, der E-Mails für eine betreffende Domäne annehmen kann 
 	\item[NS]: Spezifiziert den zuständigen Nameserver für eine Domäne - Jede DNS-Datenbank hat normalerweise einen NS-Satz für jede Domäne der obersten Ebene 
@@ -922,7 +919,7 @@ Aus Datenschutzgründen können Informationen über Eigentümer von .de Domains 
 			\item Kein neuer Protokollschritt, solange nicht der vorhergehende erfolgreich (korrekt) abgeschlossen ist.
 			\item Niedrige Protokoll-Leistung (Datendurchsatz).
 			\item Dafür einfache Implementierung.
-			\item Geänderte Reihenfolge stellen kein Problem dar, da stopand-wait Protokoll nur jeweils ein Paket hängig hat.
+			\item Geänderte Reihenfolge stellen kein Problem dar, da stop-and-wait Protokoll nur jeweils ein Paket hängig hat.
 		\end{itemize}
 		\item Alternative
 		\begin{itemize}
@@ -930,7 +927,7 @@ Aus Datenschutzgründen können Informationen über Eigentümer von .de Domains 
 			\item Übersendung mehrerer Pakete und dann erst warten auf eine Bestätigung.
 			\item Höherer Datentransfer (Beispiel TCP).
 		\end{itemize}
-		\item Doppelte Pakete werden aufgrund der Blocknummer erkannt, während verlorene Pakete über Timeout beider Partner erkannt werden.
+		\item Doppelte Pakete werden aufgrund der Blocknummer erkannt, während verlorene Pakete über Timeouts beider Partner erkannt werden.
 		\item TFTP Nachricht hat keine Checksumme, Datenveränderungen müssen durch die UDP-Checksumme abgefangen werden.
 		\item Retransmission Timer
 		\begin{itemize}
@@ -956,7 +953,7 @@ Dabei gewährt es Dienstgüten (z.B. Konstante Latenz, Bitrate, Durchsatz, sowie
 \begin{description}
 	\item[Router] - Gerät, welches mindestens zwei unterschiedliche Netzwerke verbindet.
 					Ist in der Lage, den besten Weg für eine Nachricht durch ein Netzwerksystem bis zum Empfänger zu bestimmen.
-	\item[Routing] - bezeichnet das Transportieren Daten innerhalb eines Netzes
+	\item[Routing] - bezeichnet das Transportieren von Daten innerhalb eines Netzes
 	\item[Passives/Source Routing] - Route ist durch das zu versendende Datenpaket vorgegeben (z.B. im Header enthalten)
 	\item[Aktives Routing] - Router kann sich den Versandweg selbst aussuchen
 	\item[Globales Routing] - Ein Knoten hat vollständige Informationen zu Topologie und Kosten. 
@@ -999,13 +996,13 @@ Alle optimalen Routen von den Knoten zu einem bestimmten Ziel (Senke), bilden ei
 
 \subsection{Algorithmen}
 \textbf{Eingabe:} Graph G des Netzes, wobei jeder Knoten im Graphen einen Router und jede Kante eine Übertragungsleitung darstellt.\\
-\textbf{Problemstellung:} Finde für einen Startknoten $s$ und einen Endknoten $e$ eines gewichteten Graphen $G = (V,E)$"' und der Kostenfunktion $k(E)$, einen Weg zwischen $s$ und $e$ mit minimalen Kosten bezüglich k.
+\textbf{Problemstellung:} Finde für einen Startknoten $s$ und einen Endknoten $e$ eines gewichteten Graphen $G = (V,E)$ und der Kostenfunktion $k(E)$, einen Weg zwischen $s$ und $e$ mit minimalen Kosten bezüglich k.
 \subsubsection{Dijkstra-Algorithmus und Link-State-Routing}
 Dijkstra arbeitet nur für nichtnegative Kantengewichte korrekt. 
 Die Zeitkomplexität\footnote{Abhängig von Kantenzahl $m$ und Knotenzahl $n$} beträgt $\mathcal{O}(n^2)$, bei der Verwendung eines Fibbonacci-Heaps kann diese auf $\mathcal{O}(m + n \log{n})$ verbessert werden.
 
 Dieser Algorithmus wird beim \emph{Link-State-Routing} verwendet.
-Zur Durchführung werden komplette (Topologie- und) Kosteninformationen benötigt
+Zur Durchführung werden komplette (Topologie- und) Kosteninformationen benötigt.
 Dazu propagieren die Knoten die Kosten zu ihren Nachbarn mittels Broad-/und Multicasts  im gesamten Netzwerk.
 
 Beschreibung Dijkstra-Algorithmus nach \cite{brandstadt1994graphen}:
@@ -1060,7 +1057,7 @@ Beschreibung Bellmann-Ford-Algorithmus nach \cite{brandstadt1994graphen}:
 \label{subsubsec:count-to-infinity}
 \textbf{Hinweis:} Zur Vereinfachung wird in diesem Abschnitt angenommen, dass als Metrik die Anzahl der Hops zum Ziel gewählt wird.\\
 In bestimmten Fällen kann es bei Distance-Vector-Algorithmen dazu kommen, dass das Verfahren nicht konvergiert.
-Dies ist beispielsweise der Fall, wenn ein Router (oder jede Verbindung zu ihm) ausfällt.
+Dies ist beispielsweise dann der Fall, wenn ein Router (oder jede Verbindung zu ihm) ausfällt.
 Die verbleibenden Router sind vom Ausfall nicht informiert, stattdessen erhalten sie weiterhin von ihren Nachbarn veraltete Informationen zur Entfernung.\\
 Der vormals direkte Nachbar, welcher zuvor von einer Entfernung von 1 kannte, erhält nun von einem anderen Nachbarn die Information, dass dieser den Ausgefallenen mit Kosten von 2 erreichen kann.
 Dies führt dazu, dass die fehlerhafte Information übernommen wird und sich die Kosten | zumindest theoretisch | bis unendlich \emph{hochschaukeln}.\\
@@ -1078,7 +1075,7 @@ Zumindest einige dieser mobilen Knoten müssen auch als Router arbeiten können.
 Alle Knoten bewegen sich unkoordiniert und nur schlecht vorhersagbar.
 MANETs können Übergänge in andere Netze haben, z.B. in das Internet.
 
-\subsubsection{Herausforderungen und Probleme}:
+\subsubsection{Herausforderungen und Probleme:}
 \begin{itemize}
 	\item Netzwerke ohne feste Infrastruktur.
 	\item Knoten sind in der Regel mobil, daher können keine statischen Routen verwendet werden.
@@ -1169,10 +1166,10 @@ Weitere Regelungen (z.B. zur Vermeidung des Count-to-Infinity-Problems, Abschnit
 	\item Timeout für Routen 180s (Distanz wird dann auf \emph{unendlich} gesetzt).
 	\item Garbage Collection nach 120s (solange werden Routen mit Distanz \emph{unendlich} noch verbreitet).
 \end{itemize}
-RIPv1 verwendete noch kein CIDR, es wurden also keine Informationen über Subnetze versand, was zur Folge hatte, dass alle Netze dieselbe Größe haben mussten.
+RIPv1 verwendete noch kein CIDR(Classless Inter-Domain Routing), es wurden also keine Informationen über Subnetze versand, was zur Folge hatte, dass alle Netze dieselbe Größe haben mussten.
 Dies wurde erst mit RIPv2 hinzugefügt, ebenso die Möglichkeit der Authentifizierung, allerdings nur mit MD5-Hashes.
 
-Eine RIPv1-Nachricht besteht aus einem\textbf{Command-Feld} (z.B. Request oder Response), der \textbf{Version}, 2 Bytes Nullen (in v2 stehen hier beispielsweise das Route Tag oder der Authentication Type) und 1 bis 25 \textbf{RIP Entries}.
+Eine RIPv1-Nachricht besteht aus einem \textbf{Command-Feld} (z.B. Request oder Response), der \textbf{Version}, 2 Bytes Nullen (in v2 stehen hier beispielsweise das Route Tag oder der Authentication Type) und 1 bis 25 \textbf{RIP Entries}.
 Jeder RIP Entry enthält einen \textbf{Adress family identifier} (?), die \textbf{Netzadresse}, die \textbf{Distanz}, sowie ganz viele, schwer erklärbare Füll-Nullen.
 Bei RIPv2 können gibt es außerdem RIP-Entries mit Subnetzmaske (enthalten zusätzlich die Subnetzmaske und den Next Hop; diese stehen in den in v1 mit Nullen aufgefüllten Feldern) und einen RIP-Entry mit Authentifizierung (enthält 16 Byte-Eintrag, also wohl eine MD5).
 
@@ -1228,7 +1225,7 @@ Instance ID ermöglicht, mehrere OSPF-Instanzen über den selben Link (im selben
 	\end{center}
 \end{figure}
 
-\frqq Das \textbf{Hello-Protokoll} ist in Open Shortest Path First für den Netzwerkbetrieb ein integraler Bestandteil des gesamten Routingprozesses. Es ist verantwortlich für:
+Das \textbf{Hello-Protokoll} ist in Open Shortest Path First für den Netzwerkbetrieb ein integraler Bestandteil des gesamten Routingprozesses. Es ist verantwortlich für:
 \begin{multicols}{2}
 	\begin{itemize}
 		\item Senden von Keepalives in bestimmten Intervallen (damit wird bestätigt, ob die Route noch besteht)
@@ -1344,7 +1341,7 @@ Das Optimized Link State Routing (OLSR) ist ein Routing-Protokoll für mobile Ad
 	\item Verbreitung der Topologie-Informationen über TC-Messages Topology Control). 
 	\end{itemize}
 Jeder Knoten lernt seine 1-Hop-Nachbarn über Hello-Messages kennen. Außerdem verbreitet jeder Knoten  Informationen über seine Existenz und die seiner 1-Hop-Nachbarn über Hello-Messages. So kennt folglich jeder Knoten seine 1-Hop-Nachbarn und 2-Hop-Nachbarn. \\
-Es werden spezielle Knoten ((Multipoint-Relays - MPR) ausgewählt. Jeder Knoten wählt MPRs aus seinen 1-Hop-Nachbarn aus, so dass er über diese jeden 2-Hop-Nachbarn erreichen kann. Die Wahl wird in den Hello-Messages geteilt. Lediglich diese MPRs leiten TC-Messages per Broadcast weiter. Auf diese Weise wird der Aufwand für Flooding reduziert und je weniger MPRs es gibt, desto geringer der Aufwand.\\
+Es werden spezielle Knoten (Multipoint-Relays - MPR) ausgewählt. Jeder Knoten wählt MPRs aus seinen 1-Hop-Nachbarn aus, so dass er über diese jeden 2-Hop-Nachbarn erreichen kann. Die Wahl wird in den Hello-Messages geteilt. Lediglich diese MPRs leiten TC-Messages per Broadcast weiter. Auf diese Weise wird der Aufwand für Flooding reduziert und je weniger MPRs es gibt, desto geringer der Aufwand.\\
 
 \noindent Ein OLSR Paket enthält die folgenden interessanten Header-Informationen:
 	\begin{itemize}
@@ -1358,7 +1355,7 @@ Es werden spezielle Knoten ((Multipoint-Relays - MPR) ausgewählt. Jeder Knoten 
 	\end{itemize}
 	
 \subsubsection{AODV}
-Der Ad-hoc On-demand Distance Vector-Routingalgorithmus (AODV) ist ein Algorithmus zum Weiterleiten von Daten durch ein mobiles Ad-hoc-Netz. Das Protokoll gehört zu den topologiebasierten, reaktiven Routingverfahren, d. h. Routen zu bestimmten Zielen werden erst bei Bedarf ermittelt.
+Der Ad-hoc On-demand Distance Vector-Routingalgorithmus (AODV) ist ein Algorithmus zum Weiterleiten von Daten durch ein mobiles Ad-hoc-Netz. Das Protokoll gehört zu den topologiebasierten, reaktiven Routingverfahren, d.h. Routen zu bestimmten Zielen werden erst bei Bedarf ermittelt.
 \section{Quality of Service}
 \label{sec:qos}
 \subsection{Qualitätsparameter}
@@ -1448,7 +1445,7 @@ Für jedes Interface sind verschiedene Strategien möglich.
 	\end{itemize}
 \subsubsection{Random Early Detection / Discard (RED)}
 	\begin{itemize}
-	\item Lässt  an bestimmten Punkten im Netzwerk wird überwacht (bspw. zentraler Router). 
+	\item An bestimmten Punkten im Netzwerk wird überwacht (bspw. zentraler Router). 
 	\item RED wurde hauptsächlich für TCP-Anwendungen entwickelt. 
 	\item Funktionsweise
 		\begin{itemize}
@@ -1472,7 +1469,7 @@ Für jedes Interface sind verschiedene Strategien möglich.
 \label{sec:muliticast}
 Multicasts stellen höhere Anforderungen an Router und es sind zusätzliche Protokolle notwendig.
 \subsection{Motivation}
-Mulitcasts bieten sich dann an, wenn es das Ziel ist, mit so geringem Aufwand wie möglich so viel wie möglich Beteiligte zu erreichen. Wenn es bspw. das Ziel ist, dass mehrere Hörer ein Radioprogramm empfangen gibt es zwei Möglichkeiten:
+Mulitcasts bieten sich dann an, wenn es das Ziel ist, mit so geringem Aufwand wie möglich so viele Beteiligte wie möglich zu erreichen. Wenn es bspw. das Ziel ist, dass mehrere Hörer ein Radioprogramm empfangen, gibt es zwei Möglichkeiten:
 	\begin{itemize}
 	\item Möglichkeit A – Daten werden für jeden Empfänger einzeln geschickt. 
 	\item Möglichkeit B – Daten werden möglichst weit nur einmal übertragen und dort, wo sie unterschiedliche Wege gehen müssen, werden sie vervielfacht und verteilt. 
@@ -1485,22 +1482,22 @@ Multicasts können als  Möglichkeit zum Sparen von Bandbreite durch Zusammenfas
 \subsection{Voraussetzungen}
 	\begin{itemize}
 	\item Für Multicasts werden spezielle \textbf{Router und Routing-Protokolle} benötigt. Diese werden wie üblich durch Berechnung eines Spannbaumes ermittelt. Es kann problematisch werden, wenn mehrere Sender an die Gruppe senden.
-	\item Es ist notwendig die \textbf{Gruppenzugehörigkeit} zu übermitteln. Dazu sind spezielle Protokolle notwendig. Ein Rechner, der sich bei einer Gruppe an- oder abmelden mlchte, teilt dies nur seinem lokalen Router mit. Es wird nur die Gruppenadresse übergeben (keine weiteren Informationen). Anschließend muss der Router sich selbst darum kümmern, woher er die Multicastdaten im Internet bekommt. 
+	\item Es ist notwendig die \textbf{Gruppenzugehörigkeit} zu übermitteln. Dazu sind spezielle Protokolle notwendig. Ein Rechner, der sich bei einer Gruppe an- oder abmelden möchte, teilt dies nur seinem lokalen Router mit. Es wird nur die Gruppenadresse übergeben (keine weiteren Informationen). Anschließend muss der Router sich selbst darum kümmern, woher er die Multicastdaten im Internet bekommt. 
 	\item Es findet eine angepasste Flusskontrolle statt. In der Regel erfolgt keine Neuübertragung bei negativen Bestätigungen. Außerdem ist eine positive Bestätigungen unpraktikabel.
 	\end{itemize}
 
 \subsection{Komplexeres Multicast-Routing}
 Zu komplexeren Formen des Multicastings kann es kommen, wenn mehrere Sender existieren:
 	\begin{center}
-		\includegraphics[width=17cm]{img/komplMultiCast.png}
+		\includegraphics[width=12cm]{img/komplMultiCast.png}
 	\end{center}
 	\begin{itemize}
-	\item Sendet A an die Gruppe X, muss Paket in die Netze 1 und 2 weitergeleitet werden. 
+	\item Sendet A an die Gruppe X, muss das Paket in die Netze 1 und 2 weitergeleitet werden. 
 	\item Sendet B an die Gruppe X, muss das Paket in die Netze 2 und 3 weitergeleitet werden. 
 	\end{itemize}
 
 \subsection{IGMP}
-IGMP (Internet Group Management Protocol) ist ein Protokoll zur Steuerung von Multicast-Gruppen. IGMP ist im RFC 3376\cite{rfc3376} in der aktuellen Version 3 beschrieben. Mit Hilfe von IGMP teilen Hosts und Router dem Multicast-Router ihre Mitgliedschaft in Multicast-Gruppen mit. Außerdem fragen Router in \glqq ihren\grqq Netzen nach Gruppenmitgliedern.
+IGMP (Internet Group Management Protocol) ist ein Protokoll zur Steuerung von Multicast-Gruppen. IGMP ist im RFC 3376\cite{rfc3376} in der aktuellen Version 3 beschrieben. Mit Hilfe von IGMP teilen Hosts und Router dem Multicast-Router ihre Mitgliedschaft in Multicast-Gruppen mit. Außerdem fragen Router in "`ihren"' Netzen nach Gruppenmitgliedern.
 \subsection{Ablauf}
 	\begin{itemize}
 	\item Router sendet allgemeine IGMP Query an seine Interfaces. Zu Beginn ist jeder Router anfangs Querier. Entdeckt ein Router einen Querier mit niedrigerer IP-Adresse, so wird der Router mit der höheren IP-Adresse zum Non-Querier.
@@ -1565,7 +1562,7 @@ Ein Switch  muss Multicasts an alle Mitglieder der Gruppe weiterleiten. Ein regu
 	\item Der Switch belauscht (snoop - schnüffeln) den IGMP-Traffic an seinen Ports.
 	\item Switch empfängt IGMP Membership Reports (Pakete auf Layer 3). 
 	\item Switch fügt den Port (im Sinne von Steckdose) zur Multicast-Gruppe hinzu. 
-	\item Nur Ports die einer Multicast-Gruppe beigetreten sind (join) werden in die Forwarding-Table für diese Multicast-Adresse eingetragen. Ports die die Gruppe verlassen (leave) werden aus der Tabelle gelöscht.
+	\item Nur Ports, die einer Multicast-Gruppe beigetreten sind (join), werden in die Forwarding-Table für diese Multicast-Adresse eingetragen. Ports, die die Gruppe verlassen (leave), werden aus der Tabelle gelöscht.
 	\end{itemize}
 	
 \subsection{Multicast-Adressen}
@@ -1687,7 +1684,7 @@ Der IP-Header hat häufig vorbestimmte Feldwerte, z.B. Type of Service = 0, weit
 
 \begin{description}
 	\item[Type]: Bestimmt das Format der weiteren  Felder. (1 Byte)
-	\item[Code]: Inhalt Abhängig vom Type (1 Byte)
+	\item[Code]: Inhalt: Abhängig vom Type (1 Byte)
 	\item[Checksum]: Prüfsumme\footnote{Scheinbar abhängig vom Type; häufig: \emph{The checksum is the 16-bit ones's complement of the one's complement sum of the ICMP message starting with the ICMP Type.}} (2 Byte) 
 	\item[Data]: Nicht immer genutzt; Enthält beispielsweise bei Type \emph{Redirect Message} (5) die \emph{Gateway Internet Address} oder die in Abschnitt \ref{subsec:icmptime} beschriebenen Felder für Timestamps.
 \end{description}
@@ -1698,7 +1695,7 @@ Diese auswendig zu lernen entspräche nicht 80-20.
 Daher beschränke ich mich hier nur auf zwei Beispiele (+ Zeitsynchronisation in Abschnitt \ref{subsec:icmptime})
 
 \subsubsection{Destination Unreachable}
-Wird beispielsweise gesendet, wenn er Empfänger laut den Routing-Tabellen eines Gateways nicht erreichbar ist, z.B. weil die Distanz zum Zielnetzwerk unendlich ist.
+Wird beispielsweise gesendet, wenn der Empfänger laut den Routing-Tabellen eines Gateways nicht erreichbar ist, z.B. weil die Distanz zum Zielnetzwerk unendlich ist.
 Empfänger im IP-Header ist der ursprüngliche Absender einer (nicht zustellbaren) Nachricht.
 Der ICMP-\textbf{Type} ist 3, der Code gibt genauere Informationen zur Fehlerursache (z.B. 3 | port unreachable)
 \subsubsection{Ping}
@@ -1729,7 +1726,7 @@ wird, erzeugt.
 Das Internet Group Management Protocol (IGMP) ist eine Erweiterung des Internet Protocols (IPv4). Mit IGMP ist IP-Multicasting im Internet möglich. Das Gegenstück von IGMP von IPv4 ist bei IPv6 MLD (Multicast Listener Discovery).\\
 
 \noindent\textbf{Funktionsweise:}\\
-m die Datenmenge auf das notwendigste zu reduzieren, bietet IGMP die Möglichkeit dynamisch Gruppen zu verwalten. Die Verwaltung findet nicht in der Sende-Station statt, sondern in den Routern auf dem Weg zum Empfänger. Dazu merkt sich der Router, an welcher ausgehenden Schnittstelle sich eine Station befindet, die bestimmte Multicast-IP-Pakete erhalten wollen. IGMP bietet Funktionen, mit denen sich Router untereinander verständigen und über die eine Station einem Router mitteilt, dass sie Multicast-IP-Pakete empfangen will. Der Sender von Multicast-IP-Paketen weiß dabei nicht, welche und wie viele Stationen seine Pakete empfangen. Denn er verschickt nur ein einziges Datenpaket an seinen übergeordneten Router. Der dupliziert das IP-Paket bei Bedarf, wenn er mehrere ausgehende Schnittstellen mit Empfängern hat. Damit Multicast-IP funktioniert, müssen auf dem Weg zwischen Sender und Empfänger alle Netzknoten IGMP unterstützen.
+Um die Datenmenge auf das notwendigste zu reduzieren, bietet IGMP die Möglichkeit dynamisch Gruppen zu verwalten. Die Verwaltung findet nicht in der Sende-Station statt, sondern in den Routern auf dem Weg zum Empfänger. Dazu merkt sich der Router, an welcher ausgehenden Schnittstelle sich eine Station befindet, die bestimmte Multicast-IP-Pakete erhalten wollen. IGMP bietet Funktionen, mit denen sich Router untereinander verständigen und über die eine Station einem Router mitteilt, dass sie Multicast-IP-Pakete empfangen will. Der Sender von Multicast-IP-Paketen weiß dabei nicht, welche und wie viele Stationen seine Pakete empfangen. Denn er verschickt nur ein einziges Datenpaket an seinen übergeordneten Router. Der dupliziert das IP-Paket bei Bedarf, wenn er mehrere ausgehende Schnittstellen mit Empfängern hat. Damit Multicast-IP funktioniert, müssen auf dem Weg zwischen Sender und Empfänger alle Netzknoten IGMP unterstützen.
 
 \section{Voice over IP}
 % 200, 210
@@ -1765,7 +1762,7 @@ Die Sprachqualität hängt von verschiedenen Faktoren ab:
 \end{itemize}
 Die Sprachqualität wird in MOS (Mean Opinion Score) angegeben.
 \subsection{Sprachkodierung}
-Die folgenden Kodierungen können durch verschiedene \glqq Trick\grqq verbessert werden:
+Die folgenden Kodierungen können durch verschiedene "`Tricks"' verbessert werden:
 \begin{itemize}
 	\item Silence Detection (auch Abschaltung des Senders DTX bei GSM).
 	\item Comfort Noice (teilweise mit unterschiedlichen Rauschmodellen).
@@ -1858,7 +1855,7 @@ Zur Zeit existieren unterschiedliche Telefonnetze, Anbieter und Standards. Desha
 	
 \subsection{RTCP}
 	\begin{itemize}
-	\item das RTCP (RealTime Control Protocol)  definiert verschiedene Kontrollnachrichten. Dabei können mehrere Kontrollnachrichten (RTCP Packets) in einem Compound Packet zusammen versendet werden. 
+	\item Das RTCP (RealTime Control Protocol)  definiert verschiedene Kontrollnachrichten. Dabei können mehrere Kontrollnachrichten (RTCP Packets) in einem Compound Paket zusammen versendet werden. 
 	\item Sender Report (SR) kann bspw. enthalten:
 		\begin{itemize}
 			\item NTP Timestamp 
@@ -1962,7 +1959,7 @@ Ich schreibe das Interessanteste zu HTTP aus dem Tanenbaum\cite{tanenbaum2003com
 \end{framed}
 
 HTTP 1.1 wurde in RFC 2616\cite{rfc2616} definiert und später um  TLS(RFC 2817 \cite{rfc2817}) erweitert; 2014 wurde die gesamte Protokollsuite in den RFCs 7230 - 7235 neu formuliert\cite{rfc7230,rfc7231,rfc7232,rfc7233,rfc7234,rfc7235}.
-Es handelt sich um ein\textbf{generisches}\footnote{Es ermöglicht die Übertragung jeglicher Daten und beschränkt sich nicht nur auf Hypertext-Dokumente.}, \textbf{zustandsloses} \textbf{Request-Response-Protokoll}, 
+Es handelt sich um ein \textbf{generisches}\footnote{Es ermöglicht die Übertragung jeglicher Daten und beschränkt sich nicht nur auf Hypertext-Dokumente.}, \textbf{zustandsloses} \textbf{Request-Response-Protokoll}, 
 Daten werden im Klartext übermittelt, wenn keine explizite Verschlüsselung gefordert ist.
 Ressourcen werden über URIs\cite{rfc2396} adressiert.\footnote{Angeführt durch die Protokollangabe http:// oder https://, dabei handelt es sich dann allerdings um eine URL.}
 
@@ -2007,7 +2004,7 @@ Analog dazu kann die Antwort mit \textbf{Response Headern} versehen werden.
 Einige dieser Felder können nur bei Anfragen (z.B. User-Agent), einige nur bei Antworten(z.B. Content-Encoding), einige bei beidem (z.B. Date) übermittelt werden.
 
 Der Client kann beispielsweise in seiner Anfrage angeben, welche Zeichensätze (\emph{Accept-Charset}, z.B. ISO-8859-1) und Codierungen (\emph{Accept-Encoding}, z.B. gzip, compress oder deflate\cite{rfc1950,rfc1951}) er akzeptiert .
-Entsprechend enthält die dann Antwort (im Allgemeinen) die Felder \emph{Content-Encoding} und \emph{Content-Type\footnote{Eigentlich für den MIME-Typ, enthält aber auch den charset.}}
+Entsprechend enthält dann die Antwort (im Allgemeinen) die Felder \emph{Content-Encoding} und \emph{Content-Type\footnote{Eigentlich für den MIME-Typ, enthält aber auch den charset.}}
 
 %FRAGE will hier noch jemand eine Liste mit weiteren Beispielen?
 
@@ -2230,7 +2227,7 @@ Der eigentliche Datenaustausch erfolgt dann P2P:
 % 240, 250
 
 \section{E-Mail}
-Protokolle zum E-Mail-Versand sind POP3, IMAP und SMTP. Diese bauen auf Transport Transportprotokollen auf, wie 
+Protokolle zum E-Mail-Versand sind POP3, IMAP und SMTP. Diese bauen auf Transportprotokollen auf, wie 
 	\begin{itemize}
 	\item TCP auf Port 25 mit 7 bit ASCII
 	\item NCP (Netwok Control Program) auf Port 25. \glqq Gibt es überhaupt noch ein laufendes NCP? \grqq
@@ -2245,15 +2242,16 @@ Obwohl POP3 eigentlich unabhängig vom Transport Protkoll ist, ist es nur für T
 	\begin{description}
 	\item[AUTHORIZATION] - Phase der Authentisierung 
 		\begin{description}
-		\item[USER] - Übergabe des Benutzernames 
+		\item[USER] - Übergabe des Benutzernamens 
 		\item[PASS] - Übergabe des Passworts (nur nach USER) 
-		\item[APOP](Optional) - Übergabe es MD5 Hashes anstatt eines Passworts
+		\item[APOP](Optional) - Übergabe des MD5 Hashes anstatt eines Passworts
 		\item[QUIT] - Schließen der Verbindung 
 		\end{description}
 	\item[TRANSACTION] - Phase der Datenübertragung 
 			\begin{description}
 			\item[LIST]\textbf{$[$msg$]$} - Listet die vorhandenen Nachrichten auf. Zum einfacheren Parsen der Resultate ist das Ergebnis-Format streng vorgeschrieben
-			\item[RETR]\textbf{msg} - Abholen der Nachricht mit der Nummer msg, wobei das Nachrichtenende mit . <CR><LF> gekennzeichet ist.
+			\item[RETR]\textbf{msg} - Abholen der Nachricht mit der Nummer msg, wobei das Nachrichtenende mit\\
+			 .$<$CR$><$LF$>$ gekennzeichet ist.
 			\item[TOP]\textbf{msg n} - Mit diesem optionalen Befehl werden die ersten n Zeilen der Nachricht mit der Nummer msg abgeholt
 			\item[DELE]\textbf{msg} - Löschen der Nachricht mit der Nummer msg 
 			\item[RSET] - Reset des Servers, alle zum Löschen markierten Nachrichten werden demarkiert 
@@ -2271,7 +2269,7 @@ Das IMAP4\cite{rfc1730} (Internet Message Access Protocol  - Version 4) ermögli
 	\includegraphics[width=10cm]{img/imap.png}
 \end{center}
 \subsubsection{AUTHENTICATE}
-Die Anmeldung mittels IMAP4 kann bspw. mittels Challenge Response, wie Kerberos, erfolgen. Alternativ kann der CLient verschiedene Authentisierungsverfahren vorschlagen. Als Ausweg, wenn Authentisierung über Challenge-Response nicht funktioniert, kann ein Login genutzt werden.
+Die Anmeldung mittels IMAP4 kann bspw. mittels Challenge Response, wie Kerberos, erfolgen. Alternativ kann der Client verschiedene Authentisierungsverfahren vorschlagen. Als Ausweg, wenn Authentisierung über Challenge-Response nicht funktioniert, kann ein Login genutzt werden.
 \subsubsection{SELECT}
 Im Zustand \textbf{selected} wurde eine Mailbox ausgewählt. Dieser Zustand wird nach einem erfolgreichen Auswählen betreten. Erreicht wird dieser Zustand mit dem Select-Befehl, der eine Mailbox auswählt. Nachfolgende Kommandos beziehen sich dann auf die selektierte Mailbox.
 \subsubsection{Befehle}
@@ -2338,7 +2336,7 @@ R: 250 OK
 	\end{verbatim}
 
 \subsubsection{Weiterleitung}
-Wenn ein Sender eine Daten an einen Receiver sendet, um sie daraufhin an einen Empfänger weiterzusenden, gibt es zwei Reaktionsmöglichkeiten zum Forwareding:
+Wenn ein Sender eine Datei an einen Receiver sendet, um sie daraufhin an einen Empfänger weiterzusenden, gibt es zwei Reaktionsmöglichkeiten zum Forwareding:
 	\begin{enumerate}
 	\item  Receiver kennt den Pfad zum Empfänger und übernimmt die Verantwortung für die Zustellung
 		\begin{verbatim}
@@ -2356,7 +2354,7 @@ Was passiert, wenn sich nach Annahme der Mail durch einen Relayer herausstellt, 
 	\item Was passiert bei mehrstufigem Forwarding? 
 	\end{itemize}
 Um dies zu Lösen wird beim Forwarding jeweils der Pfad mitaufgenommen. Die Fehlermeldung gelangt auf dem umgekehrten Pfad zurück zum Empfänger. Typischerweise existiert für eine Gruppe von Usern ein Relay Host, der Mails für beliebige Empfänger entgegennimmt und weiterleitet.\\
-Es wird zwischen Zwei Konzepten unterschieden:
+Es wird zwischen zwei Konzepten unterschieden:
 	\begin{itemize}
 	\item Adresse (Wer ist der Empfänger?) 
 	\item Route (Wie gelangt man zum Empfänger?) 
@@ -2428,7 +2426,7 @@ Eine Alternative stellen \textbf{Registries} da: Dienste können bei einem Verze
 \subsection{Geräte-Integration}	
 	\begin{itemize}
 	\item Herstellung der Kommunikation 
-	\item Einstellen von Geräte- und Netzwerkparameter 
+	\item Einstellen von Geräte- und Netzwerkparametern
 	\item Sicherheit 
 	\item Protokolle: RARP, BOOTP, DHCP, IP-Autoconfiguration, IPv6 
 	\end{itemize}
@@ -2444,7 +2442,7 @@ Ein BootP-Protokoll-Paket enthält die IP-Adress-Informationen von BootP-Client,
 \subsubsection{DHCP}
 	Das DHCP (Dynamic Host Configuration Protocol) \cite{rfc2131,rfc2132} wird zur  Übertragung von Konfigurationsparametern zu Knoten in TCP/IP-Netzen verwendet. DHCP ist abwärtskompatibel zu BOOTP.\\
 	
-	DHCP wird zur automatische Vergabe von IP-Adressen verwendet - und damit mehr als nur eine statische Zuordnung. Es erfolgt eine temporäre (dynamische) Zuweisung der Adressen, was DHCP zu einem aufwändigerem Protokoll macht. \\
+	DHCP wird zur automatischen Vergabe von IP-Adressen verwendet - und damit ist es mehr als nur eine statische Zuordnung. Es erfolgt eine temporäre (dynamische) Zuweisung der Adressen, was DHCP zu einem aufwändigerem Protokoll macht. \\
 	Es gibt verschiedene Nachrichtentypen:
 		\begin{itemize}
 		\item Client: DHCPDISCOVER	
@@ -2460,8 +2458,8 @@ Ein BootP-Protokoll-Paket enthält die IP-Adress-Informationen von BootP-Client,
 		\begin{description}
 		\item[Reqested Address] - Kann der Client beim DHCPDISCOVER angeben, um sich eine bestimmte Adresse zuweisen zu lassen. 
 		\item[Lease Time] - Zeitraum für die Gültigkeit der Adresse. Angabe in Sekunden (32 Bit $\rightarrow$ max. 99 Jahre)
-		\item[Option Overload] - Die Felder Server Hostname und Boot Filename des können für Optionen genutzt werden.
-		\item[Server Identifier] - Erlaubt die Unterscheidung zwischen verschiedenen Serven.
+		\item[Option Overload] - Die Felder Server Hostname und Boot Filename können für Optionen genutzt werden.
+		\item[Server Identifier] - Erlaubt die Unterscheidung zwischen verschiedenen Servern.
 		\item[Parameter Request List] - Aufzählung der Tags der Optionen, an denen der Client interessiert ist. 
 		\item[Max Message Size] - Maximale Größe der vom Client akzeptierte DHCP-Nachricht.  Kleinster zugelassener Wert ist 576. 
 		\item[Client Identifier] - Eindeutige ClientID. Wird vom Server zur Verwaltung der Leases verwendet (bspw. MAC-Adresse).
@@ -2471,7 +2469,7 @@ Ein BootP-Protokoll-Paket enthält die IP-Adress-Informationen von BootP-Client,
 		\item[Adressanforderung] - Initiale Anforderung von Parametern (z.B. während des Bootvorganges) aus einem unkonfigurierten Zustand heraus 
 		\item[Lease-Erneuerung] - Verlängerung der Lease-Dauer der Adresse, Netzwerkschittstelle ist konfiguriert 		
 		\item[Abfrage von Informationen] - Anforderung von zusätzlichen Parametern (außer Adresse), Netzwerkschittstelle ist konfiguriert, Nachricht hat keinen Einfluss auf den Lease-Status im DHCP-Server
-		\item[Rückgabe der Adresse ] - Adresse vom wird Client nicht mehr beötigt, daher Information an den Server, dass Adresse zur Wiederverwendung freigegeben ist. 
+		\item[Rückgabe der Adresse ] - Adresse wird vom Client nicht mehr benötigt, daher Information an den Server, dass Adresse zur Wiederverwendung freigegeben ist. 
 		\end{description}
 		
 \subsection{Dienste-Integration}	
@@ -2483,7 +2481,7 @@ Ein BootP-Protokoll-Paket enthält die IP-Adress-Informationen von BootP-Client,
 	\end{itemize}
 	
 	\subsubsection{UPnP}
-	UPnP (Universal Plug and Play) vereint Geräte- und \textbf{Dienstekonfiguration} auf der Basis von bewährteer Technologie als offene Service-Architektur. Es definiert netzwerkseitige Interaktion, die tatsächliche Implementierung ist herstellerspezifisch.\\
+	UPnP (Universal Plug and Play) vereint Geräte- und \textbf{Dienstekonfiguration} auf der Basis von bewährter Technologie als offene Service-Architektur. Es definiert netzwerkseitige Interaktion, die tatsächliche Implementierung ist herstellerspezifisch.\\
 	UPnP verwendet bekannte Technologien wie IP, TCP, UDP, ARP, HTTP, DHCP und XML.\\
 	Es stellt eine Sammlung von Protokollen dar:
 		\begin{itemize}
@@ -2521,7 +2519,7 @@ Ein BootP-Protokoll-Paket enthält die IP-Adress-Informationen von BootP-Client,
 \section{Dateien und Drucken}
 \subsection{Herausforderungen}
 \textbf{Files}\\
-Das Ziel ist ein Zugriff auf Verzeichnisstrukturen über ein Netzwerk, als wären sie lokal. Wünschenswert hierbei sind: Transaktionskontrolle auf verteilte Ressourcen, Fehlermeldungen, Rechtekontrolle, Sicherheit. \\
+Das Ziel ist ein Zugriff auf Verzeichnisstrukturen über ein Netzwerk, als wären sie lokal. Wünschenswert hierbei sind: Transaktionskontrolle auf verteilten Ressourcen, Fehlermeldungen, Rechtekontrolle, Sicherheit. \\
 Daten kennzeichnen sich durch den Inhalt der Files und ihre Metadaten (Name, Größe, Datumsangaben, Eigentümer, Rechte, Flags, etc.)\\
 
 
@@ -2531,7 +2529,7 @@ Druckerprotokollen und im Fehlerfall das Erhalten von Fehlermeldungen.\\
 
 \subsection{Konzepte für Filesysteme}
 \noindent\textbf{Transparenz}\\
-Es sollen sowohl die Anzahl der Server und dort vorhandener Geräte als auch die Verteilung der Dateien auf unterschiedlichen Servern unsichtbar bleiben. Das Client-Programme benötigen keine Kenntnis darüber, ob ein Filesystem lokal oder remote ist. Die Geschwindigkeit des Datenzugriffs ermöglicht die Illusion eines lokalen Filesystems. \\
+Es sollen sowohl die Anzahl der Server und dort vorhandener Geräte als auch die Verteilung der Dateien auf unterschiedlichen Servern unsichtbar bleiben. Das Client-Programm benötigen keine Kenntnis darüber, ob ein Filesystem lokal oder remote ist. Die Geschwindigkeit des Datenzugriffs ermöglicht die Illusion eines lokalen Filesystems. \\
 
 
 \noindent\textbf{Flash File Systeme}\\
@@ -2555,7 +2553,7 @@ Bspw. CD-ROM / DVD-ROM mit dynamisch eingeblendetem schreibbarem Bereich. \\
 
 \subsection{empty}
 \noindent\textbf{Qualitätsfaktoren}\\
-Das Ziel ist ein gering halten der Latenz beim Bedienen von Anfragen:
+Das Ziel ist ein gering Halten der Latenz beim Bedienen von Anfragen:
 	\begin{itemize}
 	\item Lokale Systeme: Laufwerkszugriffe und Verarbeitungsgeschwindigkeit (CPU)
 	\item Zusätzlich bei remote Zugriff: Netzwerklatenz für Anfrage, Netzwerklatenz für Ergebnis, Bandbreite
@@ -2583,7 +2581,7 @@ Transparente Umsetzung der lokalen Mechanismen, wie Zugriffsmatrix und ACL.
 	\end{itemize}
 
 \subsection{Protokolle}
-\subsection{NFS}
+\subsubsection{NFS}
 Das NFS (Network File System) \cite{rfc3530} ist in Version 4 und unterstützt UDP, TCP und Dateien, die größer als 4GB sind. Eine Authentisierung über IP-Adresse wird unterstützt.\\
 	\begin{itemize}
 	\item \textbf{zustandsbehaftetes Protokoll}
@@ -2599,11 +2597,11 @@ Das NFS (Network File System) \cite{rfc3530} ist in Version 4 und unterstützt U
 	\item Client erhält Client-ID als Lease
 	\item Client kann File Handles anfordern (persistent oder volatile - flüchtig)\\
 	\textit{Für volatile Handles ist nicht garantiert, dass sie gültig und 	persistent für die Dauer der Lebenszeit des Dateisystems auf das Dateisystemobjekt (File, Directory) verweisen. Server kann zu einer beliebigen Zeit entscheiden, dass ein volatile FH ungültig wird. }
-	\item Client führt Dateioperationen auf dem Handle au
+	\item Client führt Dateioperationen auf dem Handle aus
 	\end{itemize}
-NFS kann optimiert werden in dem mehreren Requests und Responses zusammengefasst werden. (Beispielsweise LOOKUP, OPEN, READ) Operationen können mit AND oder OR verknüpft werden und die Auswertung erfolgt in vorgegebener Reihenfolge.\\
+NFS kann optimiert werden indem mehreren Requests und Responses zusammengefasst werden. (Beispielsweise LOOKUP, OPEN, READ) Operationen können mit AND oder OR verknüpft werden und die Auswertung erfolgt in vorgegebener Reihenfolge.\\
 
-\noindent Es gibt Procedures (\textit{NULL, COMPOUND})und eine Vielzahl von Operationen (\textit{ACCESS CLOSE, COMMIT, CREATE, GETATTR, LINK, LOCK, LOOKUP, OPEN, PUTFH, REMOVE, READ, READDIR, SAVEFH, SECINFO, WRITE,...})\\
+\noindent Es gibt Procedures (\textit{NULL, COMPOUND}) und eine Vielzahl von Operationen (\textit{ACCESS CLOSE, COMMIT, CREATE, GETATTR, LINK, LOCK, LOOKUP, OPEN, PUTFH, REMOVE, READ, READDIR, SAVEFH, SECINFO, WRITE,...})\\
 
 \noindent\textbf{Retransmission}: Server darf Requests über zuverlässige Protokolle (TCP) nicht ignorieren. 
 
@@ -2623,11 +2621,11 @@ NFS kann optimiert werden in dem mehreren Requests und Responses zusammengefasst
 
 \noindent\textbf{OPEN} ist immer vorgeschrieben, auch wenn keine Operationen oder exklusiver Zugriff gewünscht sind. Vor \textbf{CLOSE} sollen alle Locks freigegeben werden.
  
-\subsection{SMB / CIFS}
+\subsubsection{SMB / CIFS}
 Ursprünglich wurde SMB (Server Message Block) für Windows und OS/2 entwickelt. Es ist aber kein Standard-Dokument verfügbar, da einige Features geheimgehalten werden sollen. (Reverse Engineered für Samba Entwicklung)\\
 Umbenennung 1996 von SMB in Common Internet File System (CIFS), neue Features. 
 CIFS baut dabei auf NetBIOS over TCP/IP und SMB auf und bietet neben der Datei- und Druckerfreigabe weitere Dienste wie zum Beispiel den Windows-RPC- und den NT-Domänendienst an. 
-\subsection{WebDAV}
+\subsubsection{WebDAV}
 	\begin{itemize}
 	\item HTTP Extensions for Web Distributed Authoring and Versioning \cite{rfc4918}
 	\item Erweiterung von HTTP durch neue Requests. \\
@@ -2635,7 +2633,7 @@ CIFS baut dabei auf NetBIOS over TCP/IP und SMB auf und bietet neben der Datei- 
 	\item Properties als XML Dokument 
 	\item Datei muss vollständig übertragen werden, dann geändert, dann zurück übertragen. 
 	\end{itemize}
-\subsection{iSCSI}
+\subsubsection{iSCSI}
 Das ISSCSI (Internet Small Computer Systems Interface)\cite{rfc3720} benutzt TCP als Transport für SCSI Kommandos (quasi Tunneln)  typischerweise Port 860 und 3260.Das SCSI-Gerät verhält sich für das Client-System Initiator) wie ein lokales Gerät.
 	\begin{itemize}
 	\item Der Initiator (Client) kann entweder aus Software oder Hardware erstellt werden. 
@@ -2654,7 +2652,7 @@ Die iSCSI Adressierung erfolgt durch:
 %PRÜFEN Qualitätskontrolle für den gesamten Abschnitt nötig, Folien geben nicht viel her!
 % 320
 \subsection{Telnet}
-Telnet wird genutzt, um eine allgemeine, bidirektionale, 8-bit-orientierte Kommunikation zu ermöglichen und so mit entfernten Terminalen und terminal-orientierten Prozessen zu kommunizieren.
+Telnet wird genutzt, um eine allgemeine, bidirektionale, 8-bit-orientierte Kommunikation zu ermöglichen und so mit entfernten Terminals und terminal-orientierten Prozessen zu kommunizieren.
 Es verwendet den TCP-Port 23, wobei es ursprünglich NCP genutzt hat.
 Auf beiden Enden der Verbindungen werden Network Virtual Terminals (NVT) angelegt.
 Diese handeln \emph{Options} aus (z.B. Character Set, Binary Transmission, Echo,Status, Timing Mark Option usw.)
@@ -2732,7 +2730,7 @@ Aliases can link non-leaf nodes.\\
 	\item Definiert welche Objekt-Klassen erlaubt sind
 	\item Wo diese gespeichert sind
 	\item Welche Attribute sie besitzen bzw. optional sind
-	\item Von welchem Typ/welche Syntax jedes Attribut besitzt
+	\item Von welchem Typ/welcher Syntax jedes Attribut besitzt
 	\item Das Schema muss für den Client lesbar sein
 	\end{itemize}
 
@@ -2889,7 +2887,7 @@ Es befindet sich jemand zwischen zwei Kommunikationspartnern und wirkt für alle
 Bei diesem Angriff zeichnet der Angreifer eine verschlüsselte Authentifikations-Nachricht auf. Um Zugriff zu erhalten, spielt er sie erneut ab. Es ist notwendig für jede Authentifikations-Nachricht einen einzigartigen Wert zu verwenden. Idealer Weise ist dieser nur einmal nutzbar.\\
 
 \noindent\textbf{Denial of service}\\
-Hierbei handelt es sich gewisser Maßen um einen Akt des Vandalismus. Jemand verursacht die Kommunikation zwischen Server und Client zu stören bzw. zu blockieren. Dieser Angriff ist meist schwer zu vereiteln.
+Hierbei handelt es sich gewisser Maßen um einen Akt des Vandalismus. Jemand versucht die Kommunikation zwischen Server und Client zu stören bzw. zu blockieren. Dieser Angriff ist meist schwer zu vereiteln.
 
 
 \subsection{Challenge-Response}
@@ -2976,7 +2974,7 @@ RADIUS (Remote Authentication Dial In User Service) wird wie Kerberos zur Authen
 	\end{itemize}
 	
 	\begin{enumerate}
-	\item \textbf{Authentifikation}: Der Cleint erfragt Zugriff auf eine Netzwerk Ressource via NAS. Der NAS sendet den RADIUS access request zu einem RADIUS Server. Es können verschiedene Authentifikationsschemata verwendet werden (PAP, CHAP, EAP
+	\item \textbf{Authentifikation}: Der Client erfragt Zugriff auf eine Netzwerk Ressource via NAS. Der NAS sendet den RADIUS access request zu einem RADIUS Server. Es können verschiedene Authentifikationsschemata verwendet werden (PAP, CHAP, EAP
 	\item \textbf{Authorisation}: Der RADIUS Server überprüft den Client Account (bspw. via LDAP) antwortet:
 		\begin{itemize}
 		\item Access Accept (eventually limited for a certain time or period). 
@@ -2986,12 +2984,12 @@ RADIUS (Remote Authentication Dial In User Service) wird wie Kerberos zur Authen
 	\item Accounting: Nachdem der NAS Zugriff gewährt hat, informiert er den RADIUS Server darüber \glqq accounting start\grqq. Während der Verbindung kann der NAS \glqq interim accounting records\grqq versenden. Zum Schluss wird \glqq accounting stop\grqq an den RADIUS Server gesendet. Die Nachricht kann noch Zusatzinformationen enthalten.
 	\end{enumerate}
 \subsection{PPP}
-PPP (Point-to-Point Protocol) ist auf der Sicherungsschicht in der Internetprotokollfamilie angesiedelt. Im folgenden Sind Protokolle zuzr Authentifikation beschrieben, die für PPP eingesetzt werden.
+PPP (Point-to-Point Protocol) ist auf dem Data-Link-Layer in der Internetprotokollfamilie angesiedelt. Im folgenden sind Protokolle zur Authentifikation beschrieben, die für PPP eingesetzt werden.
 \subsubsection{CHAP}
 %OPTIONAL RFC 1994
 Das Challenge Handshake Authentication Protocol (CHAP) ist ein Authentifizierungsprotokoll, das im Rahmen von PPP eingesetzt wird. 
 	\begin{itemize}
-	\item Ein Client initiiert eine Verbindung zu einem Einwahlserver, und dieser verlangt eine Authentifizierung mittels CHAP. 
+	\item Ein Client initiiert eine Verbindung zu einem Einwahlserver und dieser verlangt eine Authentifizierung mittels CHAP. 
 	\item Dabei wird ein zufälliger Wert (die Challenge) an den Client übertragen, der sich authentifizieren muss.
 	\item Der Client bildet aus der Zufallszahl und dem Passwort einen Hashwert mittels einer Hashfunktion (MD5, SHA-1, SHA-256) und überträgt diesen an den Einwahlserver.
 	\item Der Einwahlserver errechnet ebenfalls einen Hashwert aus der Zufallszahl und dem bei ihm (im Klartext) hinterlegten Passwort. Wenn dieser mit dem vom zu authentifizierenden Rechner gesendeten Wert übereinstimmt, ist die Authentifizierung erfolgreich.
@@ -3074,7 +3072,7 @@ Wurde 1970 für  Funknetze an der Universität Hawaii entwickelt  um folgendes G
 	\item Immer wenn genug Daten für ein Frame vorliegen, wird das Frame unverzüglich gesendet 
 	\item Kollisionen sind möglich, dann wird der aktuelle Frame noch vollständig gesendet:
 		\begin{enumerate}
-		\item Station ermittelt ermittelt Zufallszahl k aus [0,1]
+		\item Station ermittelt Zufallszahl k aus [0,1]
 		\item Wenn k $<=$ wird Frame sofort neu gesendet, sonst wird eine Frame-Zeit gewartet (mit Wahrscheinlichkeit p wird Frame gesendet, mit Wahrscheinlichkeit (1-p) wird eine Frame-Zeit gewartet 
 		\item Falls gewartet wurde, GOTO 1. 
 		\end{enumerate}
@@ -3186,7 +3184,7 @@ Die Ausbreitung von Frames im Netzwerk kann so dargestellt werden:
 \subsection{Ethernet - Verhalten bei Kollision}	
 Die Kollisionserkennung erfolgt mit \textit{Carrier Sense Multiple Access / Collision detection}(CSMA/CD) und kann anhand des erhöhten Signalpegels erkannt werden. Bei einer Kollision wird Aussendung sofort abgebrochen und ein 48bit langes Jam-Signal (10101010 10101010 10101010) ausgesendet. Anschließend wird eine zufällige Zeit gewartet.\\
 Durch das Abbrechen bei der Detektion einer Kollision kann Zeit gewonnen werden (Vergleich CSMA vs CSMA/CD).\\
-Ist ein Frame zu kurz, kann auf Grund der Signallaufzeiten nicht immer zuverlässig eine Kollision erkannt werden. Jedoch ist eine Kollisionserkennung  notwendig, damit Aussendung wiederholt werden kann. Dabei ist die minimale Framelänge ist so zu dimensionieren, dass die maximale Round Trip Time (RTT) nicht unterschritten wird. Die maximale RTT hängt von der maximalen Ausbreitung des Mediums ab. \\
+Ist ein Frame zu kurz, kann auf Grund der Signallaufzeiten nicht immer zuverlässig eine Kollision erkannt werden. Jedoch ist eine Kollisionserkennung  notwendig, damit Aussendung wiederholt werden kann. Dabei ist die minimale Framelänge so zu dimensionieren, dass die maximale Round Trip Time (RTT) nicht unterschritten wird. Die maximale RTT hängt von der maximalen Ausbreitung des Mediums ab. \\
 \textit{Eventuell Auffüllen von Frames – Erinnerung: Padding bei IEEE 802.3 Ethernet Frames, minimale Framelänge 64bit. Achtung, Hubs / Repeater gehen in die Zeit mit ein.}\\
 \textbf{Erinnerung RoundTripTime:} Die minimale Übertragungsdauer eines Frames muss das doppelte der maximalen Laufzeit eines Signal zwischen den beiden entferntesten Stationen im Netz betragen – daher RTT. 
 	
@@ -3279,7 +3277,7 @@ Ein \textbf{Handoff} kann von der Station oder der Base Station initiiert werden
 \subsubsection{SNR-BNR}
 Die SNR (Signal-Noise-Ratio) und BNR (Bit-Error-Rate) geben einen Aufschluss über die technische Qualität eines Nutzsignals.
 	\begin{itemize}
-	\item Bei konstantem SNR bewirkt der Einsatz eine höhere Bitübertragungsrate eine höhere BER. 
+	\item Bei konstantem SNR bewirkt der Einsatz einer höheren Bitübertragungsrate eine höhere BER. 
 	\item Bei konstantem Modulationsverfahren bewirkt ein höheres SNR eine geringere BER. 
 	\item Anpassung des Modulationsverfahrens kann genutzt werden, um sich an die Kanalbedingungen anzupassen. 
 	\end{itemize}
@@ -3546,7 +3544,7 @@ Ein Bluetooth-Gerät kann in bis 10 weiteren Piconets angemeldet sein. Bei der Z
 			\begin{itemize}
 				\item Kapazität $\rightarrow$ Grenzfrequenz
 			\end{itemize}			
-		\item CSACD
+		\item CSMACD
 			\begin{itemize}
 				\item Warten auf freies Medium
 				\item Es gibt jedoch keine Garantien
@@ -3571,7 +3569,7 @@ Ein Bluetooth-Gerät kann in bis 10 weiteren Piconets angemeldet sein. Bei der Z
 		\item Zustandsbehaftete und zustandslose Protokolle
 			\begin{itemize}
 				\item Beispiel TCP (closed, SYN, etc.) besitzt einen Zustand
-				\item Ein Zustand merkt sich die \glqq Vorgeschichte \grqq und damit was passiert ist. Somit ist ein Login immer zustandsbehaftet.
+				\item Ein Zustand merkt sich die "`Vorgeschichte"' und damit was passiert ist. Somit ist ein Login immer zustandsbehaftet.
 				\item Werden die Zwischenschritte nicht gespeichert, ist es zustandslos.
 				\item Cookies bieten die Möglichkeit einen Zustand nachzurüsten.
 			\end{itemize}
